@@ -2,8 +2,8 @@ import cv2
 import mediapipe as mp
 import time
 from imutils.video import WebcamVideoStream
-from angle import angle
 import numpy as np
+from exfunc import *
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -52,14 +52,8 @@ with mp_pose.Pose(
           'Z': data_point.z,
           'Visibility': data_point.visibility,
         })
-        #print(keypoints[-1]['X'], " ", keypoints[-1]['Y'])
-      a1 = keypoints[12]['X'],keypoints[12]['Y']
-      b1 = keypoints[11]['X'],keypoints[11]['Y']
-      c1 = keypoints[13]['X'],keypoints[13]['Y']
-      a = list(a1)
-      b = list(b1)
-      c = list(c1)
-      print(angle(np.array(a), np.array(b), np.array(c)))
+      
+      print(shoulder_press(keypoints, RIGHT_SHOULDER, LEFT_SHOULDER, LEFT_ELBOW))
     
     end = time.time()
     #print(1/(end-start))

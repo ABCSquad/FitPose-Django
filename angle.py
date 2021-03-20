@@ -1,4 +1,5 @@
 import numpy as np
+from angle import angle
 
 def angle(a,b,c): 
     ba = a - b
