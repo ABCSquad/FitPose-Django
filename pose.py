@@ -2,6 +2,8 @@ import cv2
 import mediapipe as mp
 import time
 from imutils.video import WebcamVideoStream
+from angle import angle
+import numpy as np
 
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
@@ -9,7 +11,7 @@ mp_pose = mp.solutions.pose
 
 # For webcam input:
 cap = WebcamVideoStream(src=0).start()
-upper = False
+upper = True
 with mp_pose.Pose(
     static_image_mode=False,
     upper_body_only=upper,
@@ -44,16 +46,23 @@ with mp_pose.Pose(
     if results.pose_landmarks:
       keypoints = []
       for data_point in results.pose_landmarks.landmark:
-          keypoints.append({
-                          'X': data_point.x,
-                          'Y': data_point.y,
-                          'Z': data_point.z,
-                          'Visibility': data_point.visibility,
-          })
-          #print(keypoints[-1]['X'])
-          print(keypoints[-1]['X'], " ", keypoints[-1]['Y'])
+        keypoints.append({
+          'X': data_point.x,
+          'Y': data_point.y,
+          'Z': data_point.z,
+          'Visibility': data_point.visibility,
+        })
+        #print(keypoints[-1]['X'], " ", keypoints[-1]['Y'])
+      a1 = keypoints[12]['X'],keypoints[12]['Y']
+      b1 = keypoints[11]['X'],keypoints[11]['Y']
+      c1 = keypoints[13]['X'],keypoints[13]['Y']
+      a = list(a1)
+      b = list(b1)
+      c = list(c1)
+      print(angle(np.array(a), np.array(b), np.array(c)))
+    
     end = time.time()
-    print(1/(end-start))
+    #print(1/(end-start))
     if cv2.waitKey(5) & 0xFF == 27:
       break
     
