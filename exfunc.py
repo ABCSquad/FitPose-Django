@@ -34,6 +34,9 @@ RIGHT_HEEL = 30
 LEFT_FOOT_INDEX = 31
 RIGHT_FOOT_INDEX = 32
 
+count = 0
+flag = -1
+
 def angle(a,b,c): 
     ba = a - b
     bc = c - b
@@ -44,9 +47,27 @@ def angle(a,b,c):
     return(np.degrees(angle))
       
 #Used for calculating angle between 3 specified keypoints 
-def shoulder_press(keypoints,a,b,c):
+def keypoint_angle(keypoints,a,b,c):
     a1 = keypoints[a]['X']*100,keypoints[a]['Y']*100
     b1 = keypoints[b]['X']*100,keypoints[b]['Y']*100
     c1 = keypoints[c]['X']*100,keypoints[c]['Y']*100
     print(a1,"",b1,"",c1)
-    return(angle(np.array(list(a1)), np.array(list(b1)), np.array(list(c1))))
+    a2,b2,c2 = np.array(list(a1)), np.array(list(b1)), np.array(list(c1))
+    angle1 = angle(a2,b2,c2)
+    return(angle1,a2,b2,c2)
+
+def shoulder_press(keypoints):
+    key_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, LEFT_SHOULDER, LEFT_ELBOW)
+    global count,flag
+    if key_angle<100:
+        if flag==1:
+            flag=0
+            count += 1
+        flag=0
+    elif key_angle>175 and z[0]-y[0]>10:
+        flag=1
+    if count>0:
+        return(key_angle,count)
+    else:
+        return(key_angle, 0)
+    

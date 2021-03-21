@@ -52,8 +52,8 @@ with mp_pose.Pose(
           'Z': data_point.z,
           'Visibility': data_point.visibility,
         })
-      
-      print(shoulder_press(keypoints, RIGHT_SHOULDER, LEFT_SHOULDER, LEFT_ELBOW))
+      angle, count = shoulder_press(keypoints)
+      print(angle,"", count)
     
     end = time.time()
     #print(1/(end-start))
