@@ -165,6 +165,10 @@ Thumbs.db #thumbnail cache on Windows
 .vscode/tasks.json
 .vscode/launch.json
 .vscode/extensions.json
+.vscode/settings.json
+.vscode/settings.json
+__pycache__/exfunc.cpython-39.pyc
+
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
