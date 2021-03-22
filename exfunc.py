@@ -64,7 +64,7 @@ def shoulder_press(keypoints):
             flag=0
             count += 1
         flag=0
-    elif key_angle>175 and z[0]-y[0]>10:
+    elif key_angle>165 and z[0]-y[0]>10:
         flag=1
     if count>0:
         return(key_angle,count)
