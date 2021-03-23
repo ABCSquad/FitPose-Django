@@ -20,3 +20,8 @@ def login(request):
 
 def signup(request):
     return render(request, 'accounts/signup.html')
+
+#----------------------------- LOGOUT ------------------------------------#
+
+def logout(request):
+    return render(request, 'accounts/signup.html')

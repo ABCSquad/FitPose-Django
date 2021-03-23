@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'playlist.apps.PlaylistConfig',
     'exercises.apps.ExercisesConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
@@ -77,8 +78,12 @@ WSGI_APPLICATION = 'FitPose.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'fitpose',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
