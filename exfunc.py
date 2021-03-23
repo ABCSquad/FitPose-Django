@@ -1,4 +1,6 @@
 import numpy as np
+import math
+
 
 NOSE = 0
 LEFT_EYE_INNER = 1
@@ -34,40 +36,46 @@ RIGHT_HEEL = 30
 LEFT_FOOT_INDEX = 31
 RIGHT_FOOT_INDEX = 32
 
-count = 0
-flag = -1
 
-def angle(a,b,c): 
+#Angle using dot product
+# def angle(a,b,c): 
+#     ba = a - b
+#     bc = c - b
+
+#     cosine_angle = np.dot(ba, bc) / (np.linalg.norm(ba) * np.linalg.norm(bc))
+#     angle = np.arccos(cosine_angle)
+
+#     return(np.degrees(angle))
+
+#Angle using arctan2
+def angle(a,b,c):
     ba = a - b
     bc = c - b
-
-    cosine_angle = np.dot(ba, bc) / (np.linalg.norm(ba) * np.linalg.norm(bc))
-    angle = np.arccos(cosine_angle)
-
-    return(np.degrees(angle))
+    angle = math.atan2(bc[1], bc[0]) - math.atan2(ba[1], ba[0])
+    if (angle < 0):
+        angle += 2 * math.pi
+    angle_in_deg = (angle*180)/math.pi
+    return angle_in_deg
       
 #Used for calculating angle between 3 specified keypoints 
 def keypoint_angle(keypoints,a,b,c):
     a1 = keypoints[a]['X']*100,keypoints[a]['Y']*100
     b1 = keypoints[b]['X']*100,keypoints[b]['Y']*100
     c1 = keypoints[c]['X']*100,keypoints[c]['Y']*100
-    print(a1,"",b1,"",c1)
     a2,b2,c2 = np.array(list(a1)), np.array(list(b1)), np.array(list(c1))
     angle1 = angle(a2,b2,c2)
     return(angle1,a2,b2,c2)
 
 def shoulder_press(keypoints):
-    key_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, LEFT_SHOULDER, LEFT_ELBOW)
-    global count,flag
-    if key_angle<100:
-        if flag==1:
-            flag=0
-            count += 1
-        flag=0
-    elif key_angle>175 and z[0]-y[0]>10:
-        flag=1
-    if count>0:
-        return(key_angle,count)
-    else:
-        return(key_angle, 0)
+    #Right hand 
+    right_shoulder_angle, x, y, z = keypoint_angle(keypoints, LEFT_ELBOW, LEFT_SHOULDER, LEFT_HIP)
+    right_elbow_angle, x, y, z = keypoint_angle(keypoints, LEFT_SHOULDER, LEFT_ELBOW, LEFT_WRIST)
+    right_hand_deviation = abs(right_shoulder_angle - right_elbow_angle)
+
+    #Left hand
+    left_shoulder_angle, x, y, z = keypoint_angle(keypoints, RIGHT_HIP, RIGHT_SHOULDER, RIGHT_ELBOW)
+    left_elbow_angle, x, y, z = keypoint_angle(keypoints, RIGHT_WRIST, RIGHT_ELBOW, RIGHT_SHOULDER)
+    left_hand_deviation = abs(left_shoulder_angle - left_elbow_angle)
+
+    return(right_shoulder_angle, right_elbow_angle, right_hand_deviation, left_shoulder_angle, left_elbow_angle, left_hand_deviation)
     
