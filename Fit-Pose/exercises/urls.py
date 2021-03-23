@@ -9,8 +9,7 @@ from . import views
 urlpatterns = [
     path('', views.exercises, name="exercises"),
     path('playlist', include('playlist.urls')),
-    path('<int:exercise_id>', views.exercises, name="exercises"),
-    
+       
 ]
 
 
