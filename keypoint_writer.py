@@ -94,7 +94,7 @@ with open(csv_out_path, 'w') as csv_out_file:
 
         # Map pose landmarks from [0, 1] range to absolute coordinates to get
         # correct aspect ratio.
-        frame_height, frame_width = output_frame.shape[:2]
+        # frame_height, frame_width = output_frame.shape[:2]
         # pose_landmarks *= np.array([frame_width, frame_height])
 
         # Write pose sample to CSV.
