@@ -19,4 +19,8 @@ class Exercise(models.Model):
 
     title = models.CharField(max_length=25)
     image = models.ImageField(upload_to='images/')
-    status = models.CharField(default='none', max_length=25, choices=FLAIR_CHOICES)
+    a_image = models.ImageField(upload_to='images/',default='none' )
+    flair = models.CharField(default='none', max_length=25, choices=FLAIR_CHOICES)
+
+    def __str__(self):
+        return self.title

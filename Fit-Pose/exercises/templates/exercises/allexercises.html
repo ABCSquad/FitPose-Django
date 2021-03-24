@@ -15,8 +15,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
-    
-
+   
     <!-- Bootstrap core CSS -->
 <link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <!-- CSS only -->
@@ -25,6 +24,7 @@
 
 
     <style>
+      
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -57,13 +57,16 @@
         {% for exercise in exe.all %}
         <div class="col">
           <div class="card shadow-sm">
-            <img class="bd-placeholder-img card-img-top" src="{{ exercise.image.url }}" width="100" height="400" xtitle><rect width="100%" height="100%" /></img>
-
-            <div class="card-body">
-              <p class="card-text">{{ exercise.title }}</p>
-              
-            </div>
+            <a href="google.com">
+            <img class="bd-placeholder-img card-img-top playgif" data-swap="{{ exercise.a_image.url }}" src="{{ exercise.image.url }}" width="100%" height="225" xtitle><rect width="100%" height="100%" /></img>
+            </a>
           </div>
+          <div class="card-body">
+            <p class="card-text">{{ exercise.title }}</p>
+            <p class="card-text">{{ exercise.flair }}</p>
+          </div>
+          
+    
         </div>
         {% endfor %}
 
@@ -73,17 +76,26 @@
 
 </main>
 
-<footer class="text-muted py-5">
-  <div class="container text-center">
-    <p>© Criston Lobo {% now "Y" %}</p>
-  </div>
-</footer>
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
       
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+  <script src="//code.jquery.com/jquery-1.12.2.min.js"></script>
+  <script>
+  var imageSwap =function () {
+  var $this = $(this);
+  var newSource = $this.data('swap');
+  $this.data('swap', $this.attr('src'));
+  $this.attr('src', newSource);
+
+}
+$(function () {
+  $('img.playgif').hover(imageSwap, imageSwap);
+});
+
+</script>
+
 </html>
 {% endblock %}
