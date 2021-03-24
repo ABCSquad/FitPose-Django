@@ -73,6 +73,7 @@ def keypoint_angle(keypoints,a,b,c):
     return(angle1,a2,b2,c2)
 
 def shoulder_press(keypoints):
+<<<<<<< HEAD
     global flag_wrong
     global flag_right
     global flag_right_left 
@@ -119,6 +120,19 @@ def shoulder_press(keypoints):
       elif flag_right_left>20:
         flag_wrong_left = 0
         stats = cv2.putText(stats, 'Your left hand form is perfect', (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
+=======
+    key_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, LEFT_SHOULDER, LEFT_ELBOW)
+    global count,flag
+    if key_angle<100:
+        if flag==1:
+            flag=0
+            count += 1
+        flag=0
+    elif key_angle>165 and z[0]-y[0]>10:
+        flag=1
+    if count>0:
+        return(key_angle,count)
+>>>>>>> 4913144825f589072a3d787712d83220ada13b22
     else:
       stats = cv2.putText(stats, 'Left deviation: '+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA) 
       flag_wrong_left+=1
