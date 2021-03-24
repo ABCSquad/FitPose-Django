@@ -24,7 +24,81 @@
 
 
     <style>
-      
+      .hover {
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 60%;
+}
+
+.hover-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  transition: all 0.4s;
+}
+
+.hover img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s;
+}
+
+.hover-content {
+  position: relative;
+  z-index: 99;
+}
+/* ------------------------------------------ */
+
+.hover-1 img {
+  width: 105%;
+  position: absolute;
+  top: 0;
+  left: -5%;
+  transition: all 0.3s;
+}
+
+.hover-1-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  transition: all 0.4s;
+}
+
+.hover-1 .hover-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hover-1-description {
+  transform: translateY(0.5rem);
+  transition: all 0.4s;
+  opacity: 0;
+}
+
+.hover-1:hover .hover-1-content {
+  bottom: 2rem;
+}
+
+.hover-1:hover .hover-1-description {
+  opacity: 1;
+  transform: none;
+}
+
+.hover-1:hover img {
+  left: 0;
+}
+
+.hover-1:hover .hover-overlay {
+  opacity: 0;
+}
+
+
+
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -46,33 +120,30 @@
 
 
 <main>
-
+<br>
+<br>
   
 
-  <div class="album py-5 bg-light">
-    <div class="container">
-
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        
-        {% for exercise in exe.all %}
-        <div class="col">
-          <div class="card shadow-sm">
-            <a href="google.com">
-            <img class="bd-placeholder-img card-img-top playgif" data-swap="{{ exercise.a_image.url }}" src="{{ exercise.image.url }}" width="100%" height="225" xtitle><rect width="100%" height="100%" /></img>
-            </a>
-          </div>
-          <div class="card-body">
-            <p class="card-text">{{ exercise.title }}</p>
-            <p class="card-text">{{ exercise.flair }}</p>
-          </div>
+<div class="container">
+  <div class="row">
+	        {% for exercise in exe.all %}
           
-    
-        </div>
-        {% endfor %}
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <a href="{% url 'detail' exercise.id%}">
+            <div class="hover hover-1 text-white rounded">
+              <img data-swap="{{ exercise.a_image.url }}" src="{{ exercise.image.url }}" alt="">
+              <div class="hover-overlay"></div>
+              <div class="hover-1-content px-5 py-4">
+                <h3 class="hover-1-title text-uppercase font-weight-bold mb-0"> <span class="font-weight-light">{{ exercise.title }} </h3>
+                <p class="hover-1-description font-weight-light mb-0">{{ exercise.flair }}</p>
+              </div>
+            </div>
+          </a>
+          </div>
 
-      </div>
+      {% endfor %}
     </div>
-  </div>
+</div>
 
 </main>
 
@@ -98,4 +169,5 @@ $(function () {
 </script>
 
 </html>
+
 {% endblock %}
