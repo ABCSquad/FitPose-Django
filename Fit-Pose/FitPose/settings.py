@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'main.apps.MainConfig',
     'playlist.apps.PlaylistConfig',
     'exercises.apps.ExercisesConfig',
     'accounts.apps.AccountsConfig',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'FitPose.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['FitPose/templates'],
+        'DIRS': ['FitPose/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
