@@ -2,7 +2,6 @@
 import cv2
 from imutils.video import WebcamVideoStream
 import numpy as np
-import pickle
 
 # Importing mediapipe
 import mediapipe as mp
@@ -10,15 +9,35 @@ mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 # Loading knn classifier model
-model_path = './models/knn_ohp'
-model = pickle.load(open(model_path, 'rb'))
+def load_model(model_path):
+    import pickle
+    model = pickle.load(open(model_path, 'rb'))
+    return model
 
-# Setting initial reps to 0
+model_path = './models/knn_ohp'
+model = load_model(model_path)
+
+# Setting initial reps and flag to 0
 reps = 0
 flag = 0
 
+# For counting reps
+def count_reps(model, pose_landmarks, reps, flag):
+
+    probability = model.predict_proba(pose_landmarks)
+
+    if probability[0][0] == 1 and flag == 0:
+        flag = 1
+
+    elif probability[0][1] == 1 and flag == 1:
+        reps += 1
+        flag = 0
+
+    return reps, flag
+
 # For webcam input:
 cap = WebcamVideoStream(src=0).start()
+
 with mp_pose.Pose(
 
     upper_body_only = True,
@@ -52,16 +71,7 @@ with mp_pose.Pose(
             assert len(pose_landmarks.landmark) == 25, 'Unexpected number of predicted pose landmarks: {}'.format(len(pose_landmarks.landmark))
             pose_landmarks = [[lmk.x, lmk.y] for lmk in pose_landmarks.landmark]
             pose_landmarks = np.reshape(np.around(pose_landmarks[11:17], 5).flatten().astype(np.float64).tolist(), (1, -1))
-            probability = model.predict_proba(pose_landmarks)
-            print(probability)
-
-            # Counting reps
-            if probability[0][0] == 1 and flag == 0:
-                flag = 1
-
-            elif probability[0][1] == 1 and flag == 1:
-                reps += 1
-                flag = 0
+            reps, flag = count_reps(model, pose_landmarks, reps, flag)
 
         cv2.imshow('FitPose', image)
         if cv2.waitKey(5) & 0xFF == 27:

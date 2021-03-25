@@ -5,6 +5,15 @@ from imutils.video import WebcamVideoStream
 import numpy as np
 from exfunc import *
 import cv2
+from rep_counter import load_model, count_reps
+
+# Loading knn model
+model_path = './models/knn_ohp'
+model = load_model(model_path)
+
+# Setting initial reps and flag to 0
+reps = 0
+flag = 0
 
 #time.sleep(5)
 mp_drawing = mp.solutions.drawing_utils
@@ -62,7 +71,7 @@ with mp_pose.Pose(
     elif upper==True:
       mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
     
-    print(flag_wrong,"", flag_right)
+    # print(flag_wrong,"", flag_right)
     
     end = time.time()
     #print(1/(end-start))
