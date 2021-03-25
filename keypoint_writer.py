@@ -48,8 +48,8 @@ RIGHT_FOOT_INDEX = 32
 
 # Setting paths
 images_in_folder = './dataset_in/ohp'
-images_out_folder = './dataset_out/ohp'
-csv_out_path = './dataset_out/ohp/ohp.csv'
+images_out_folder = './dataset_out'
+csv_out_path = './dataset_out/ohp.csv'
 
 with open(csv_out_path, 'w') as csv_out_file:
   csv_out_writer = csv.writer(csv_out_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
