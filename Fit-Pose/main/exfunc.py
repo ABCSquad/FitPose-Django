@@ -90,7 +90,7 @@ def shoulder_press(keypoints):
 
     #Image Processing
     stats = cv2.imread('white2.jpg') 
-    stats = cv2.putText(stats, 'Stats', (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    stats = cv2.putText(stats, 'Stats', (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
     stats = cv2.putText(stats, 'Angle at right shoulder : '+ str(round(right_shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
     stats = cv2.putText(stats, 'Angle at right elbow : '+ str(round(right_elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
     if right_deviation<10:
