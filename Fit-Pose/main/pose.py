@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 import time
-from imutils.video import WebcamVideoStream
+from imutils.video import VideoStream, WebcamVideoStream
 import numpy as np
 from exfunc import *
 import argparse
@@ -16,9 +16,12 @@ def main():
 
 
   # For webcam input:
-  cap = WebcamVideoStream(src=0).start()
+  cap = VideoStream(src=0,resolution=(960,720)).start()
 
-  upper = True
+  #Upper body only (y/n)
+  upper = True 
+
+  #Setting up the parameters of the inference model
   with mp_pose.Pose(
       static_image_mode=False,
       upper_body_only=upper,
@@ -33,12 +36,12 @@ def main():
       image = cap.read()
       # stats = cv2.imread('white2.jpg') 
       
-      # Flip the image horizontally for a later selfie-view display, and convert
-      # the BGR image to RGB.
+      # Flip the image horizontally for a later selfie-view display, and convert the BGR image to RGB.
       image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
-      # To improve performance, optionally mark the image as not writeable to
-      # pass by reference.
+      # To improve performance, optionally mark the image as not writeable to pass by reference.
       image.flags.writeable = False
+
+      #Calling inference
       results = pose.process(image)
 
       # Draw the pose annotation on the image.
@@ -56,16 +59,19 @@ def main():
             'Z': data_point.z,
             'Visibility': data_point.visibility,
           })
+
+        #Calling the shoulder press function that returns angles, deviations and stats image of every frame
         right_shoulder_angle, right_elbow_angle, right_deviation, left_shoulder_angle, left_elbow_angle, left_deviation, stats = shoulder_press(keypoints)
 
+      #Error message if keypoints aren't visible
       else:
         image = cv2.putText(image, 'Upper body not visible', (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
+
+      #Different drawing functions for upper pose and non upper pose
       if upper==False:  
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
       elif upper==True:
         mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
-      
-      print(flag_wrong,"", flag_right)
       
       end = time.time()
       #print(1/(end-start))
@@ -80,6 +86,7 @@ def main():
   cap.stop()
 
 if __name__=="__main__":
+  #Arguments for reps and durations for which exercise will run
   parser = argparse.ArgumentParser(description='Termination information')
   parser.add_argument('--reps', metavar='path', required=False, help='number of reps to stop after')
   parser.add_argument('--duration', metavar='path', required=False, help='total time in seconds to stop after')
