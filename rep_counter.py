@@ -21,6 +21,13 @@ model = load_model(model_path)
 reps = 0
 flag = 0
 
+# For reshaping pose_landmarks before passing though model
+def reshape_landmarks(pose_landmarks):
+    assert len(pose_landmarks.landmark) == 25, 'Unexpected number of predicted pose landmarks: {}'.format(len(pose_landmarks.landmark))
+    pose_landmarks = [[lmk.x, lmk.y] for lmk in pose_landmarks.landmark]
+    pose_landmarks = np.reshape(np.around(pose_landmarks[11:17], 5).flatten().astype(np.float64).tolist(), (1, -1))
+    return pose_landmarks
+
 # For counting reps
 def count_reps(model, pose_landmarks, reps, flag):
 
@@ -36,43 +43,44 @@ def count_reps(model, pose_landmarks, reps, flag):
     return reps, flag
 
 # For webcam input:
-cap = WebcamVideoStream(src=0).start()
+def webcam_input(reps, flag):
+    cap = WebcamVideoStream(src=1).start()
+    with mp_pose.Pose(
 
-with mp_pose.Pose(
-
-    upper_body_only = True,
-    static_image_mode=False,
-    smooth_landmarks=True,
-    min_detection_confidence=0.9,
-    min_tracking_confidence=0.9) as pose:
-  
-    while True:
-
-        image = cap.read()
+        upper_body_only = True,
+        static_image_mode=False,
+        smooth_landmarks=True,
+        min_detection_confidence=0.9,
+        min_tracking_confidence=0.9) as pose:
       
-        # Flip the image horizontally for a later selfie-view display, and convert the BGR image to RGB.
-        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+        while True:
 
-        # Display reps at down left corner
-        cv2.putText(image, f'Reps: {reps}', (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+            image = cap.read()
+          
+            # Flip the image horizontally for a later selfie-view display, and convert the BGR image to RGB.
+            image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
-        # To improve performance, optionally mark the image as not writeable to pass by reference.
-        image.flags.writeable = False
-        results = pose.process(image)
+            # Display reps at down left corner
+            cv2.putText(image, f'Reps: {reps}', (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
-        # Draw the pose annotation on the image.
-        image.flags.writeable = True
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
-        
-        # Passing key points through model
-        pose_landmarks = results.pose_landmarks
-        if pose_landmarks is not None:
-            assert len(pose_landmarks.landmark) == 25, 'Unexpected number of predicted pose landmarks: {}'.format(len(pose_landmarks.landmark))
-            pose_landmarks = [[lmk.x, lmk.y] for lmk in pose_landmarks.landmark]
-            pose_landmarks = np.reshape(np.around(pose_landmarks[11:17], 5).flatten().astype(np.float64).tolist(), (1, -1))
-            reps, flag = count_reps(model, pose_landmarks, reps, flag)
+            # To improve performance, optionally mark the image as not writeable to pass by reference.
+            image.flags.writeable = False
+            results = pose.process(image)
 
-        cv2.imshow('FitPose', image)
-        if cv2.waitKey(5) & 0xFF == 27:
-            break
+            # Draw the pose annotation on the image.
+            image.flags.writeable = True
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
+            
+            # Passing key points through model
+            pose_landmarks = results.pose_landmarks
+            if pose_landmarks is not None:
+                pose_landmarks = reshape_landmarks(pose_landmarks)
+                reps, flag = count_reps(model, pose_landmarks, reps, flag)
+
+            cv2.imshow('FitPose', image)
+            if cv2.waitKey(5) & 0xFF == 27:
+                break
+
+if __name__ == '__main__':
+    webcam_input(reps, flag)

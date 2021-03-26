@@ -5,7 +5,7 @@ from imutils.video import WebcamVideoStream
 import numpy as np
 from exfunc import *
 import cv2
-from rep_counter import load_model, count_reps
+from rep_counter import load_model, reshape_landmarks, count_reps
 
 # Loading knn model
 model_path = './models/knn_ohp'
@@ -22,7 +22,7 @@ mp_pose = mp.solutions.pose
 
 
 # For webcam input:
-cap = WebcamVideoStream(src=0).start()
+cap = WebcamVideoStream(src=1).start()
 
 upper = True
 with mp_pose.Pose(
@@ -42,6 +42,10 @@ with mp_pose.Pose(
     # Flip the image horizontally for a later selfie-view display, and convert
     # the BGR image to RGB.
     image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+
+    # Display reps at down left corner
+    cv2.putText(image, f'Reps: {reps}', (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
     image.flags.writeable = False
@@ -54,6 +58,7 @@ with mp_pose.Pose(
 
     #Creating a list of dictionaries of the keypoints (x,y,z,visibility)
     if results.pose_landmarks:
+
       keypoints = []
       for data_point in results.pose_landmarks.landmark:
         keypoints.append({
@@ -72,6 +77,12 @@ with mp_pose.Pose(
       mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
     
     # print(flag_wrong,"", flag_right)
+
+    # Passing key points through model
+    pose_landmarks = results.pose_landmarks
+    if pose_landmarks is not None:
+      pose_landmarks = reshape_landmarks(pose_landmarks)
+      reps, flag = count_reps(model, pose_landmarks, reps, flag)
     
     end = time.time()
     #print(1/(end-start))
