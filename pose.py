@@ -22,7 +22,7 @@ mp_pose = mp.solutions.pose
 
 
 # For webcam input:
-cap = WebcamVideoStream(src=1).start()
+cap = WebcamVideoStream(src=0).start()
 
 upper = True
 with mp_pose.Pose(
