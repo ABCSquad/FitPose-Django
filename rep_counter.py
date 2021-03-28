@@ -32,6 +32,7 @@ def reshape_landmarks(pose_landmarks):
 def count_reps(model, pose_landmarks, reps, flag):
 
     probability = model.predict_proba(pose_landmarks)
+    print(probability)
 
     if probability[0][0] == 1 and flag == 0:
         flag = 1

@@ -76,7 +76,7 @@ with mp_pose.Pose(
     elif upper==True:
       mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
     
-    # print(flag_wrong,"", flag_right)
+    #print(flag_wrong,"", flag_right)
 
     # Passing key points through model
     pose_landmarks = results.pose_landmarks
