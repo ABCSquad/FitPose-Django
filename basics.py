@@ -34,7 +34,7 @@ def ohp_posture_right(right_deviation, flag_right_correct, flag_right_wrong, sta
 
     else:
       stats = cv2.putText(stats, 'Right deviation: '+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
-      flag_right_wrong+=1
+      flag_right_wrong += 1
       if flag_right_wrong>0 and flag_right_wrong<=15:
         stats = cv2.putText(stats, 'Your right hand form is perfect', (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
       elif flag_right_wrong>15:
