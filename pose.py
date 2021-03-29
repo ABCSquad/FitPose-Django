@@ -1,11 +1,10 @@
 import cv2
-import mediapipe as mp
 import time
 from imutils.video import WebcamVideoStream
 import numpy as np
+import mediapipe as mp
 from exfunc import *
-import cv2
-from rep_counter import load_model, reshape_landmarks, count_reps
+from rep_counter import *
 
 # Loading knn model
 model_path = './models/knn_ohp'
@@ -18,8 +17,6 @@ flag = 0
 #time.sleep(5)
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-
-
 
 # For webcam input:
 cap = WebcamVideoStream(src=1).start()
@@ -76,7 +73,7 @@ with mp_pose.Pose(
     elif upper==True:
       mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
     
-    #print(flag_wrong,"", flag_right)
+    # print(flag_right_wrong,"", flag_right_correct)
 
     # Passing key points through model
     pose_landmarks = results.pose_landmarks
@@ -89,9 +86,8 @@ with mp_pose.Pose(
     if stats is not None:
       cv2.imshow('Stats', stats)
     image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
-    cv2.imshow('MediaPipe Pose', image)
+    cv2.imshow('FitPose', image)
     if cv2.waitKey(5) & 0xFF == 27:
       break
     
-
 cap.stop()

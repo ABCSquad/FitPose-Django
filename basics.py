@@ -21,41 +21,46 @@ def keypoint_angle(keypoints,a,b,c):
     angle1 = angle(a2,b2,c2)
     return(angle1,a2,b2,c2)
 
-def ohp_posture_right(right_deviation, flag_right, flag_wrong, stats):
+def ohp_posture_right(right_deviation, flag_right_correct, flag_right_wrong, stats):
+
     if right_deviation<10:
       stats = cv2.putText(stats, 'Right deviation: '+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
-      flag_right += 1
-      if flag_right>0 and flag_right<=20:
+      flag_right_correct += 1
+      if flag_right_correct>0 and flag_right_correct<=20:
         stats = cv2.putText(stats, 'Fix your right hand form!', (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-      elif flag_right>20:
-        flag_wrong = 0
+      elif flag_right_correct>20:
+        flag_right_wrong = 0
         stats = cv2.putText(stats, 'Your right hand form is perfect', (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
+
     else:
       stats = cv2.putText(stats, 'Right deviation: '+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
-      flag_wrong+=1
-      if flag_wrong>0 and flag_wrong<=15:
+      flag_right_wrong+=1
+      if flag_right_wrong>0 and flag_right_wrong<=15:
         stats = cv2.putText(stats, 'Your right hand form is perfect', (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-      elif flag_wrong>15:
-        flag_right = 0
+      elif flag_right_wrong>15:
+        flag_right_correct = 0
         stats = cv2.putText(stats, 'Fix your right hand form!', (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    return(right_deviation, flag_right, flag_wrong, stats)
 
-def ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats):
+    return(right_deviation, flag_right_correct, flag_right_wrong, stats)
+
+def ohp_posture_left(left_deviation, flag_left_correct, flag_left_wrong, stats):
+
     if left_deviation<10:
       stats = cv2.putText(stats, 'Left deviation: '+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA) 
-      flag_right_left += 1
-      if flag_right_left>0 and flag_right_left<=20:
+      flag_left_correct += 1
+      if flag_left_correct>0 and flag_left_correct<=20:
         stats = cv2.putText(stats, 'Fix your left hand form!', (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-      elif flag_right_left>20:
-        flag_wrong_left = 0
+      elif flag_left_correct>20:
+        flag_left_wrong = 0
         stats = cv2.putText(stats, 'Your left hand form is perfect', (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
+
     else:
       stats = cv2.putText(stats, 'Left deviation: '+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA) 
-      flag_wrong_left+=1
-      if flag_wrong_left>0 and flag_wrong_left<=15:
+      flag_left_wrong+=1
+      if flag_left_wrong>0 and flag_left_wrong<=15:
         stats = cv2.putText(stats, 'Your left hand form is perfect', (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-      elif flag_wrong_left>15:
-        flag_right_left  = 0
+      elif flag_left_wrong>15:
+        flag_left_correct  = 0
         stats = cv2.putText(stats, 'Fix your left hand form!', (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    return(left_deviation, flag_right_left, flag_wrong_left, stats)
-    
+
+    return(left_deviation, flag_left_correct, flag_left_wrong, stats)
