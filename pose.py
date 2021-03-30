@@ -8,7 +8,7 @@ import cv2
 from rep_counter import load_model, reshape_landmarks, count_reps
 
 # Loading knn model
-model_path = './models/knn_ohp'
+model_path = "./models/knn_ohp"
 model = load_model(model_path)
 
 # Setting initial reps and flag to 0
@@ -32,19 +32,19 @@ with mp_pose.Pose(
     min_detection_confidence=0.9,
     min_tracking_confidence=0.9) as pose:
   
-  stats = cv2.imread('white2.jpg') 
+  stats = cv2.imread("white2.jpg") 
 
   while True:
     start = time.time()
     image = cap.read()
-    # stats = cv2.imread('white2.jpg') 
+    # stats = cv2.imread("white2.jpg") 
     
     # Flip the image horizontally for a later selfie-view display, and convert
     # the BGR image to RGB.
     image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
     # Display reps at down left corner
-    cv2.putText(image, f'Reps: {reps}', (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+    cv2.putText(image, f"Reps: {reps}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
@@ -62,15 +62,15 @@ with mp_pose.Pose(
       keypoints = []
       for data_point in results.pose_landmarks.landmark:
         keypoints.append({
-          'X': data_point.x,
-          'Y': data_point.y,
-          'Z': data_point.z,
-          'Visibility': data_point.visibility,
+          "X": data_point.x,
+          "Y": data_point.y,
+          "Z": data_point.z,
+          "Visibility": data_point.visibility,
         })
-      right_shoulder_angle, right_elbow_angle, right_deviation, left_shoulder_angle, left_elbow_angle, left_deviation, stats = shoulder_press(keypoints)
+      stats = bicep_curl(keypoints, "right")
 
     else:
-      image = cv2.putText(image, 'Upper body not visible', (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
+      image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
     if upper==False:  
       mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
     elif upper==True:
@@ -87,9 +87,9 @@ with mp_pose.Pose(
     end = time.time()
     #print(1/(end-start))
     if stats is not None:
-      cv2.imshow('Stats', stats)
+      cv2.imshow("Stats", stats)
     image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
-    cv2.imshow('MediaPipe Pose', image)
+    cv2.imshow("MediaPipe Pose", image)
     if cv2.waitKey(5) & 0xFF == 27:
       break
     
