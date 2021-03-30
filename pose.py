@@ -4,15 +4,15 @@ from imutils.video import WebcamVideoStream
 import numpy as np
 import mediapipe as mp
 from exfunc import *
-from rep_counter import *
+# from rep_counter import *
 
 # Loading knn model
-model_path = './models/knn_ohp'
-model = load_model(model_path)
+# model_path = './models/knn_ohp'
+# model = load_model(model_path)
 
 # Setting initial reps and flag to 0
 reps = 0
-flag = 0
+rep_flag = 0
 
 #time.sleep(5)
 mp_drawing = mp.solutions.drawing_utils
@@ -64,7 +64,7 @@ with mp_pose.Pose(
           'Z': data_point.z,
           'Visibility': data_point.visibility,
         })
-      right_shoulder_angle, right_elbow_angle, right_deviation, left_shoulder_angle, left_elbow_angle, left_deviation, stats = shoulder_press(keypoints)
+      right_shoulder_angle, right_elbow_angle, right_deviation, left_shoulder_angle, left_elbow_angle, left_deviation, reps, rep_flag, stats = shoulder_press(keypoints, reps, rep_flag)
 
     else:
       image = cv2.putText(image, 'Upper body not visible', (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -76,10 +76,10 @@ with mp_pose.Pose(
     # print(flag_right_wrong,"", flag_right_correct)
 
     # Passing key points through model
-    pose_landmarks = results.pose_landmarks
-    if pose_landmarks is not None:
-      pose_landmarks = reshape_landmarks(pose_landmarks)
-      reps, flag = count_reps(model, pose_landmarks, reps, flag)
+    # pose_landmarks = results.pose_landmarks
+    # if pose_landmarks is not None:
+      # pose_landmarks = reshape_landmarks(pose_landmarks)
+      # reps, rep_flag = count_reps(model, pose_landmarks, reps, rep_flag)
     
     end = time.time()
     #print(1/(end-start))
