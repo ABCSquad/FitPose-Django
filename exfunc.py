@@ -2,6 +2,7 @@ import numpy as np
 import math
 import cv2
 from basics import *
+from rep_counter import *
 
 NOSE = 0
 LEFT_EYE_INNER = 1
@@ -43,16 +44,6 @@ flag_right_wrong = 0
 flag_left_correct = 0
 flag_left_wrong = 0
 
-#For counting reps
-def count_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps, rep_flag):
-    if right_deviation < 10 and left_deviation < 10:
-        if right_shoulder_angle < 90 and left_shoulder_angle < 90 and rep_flag == 0:
-            rep_flag = 1
-        elif right_shoulder_angle > 170 and left_shoulder_angle > 170 and rep_flag == 1:
-            rep_flag = 0
-            reps += 1
-    return reps, rep_flag
-
 def shoulder_press(keypoints, reps, rep_flag):
     global flag_right_correct
     global flag_right_wrong
@@ -70,7 +61,7 @@ def shoulder_press(keypoints, reps, rep_flag):
     left_deviation = abs(left_shoulder_angle - left_elbow_angle)
 
     #Rep counter
-    reps, rep_flag = count_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps, rep_flag)
+    reps, rep_flag = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps, rep_flag)
 
     #Blank white image to display stats
     stats = cv2.imread('white2.jpg') 
