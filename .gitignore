@@ -163,4 +163,7 @@ __pycache__/exfunc.cpython-39.pyc
 .vscode/
 .gitignore.swp
 dataset_in/
+.pose.py.swp
+.exfunc.py.swp
+.basics.py.swp
 renamer.py
