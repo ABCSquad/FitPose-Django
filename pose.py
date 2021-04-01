@@ -21,7 +21,7 @@ mp_pose = mp.solutions.pose
 
 
 # For webcam input:
-cap = WebcamVideoStream(src=1).start()
+cap = WebcamVideoStream(src=0).start()
 
 upper = True
 with mp_pose.Pose(
@@ -66,7 +66,7 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      stats, reps, rep_flag = bicep_curl(keypoints, "right", reps, rep_flag)
+      stats = tricep_extension(keypoints, "right")
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
