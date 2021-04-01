@@ -27,6 +27,19 @@ def ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulde
     return reps, rep_flag
 
 
+# Counting reps for bicep curls using angles
+def curl_reps(shoulder_angle, elbow_angle, reps, rep_flag):
+
+    if shoulder_angle<13 or shoulder_angle>355 and rep_flag == 0:
+        if elbow_angle > 160:
+            rep_flag = 1
+        elif elbow_angle < 65 and rep_flag == 1:
+            rep_flag = 0
+            reps += 1
+
+    return reps, rep_flag
+
+
 # Loading knn classifier model
 def load_model(model_path):
     import pickle

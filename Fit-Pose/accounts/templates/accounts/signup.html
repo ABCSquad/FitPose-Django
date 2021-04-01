@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+    <title>Document</title>
+</head>
+<body>
+<br><br>
+<div class="container">
+
+<div class="card bg-light">
+<article class="card-body mx-auto" style="max-width: 400px;">
+	<h4 class="card-title mt-3 text-center">Create Account</h4>
+	<p class="text-center">Get started with your free account</p>
+	
+	<form action="" method="POST">
+    <!-- form-group//  USERNAME -->
+    {% csrf_token %}
+    <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+             </div>
+            <input  name="username" class="form-control" placeholder="Username" type="text" required="required">
+     </div>
+
+      <!-- form-group//  F&LNAME -->
+	<div class="form-group input-group">
+		<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+		 </div>
+        <input  name="first_name" class="form-control" placeholder="First name" type="text" required="required"><br>
+        <input  name="last_name" class="form-control" placeholder="Last name" type="text" required="required">
+    </div> 
+    
+    <!-- form-group//  EMAIL -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+		 </div>
+        <input name="email" class="form-control" placeholder="Email address" type="email" required="required">
+    </div> 
+
+    <!-- form-group// PASS1 -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+        <input name="password1" class="form-control" placeholder="Create password" type="password" required="required">
+    </div>
+    
+    <!-- form-group// PASS2 -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+        <input name="password2" class="form-control" placeholder="Repeat password" type="password" required="required">
+    </div> 
+    
+    <!-- form-group// SUBMIT -->                                      
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+    </div>
+    
+    <!-- form-group// -->      
+    <p class="text-center">Have an account? <a href="{% url 'login' %}">Log In</a> </p>                                                                 
+</form>
+</article>
+</div> <!-- card.// -->
+
+</div> 
+<!--container end.//-->
+
+<br><br>
+
+
+</body>
+</html>
+{% endblock %}

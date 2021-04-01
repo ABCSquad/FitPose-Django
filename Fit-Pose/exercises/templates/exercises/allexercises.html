@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title></title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+
+   
+    <!-- Bootstrap core CSS -->
+<link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    
+
+
+    <style>
+      .hover {
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 60%;
+}
+
+.hover-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  transition: all 0.4s;
+}
+
+.hover img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s;
+}
+
+.hover-content {
+  position: relative;
+  z-index: 99;
+}
+/* ------------------------------------------ */
+
+.hover-1 img {
+  width: 105%;
+  position: absolute;
+  top: 0;
+  left: -5%;
+  transition: all 0.3s;
+}
+
+.hover-1-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  transition: all 0.4s;
+}
+
+.hover-1 .hover-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hover-1-description {
+  transform: translateY(0.5rem);
+  transition: all 0.4s;
+  opacity: 0;
+}
+
+.hover-1:hover .hover-1-content {
+  bottom: 2rem;
+}
+
+.hover-1:hover .hover-1-description {
+  opacity: 1;
+  transform: none;
+}
+
+.hover-1:hover img {
+  left: 0;
+}
+
+.hover-1:hover .hover-overlay {
+  opacity: 0;
+}
+
+
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+  </head>
+  <body>
+
+
+<main>
+<br>
+<br>
+  
+
+<div class="container">
+  <div class="row">
+	        {% for exercise in exe.all %}
+          
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <a href="{% url 'detail' exercise.id%}">
+            <div class="hover hover-1 text-white rounded">
+              <img data-swap="{{ exercise.a_image.url }}" src="{{ exercise.image.url }}" alt="">
+              <div class="hover-overlay"></div>
+              <div class="hover-1-content px-5 py-4">
+                <h3 class="hover-1-title text-uppercase font-weight-bold mb-0"> <span class="font-weight-light">{{ exercise.title }} </h3>
+                <p class="hover-1-description font-weight-light mb-0">{{ exercise.flair }}</p>
+              </div>
+            </div>
+          </a>
+          </div>
+
+      {% endfor %}
+    </div>
+</div>
+
+</main>
+
+
+
+      
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+  <script src="//code.jquery.com/jquery-1.12.2.min.js"></script>
+  <script>
+  var imageSwap =function () {
+  var $this = $(this);
+  var newSource = $this.data('swap');
+  $this.data('swap', $this.attr('src'));
+  $this.attr('src', newSource);
+
+}
+$(function () {
+  $('img.playgif').hover(imageSwap, imageSwap);
+});
+
+</script>
+
+</html>
+
+{% endblock %}
