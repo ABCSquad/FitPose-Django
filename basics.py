@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import cv2
+
 #Angle using arctan2
 def angle(a,b,c):
     ba = a - b
@@ -79,5 +80,3 @@ def curl_posture(shoulder_angle, elbow_angle, stats):
         stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
     
     return(stats)
-
-   

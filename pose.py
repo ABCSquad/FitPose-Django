@@ -5,7 +5,7 @@ from imutils.video import WebcamVideoStream
 import numpy as np
 from exfunc import *
 import cv2
-from rep_counter import load_model, reshape_landmarks, count_reps
+from rep_counter import *
 
 # Loading knn model
 model_path = "./models/knn_ohp"
@@ -13,16 +13,15 @@ model = load_model(model_path)
 
 # Setting initial reps and flag to 0
 reps = 0
-flag = 0
+rep_flag = 0
 
 #time.sleep(5)
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
 
-
 # For webcam input:
-cap = WebcamVideoStream(src=0).start()
+cap = WebcamVideoStream(src=1).start()
 
 upper = True
 with mp_pose.Pose(
@@ -67,7 +66,7 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      stats = bicep_curl(keypoints, "right")
+      stats, reps, rep_flag = bicep_curl(keypoints, "right", reps, rep_flag)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -79,10 +78,10 @@ with mp_pose.Pose(
     # print(flag_wrong,"", flag_right)
 
     # Passing key points through model
-    pose_landmarks = results.pose_landmarks
-    if pose_landmarks is not None:
-      pose_landmarks = reshape_landmarks(pose_landmarks)
-      reps, flag = count_reps(model, pose_landmarks, reps, flag)
+    # pose_landmarks = results.pose_landmarks
+    # if pose_landmarks is not None:
+      # pose_landmarks = reshape_landmarks(pose_landmarks)
+      # reps, flag = count_reps(model, pose_landmarks, reps, flag)
     
     end = time.time()
     #print(1/(end-start))

@@ -2,6 +2,7 @@ import numpy as np
 import math
 import cv2
 from basics import *
+from rep_counter import *
 
 
 NOSE = 0
@@ -44,7 +45,7 @@ flag_right = 0
 flag_right_left = 0
 flag_wrong_left = 0
 
-def shoulder_press(keypoints):
+def shoulder_press(keypoints, reps, rep_flag):
     global flag_wrong
     global flag_right
     global flag_right_left 
@@ -59,6 +60,9 @@ def shoulder_press(keypoints):
     left_shoulder_angle, x, y, z = keypoint_angle(keypoints, RIGHT_HIP, RIGHT_SHOULDER, RIGHT_ELBOW)
     left_elbow_angle, x, y, z = keypoint_angle(keypoints, RIGHT_WRIST, RIGHT_ELBOW, RIGHT_SHOULDER)
     left_deviation = abs(left_shoulder_angle - left_elbow_angle)
+
+    #Rep counter
+    reps, rep_flag = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps, rep_flag)
 
     #Blank white image to display stats
     stats = cv2.imread("white2.jpg") 
@@ -76,9 +80,9 @@ def shoulder_press(keypoints):
     #Evaluating the posture for the left hand using a function
     stats, flag_right_left, flag_wrong_left = ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats)
 
-    return(stats)
+    return(stats, reps, rep_flag)
     
-def bicep_curl(keypoints, side):
+def bicep_curl(keypoints, side, reps, rep_flag):
     #Right hand angles calculation
     if side.lower() == "right":
       shoulder_angle, x, y, z = keypoint_angle(keypoints, LEFT_HIP, LEFT_SHOULDER, LEFT_ELBOW)
@@ -87,6 +91,8 @@ def bicep_curl(keypoints, side):
       shoulder_angle, x, y, z = keypoint_angle(keypoints, RIGHT_ELBOW, RIGHT_SHOULDER, RIGHT_HIP)
       elbow_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, RIGHT_ELBOW, RIGHT_WRIST)
 
+    #Rep counter
+    reps, rep_flag = curl_reps(shoulder_angle, elbow_angle, reps, rep_flag)
 
     #Blank white image to display stats
     stats = cv2.imread("white2.jpg") 
@@ -98,4 +104,4 @@ def bicep_curl(keypoints, side):
     #Evaluating the posture for the right hand using a function
     stats = curl_posture(shoulder_angle, elbow_angle, stats)
 
-    return(stats)
+    return(stats, reps, rep_flag)

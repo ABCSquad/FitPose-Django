@@ -161,3 +161,6 @@ Thumbs.db #thumbnail cache on Windows
 
 __pycache__/exfunc.cpython-39.pyc
 .vscode/
+.gitignore.swp
+dataset_in/
+renamer.py

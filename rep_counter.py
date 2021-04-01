@@ -8,6 +8,38 @@ import mediapipe as mp
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 
+
+# Setting initial reps and flag to 0
+reps = 0
+flag = 0
+
+
+# Counting reps for ohp using angles
+def ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps, rep_flag):
+
+    if right_deviation < 10 and left_deviation < 10:
+        if right_shoulder_angle < 90 and left_shoulder_angle < 90 and rep_flag == 0:
+            rep_flag = 1
+        elif right_shoulder_angle > 170 and left_shoulder_angle > 170 and rep_flag == 1:
+            rep_flag = 0
+            reps += 1
+
+    return reps, rep_flag
+
+
+# Counting reps for bicep curls using angles
+def curl_reps(shoulder_angle, elbow_angle, reps, rep_flag):
+
+    if shoulder_angle<13 or shoulder_angle>355 and rep_flag == 0:
+        if elbow_angle > 160:
+            rep_flag = 1
+        elif elbow_angle < 65 and rep_flag == 1:
+            rep_flag = 0
+            reps += 1
+
+    return reps, rep_flag
+
+
 # Loading knn classifier model
 def load_model(model_path):
     import pickle
@@ -17,21 +49,20 @@ def load_model(model_path):
 model_path = './models/knn_ohp'
 model = load_model(model_path)
 
-# Setting initial reps and flag to 0
-reps = 0
-flag = 0
 
-# For reshaping pose_landmarks before passing though model
+# For reshaping pose_landmarks before passing though knn model
 def reshape_landmarks(pose_landmarks):
     assert len(pose_landmarks.landmark) == 25, 'Unexpected number of predicted pose landmarks: {}'.format(len(pose_landmarks.landmark))
     pose_landmarks = [[lmk.x, lmk.y] for lmk in pose_landmarks.landmark]
     pose_landmarks = np.reshape(np.around(pose_landmarks[11:17], 5).flatten().astype(np.float64).tolist(), (1, -1))
     return pose_landmarks
 
-# For counting reps
+
+# For counting reps using knn
 def count_reps(model, pose_landmarks, reps, flag):
 
     probability = model.predict_proba(pose_landmarks)
+    # print(probability)
 
     if probability[0][0] == 1 and flag == 0:
         flag = 1
@@ -41,6 +72,7 @@ def count_reps(model, pose_landmarks, reps, flag):
         flag = 0
 
     return reps, flag
+
 
 # For webcam input:
 def webcam_input(reps, flag):
@@ -82,5 +114,7 @@ def webcam_input(reps, flag):
             if cv2.waitKey(5) & 0xFF == 27:
                 break
 
+
+# Running main
 if __name__ == '__main__':
     webcam_input(reps, flag)
