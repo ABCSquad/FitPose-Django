@@ -55,7 +55,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
-            <a class="nav-link">Hello,
+            <a href="{% url 'profile' %}" class="nav-link">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" alt="user_img" height="30" width="30">
+              Hello,
             {{ user.username }}
             </a> 
             <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">Logout
