@@ -129,7 +129,7 @@ BICEP_RIGHT = frozenset([
     (PoseLandmark.LEFT_EYE, PoseLandmark.LEFT_EYE_OUTER),
     (PoseLandmark.LEFT_EYE_OUTER, PoseLandmark.LEFT_EAR),
     (PoseLandmark.MOUTH_RIGHT, PoseLandmark.MOUTH_LEFT),
-    (PoseLandmark.LEFT_SHOULDER, PoseLandmark.LEFT_ELBOW),
+    # (PoseLandmark.LEFT_SHOULDER, PoseLandmark.LEFT_ELBOW),
     (PoseLandmark.LEFT_ELBOW, PoseLandmark.LEFT_WRIST),
     (PoseLandmark.LEFT_WRIST, PoseLandmark.LEFT_PINKY),
     (PoseLandmark.LEFT_WRIST, PoseLandmark.LEFT_INDEX),
@@ -153,8 +153,8 @@ class Pose(SolutionBase):
                static_image_mode=False,
                upper_body_only=False,
                smooth_landmarks=True,
-               min_detection_confidence=0.5,
-               min_tracking_confidence=0.5):
+               min_detection_confidence=0.9,
+               min_tracking_confidence=0.9):
     """Initializes a MediaPipe Pose object.
 
     Args:

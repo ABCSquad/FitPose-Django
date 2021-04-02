@@ -73,7 +73,7 @@ def bicep_curl(image, keypoints, side, reps, rep_flag):
     stats = cv2.putText(stats, "Angle at "+ side +" elbow: "+ str(round(elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    stats, direction_flag = curl_posture(shoulder_angle, elbow_angle, stats, direction_flag)
+    image, stats, direction_flag = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag)
 
     if direction_flag == 1:
         image = curl_ball(keypoints, image, elbow_angle, "up", side)

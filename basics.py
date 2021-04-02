@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import cv2
+from body_parts import *
 
 #Angle using arctan2
 def angle(a,b,c):
@@ -20,6 +21,12 @@ def keypoint_angle(keypoints,a,b,c):
     a2,b2,c2 = np.array(list(a1)), np.array(list(b1)), np.array(list(c1))
     angle1 = angle(a2,b2,c2)
     return(angle1,a2,b2,c2)
+
+def keypoint_scale(image, position):
+    frame_height, frame_width = image.shape[:2]
+    position *= np.array([frame_width, frame_height])
+    position = np.around(position, 5).flatten().astype(np.int).tolist()  
+    return position
 
 def ohp_posture_right(right_deviation, flag_right, flag_wrong, stats):
     if right_deviation<10:
@@ -59,7 +66,21 @@ def ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats):
         stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
     return(stats, flag_right_left, flag_wrong_left)
 
-def curl_posture(shoulder_angle, elbow_angle, stats, direction_flag):
+def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag):
+
+    if side.lower() == "right":
+        shoulder_point = [keypoints[LEFT_SHOULDER]['X'], keypoints[LEFT_SHOULDER]["Y"]]
+        elbow_point = [keypoints[LEFT_ELBOW]['X'], keypoints[LEFT_ELBOW]["Y"]]
+        wrist_point = [keypoints[LEFT_WRIST]['X'], keypoints[LEFT_WRIST]["Y"]]
+    elif side.lower() == "left":
+        shoulder_point = [keypoints[RIGHT_SHOULDER]['X'], keypoints[RIGHT_SHOULDER]["Y"]]
+        elbow_point = [keypoints[RIGHT_ELBOW]['X'], keypoints[RIGHT_ELBOW]["Y"]]
+        wrist_point = [keypoints[RIGHT_WRIST]['X'], keypoints[RIGHT_WRIST]["Y"]]
+
+    shoulder_point = keypoint_scale(image, shoulder_point)
+    elbow_point = keypoint_scale(image, elbow_point)
+    wrist_point = keypoint_scale(image, wrist_point)
+
     if shoulder_angle>180:
         upper_arm_deviation = abs(shoulder_angle - 360)
     else:
@@ -77,11 +98,14 @@ def curl_posture(shoulder_angle, elbow_angle, stats, direction_flag):
         else:
             stats = cv2.putText(stats, "Lower your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
             direction_flag = 0
+        cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,255,0), 3)
     else:
         stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
         stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+        cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,0,255), 3)
+        direction_flag = -1
     
-    return(stats, direction_flag)
+    return(image, stats, direction_flag)
 
 def tricep_extension_posture(shoulder_angle, elbow_angle, stats):
     upper_arm_deviation = abs(shoulder_angle - 180)
