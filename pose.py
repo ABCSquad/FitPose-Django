@@ -66,7 +66,7 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      stats = tricep_extension(keypoints, "right")
+      image, stats, reps, rep_flags = bicep_curl(image, keypoints, "right", reps, rep_flag)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)

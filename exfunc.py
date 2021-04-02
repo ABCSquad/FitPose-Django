@@ -3,47 +3,16 @@ import math
 import cv2
 from basics import *
 from rep_counter import *
+from body_parts import *
+from ball_tracker import *
 
-
-NOSE = 0
-LEFT_EYE_INNER = 1
-LEFT_EYE = 2
-LEFT_EYE_OUTER = 3
-RIGHT_EYE_INNER = 4
-RIGHT_EYE = 5
-RIGHT_EYE_OUTER = 6
-LEFT_EAR = 7
-RIGHT_EAR = 8
-MOUTH_LEFT = 9
-MOUTH_RIGHT = 10
-LEFT_SHOULDER = 11
-RIGHT_SHOULDER = 12
-LEFT_ELBOW = 13
-RIGHT_ELBOW = 14
-LEFT_WRIST = 15
-RIGHT_WRIST = 16
-LEFT_PINKY = 17
-RIGHT_PINKY = 18
-LEFT_INDEX = 19
-RIGHT_INDEX = 20
-LEFT_THUMB = 21
-RIGHT_THUMB = 22
-LEFT_HIP = 23
-RIGHT_HIP = 24
-LEFT_KNEE = 25
-RIGHT_KNEE = 26
-LEFT_ANKLE = 27
-RIGHT_ANKLE = 28
-LEFT_HEEL = 29
-RIGHT_HEEL = 30
-LEFT_FOOT_INDEX = 31
-RIGHT_FOOT_INDEX = 32
 
 #Global flag declarations 
 flag_wrong = 0
 flag_right = 0
 flag_right_left = 0
 flag_wrong_left = 0
+direction_flag = -1
 
 def shoulder_press(keypoints, reps, rep_flag):
     global flag_wrong
@@ -82,7 +51,9 @@ def shoulder_press(keypoints, reps, rep_flag):
 
     return(stats, reps, rep_flag)
     
-def bicep_curl(keypoints, side, reps, rep_flag):
+def bicep_curl(image, keypoints, side, reps, rep_flag):
+    global direction_flag
+
     #Right hand angles calculation
     if side.lower() == "right":
       shoulder_angle, x, y, z = keypoint_angle(keypoints, LEFT_HIP, LEFT_SHOULDER, LEFT_ELBOW)
@@ -102,9 +73,14 @@ def bicep_curl(keypoints, side, reps, rep_flag):
     stats = cv2.putText(stats, "Angle at "+ side +" elbow: "+ str(round(elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    stats = curl_posture(shoulder_angle, elbow_angle, stats)
+    stats, direction_flag = curl_posture(shoulder_angle, elbow_angle, stats, direction_flag)
 
-    return(stats, reps, rep_flag)
+    if direction_flag == 1:
+        image = curl_ball(keypoints, image, elbow_angle, "up", side)
+    elif direction_flag == 0:
+        image = curl_ball(keypoints, image, elbow_angle, "down", side)
+    
+    return(image, stats, reps, rep_flag)
 
 def tricep_extension(keypoints, side):
     #Right hand angles calculation

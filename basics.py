@@ -59,7 +59,7 @@ def ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats):
         stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
     return(stats, flag_right_left, flag_wrong_left)
 
-def curl_posture(shoulder_angle, elbow_angle, stats):
+def curl_posture(shoulder_angle, elbow_angle, stats, direction_flag):
     if shoulder_angle>180:
         upper_arm_deviation = abs(shoulder_angle - 360)
     else:
@@ -70,16 +70,19 @@ def curl_posture(shoulder_angle, elbow_angle, stats):
         stats = cv2.putText(stats, "Your upper arm position is perfect", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
         if elbow_angle > 160:
             stats = cv2.putText(stats, "Lift your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+            direction_flag = 1
         elif elbow_angle < 160 and elbow_angle > 65:
             stats = cv2.putText(stats, "Your forearm posture is perfect", (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
             stats = cv2.putText(stats, "Complete the rep!", (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,0,0), 2, cv2.LINE_AA)
         else:
             stats = cv2.putText(stats, "Lower your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+            direction_flag = 0
+        print(direction_flag)
     else:
         stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
         stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
     
-    return(stats)
+    return(stats, direction_flag)
 
 def tricep_extension_posture(shoulder_angle, elbow_angle, stats):
     upper_arm_deviation = abs(shoulder_angle - 180)
