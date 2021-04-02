@@ -1,89 +1,103 @@
 <!doctype html>
 <html lang="en">
-  <head>
-      {% load static %}
-    <meta charset="utf-8">
-    <meta Aname="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.80.0">
-    <title>Home</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta Aname="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.80.0">
+  <title>Home</title>
 
-    
-<!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
 
 
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
       }
+    }
+  </style>
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
 
-    
-  </head>
-  <body>
-    
-<header>
-    
+</head>
+
+<body>
+
+  <header>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-loght">
-        
-        <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'logo.png' %}" height="35" width="35" class="d-inline-block align-top" alt="logo"> FitPose</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ms-auto">
-              {% if user.is_authenticated %}
-              <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
-              <form id="logout" method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <input type="hidden"/>
-              </form>
-            
-              {% else %}
-              <!-- <a class="nav-link " aria-current="page" href="#">Sign Up</a> -->
-              <a class="nav-link" href="{% url 'login' %}">Login</a>
-              {% endif %}
-            </div>
+
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'logo.png' %}" height="35" width="35" class="d-inline-block align-top" alt="logo">
+          FitPose</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+            <a class="nav-link">Hello,
+            {{ user.username }}
+            </a> 
+            <a class="nav-link" href="javascript:{document.getElementById('logout').submit()}">Logout
+            </a>
+            <form id="logout" method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden" />
+            </form>
+
+            {% else %}
+            <!-- <a class="nav-link " aria-current="page" href="#">Sign Up</a> -->
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </a>
+            {% endif %}
           </div>
         </div>
-        
-      </nav>
-    
-</header>
+      </div>
 
-<div class="container">
+    </nav>
+
+  </header>
+
+  <div class="container">
     {% block content %}
     {% endblock %}
-</div>
-
-<footer class="text-muted fixed-bottom py-5">
-  <div class="container text-center">
-    <p>Year {% now "Y" %}</p>
   </div>
-</footer>
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  <footer class="text-muted fixed-bottom py-5">
+    <div class="container text-center">
+      <p>Year {% now "Y" %}</p>
+    </div>
+  </footer>
 
-      
-  </body>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+  <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+
+
+</body>
+
 </html>
-

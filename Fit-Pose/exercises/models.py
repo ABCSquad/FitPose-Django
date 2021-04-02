@@ -18,8 +18,7 @@ class Exercise(models.Model):
     )
 
     title = models.CharField(max_length=25)
-    image = models.ImageField(upload_to='images/')
-    a_image = models.ImageField(upload_to='images/',default='none' )
+    image = models.ImageField(upload_to='exercises/')
     flair = models.CharField(default='none', max_length=25, choices=FLAIR_CHOICES)
 
     def __str__(self):
@@ -28,8 +27,8 @@ class Exercise(models.Model):
 
 class Detail(models.Model):
     title = models.CharField(max_length=25,default='none')
-    gif_1 =  models.ImageField(upload_to='images/',default='none' )
-    gif_2 =  models.ImageField(upload_to='images/',default='none' )
+    gif_1 =  models.ImageField(upload_to='gifs/',default='none' )
+    gif_2 =  models.ImageField(upload_to='gifs/',default='none' )
     step_1 = models.CharField(max_length=200)
     step_2 = models.CharField(max_length=200)
     step_3 = models.CharField(max_length=200)
