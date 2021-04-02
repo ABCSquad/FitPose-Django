@@ -5,6 +5,8 @@ import numpy as np
 import mediapipe as mp
 from exfunc import *
 from rep_counter import *
+import custom_drawing_utils
+import custom_pose
 
 # from rep_counter import *
 
@@ -17,8 +19,8 @@ reps = 0
 rep_flag = 0
 
 #time.sleep(5)
-mp_drawing = mp.solutions.drawing_utils
-mp_pose = mp.solutions.pose
+mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
+mp_pose = custom_pose
 
 # For webcam input:
 cap = WebcamVideoStream(src=0).start()
@@ -66,14 +68,14 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      image, stats, reps, rep_flags = bicep_curl(image, keypoints, "right", reps, rep_flag)
+      image, stats, reps, rep_flag = bicep_curl(image, keypoints, "right", reps, rep_flag)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
     if upper==False:  
       mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
     elif upper==True:
-      mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
+      mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_RIGHT)
     
     # print(flag_right_wrong,"", flag_right_correct)
 

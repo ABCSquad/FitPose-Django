@@ -36,7 +36,7 @@ def curl_reps(shoulder_angle, elbow_angle, reps, rep_flag):
         elif elbow_angle < 65 and rep_flag == 1:
             rep_flag = 0
             reps += 1
-
+            
     return reps, rep_flag
 
 
