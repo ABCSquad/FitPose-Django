@@ -159,5 +159,11 @@ Thumbs.db #thumbnail cache on Windows
 
 # End of https://www.toptal.com/developers/gitignore/api/django
 
-__pycache__/exfunc.cpython-39.pyc
+__pycache__/
 .vscode/
+.gitignore.swp
+dataset_in/
+.pose.py.swp
+.exfunc.py.swp
+.basics.py.swp
+renamer.py

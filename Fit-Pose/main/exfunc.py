@@ -73,6 +73,8 @@ def keypoint_angle(keypoints,a,b,c):
     return(angle1,a2,b2,c2)
 
 def shoulder_press(keypoints):
+
+    #Declaration of global flags
     global flag_wrong
     global flag_right
     global flag_right_left 
@@ -90,9 +92,13 @@ def shoulder_press(keypoints):
 
     #Image Processing
     stats = cv2.imread('white2.jpg') 
-    stats = cv2.putText(stats, 'Stats', (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    stats = cv2.putText(stats, 'Stats', (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+
+    #Angles of right hand
     stats = cv2.putText(stats, 'Angle at right shoulder : '+ str(round(right_shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
     stats = cv2.putText(stats, 'Angle at right elbow : '+ str(round(right_elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
+
+    #Deviation conditions
     if right_deviation<10:
       stats = cv2.putText(stats, 'Right deviation: '+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
       flag_right += 1
@@ -109,8 +115,12 @@ def shoulder_press(keypoints):
       elif flag_wrong>15:
         flag_right = 0
         stats = cv2.putText(stats, 'Fix your right hand form!', (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+
+    #Angles of left hand
     stats = cv2.putText(stats, 'Angle at left shoulder : '+ str(round(left_shoulder_angle,2)), (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
     stats = cv2.putText(stats, 'Angle at left elbow : '+ str(round(left_elbow_angle,2)), (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
+
+    #Deviation conditions
     if left_deviation<10:
       stats = cv2.putText(stats, 'Left deviation: '+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA) 
       flag_right_left += 1
@@ -127,5 +137,6 @@ def shoulder_press(keypoints):
       elif flag_wrong_left>15:
         flag_right_left  = 0
         stats = cv2.putText(stats, 'Fix your left hand form!', (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+
     return(right_shoulder_angle, right_elbow_angle, right_deviation, left_shoulder_angle, left_elbow_angle, left_deviation, stats)
     
