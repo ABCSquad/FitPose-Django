@@ -55,8 +55,9 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="#">
-                Logged in as <br><b>{{ user.username }}</b>
+                Logged in as: <br><b>{{ user.username }}</b>
               </a>
+              <hr>
               <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
               <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">
                 Logout
