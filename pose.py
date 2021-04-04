@@ -16,7 +16,7 @@ import custom_pose
 
 # Setting initial reps and flag to 0
 reps = 0
-rep_flag = 0
+rep_flag = -1
 
 #time.sleep(5)
 mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
