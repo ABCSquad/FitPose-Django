@@ -1,2 +1,2 @@
 # FitPose
-FitPose - A python based django fitness web application that estimates and corrects posture using the Detectron2 RCNN-50 keypoint estimation model
+FitPose - A python based django fitness web application that estimates and corrects posture using the MediaPose's BlazPose keypoint estimation and tracking model
