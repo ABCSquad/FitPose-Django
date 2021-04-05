@@ -51,7 +51,7 @@ def shoulder_press(keypoints, reps, rep_flag):
 
     return(stats, reps, rep_flag)
     
-def bicep_curl(image, keypoints, side, reps, rep_flag):
+def bicep_curl(image, keypoints, side, rep):
     global direction_flag
 
     #Right hand angles calculation
@@ -63,7 +63,7 @@ def bicep_curl(image, keypoints, side, reps, rep_flag):
       elbow_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, RIGHT_ELBOW, RIGHT_WRIST)
 
     #Rep counter
-    reps, rep_flag = curl_reps(shoulder_angle, elbow_angle, reps, rep_flag)
+    rep = curl_reps(shoulder_angle, elbow_angle, rep)
 
     #Blank white image to display stats
     stats = cv2.imread("white2.jpg") 
@@ -80,7 +80,7 @@ def bicep_curl(image, keypoints, side, reps, rep_flag):
     elif direction_flag == 0:
         image = curl_ball(keypoints, image, elbow_angle, "down", side)
     
-    return(image, stats, reps, rep_flag)
+    return(image, stats, rep)
 
 def tricep_extension(keypoints, side):
     #Right hand angles calculation

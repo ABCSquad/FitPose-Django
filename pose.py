@@ -14,9 +14,11 @@ import custom_pose
 # model_path = './models/knn_ohp'
 # model = load_model(model_path)
 
-# Setting initial reps and flag to 0
-reps = 0
-rep_flag = -1
+# Initializing variables related to reps as a dict
+rep = {}
+rep['no'] = 0
+rep['flag'] = -1
+rep['time'] = {}
 
 #time.sleep(5)
 mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
@@ -45,7 +47,7 @@ with mp_pose.Pose(
     image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
     # Display reps at down left corner
-    cv2.putText(image, f"Reps: {reps}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+    cv2.putText(image, f"Reps: {rep['no']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
@@ -68,7 +70,7 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      image, stats, reps, rep_flag = bicep_curl(image, keypoints, "right", reps, rep_flag)
+      image, stats, rep = bicep_curl(image, keypoints, "right", rep)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)

@@ -1,0 +1,201 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "assigned-burden",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import cv2\n",
+    "import time\n",
+    "from imutils.video import WebcamVideoStream\n",
+    "import numpy as np\n",
+    "import mediapipe as mp\n",
+    "from exfunc import *\n",
+    "from rep_counter import *\n",
+    "import custom_drawing_utils\n",
+    "import custom_pose\n",
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "# Setting initial reps and flag to 0\n",
+    "reps = 0\n",
+    "rep_flag = -1\n",
+    "rep_time = {}\n",
+    "\n",
+    "mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file\n",
+    "mp_pose = custom_pose\n",
+    "\n",
+    "# For webcam input:\n",
+    "cap = WebcamVideoStream(src=1).start()\n",
+    "\n",
+    "upper = True"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "saved-second",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "with mp_pose.Pose(\n",
+    "    static_image_mode=False,\n",
+    "    upper_body_only=upper,\n",
+    "    smooth_landmarks=True,\n",
+    "    min_detection_confidence=0.9,\n",
+    "    min_tracking_confidence=0.9) as pose:\n",
+    "  \n",
+    "  stats = cv2.imread(\"white2.jpg\") \n",
+    "\n",
+    "  while True:\n",
+    "    start = time.time()\n",
+    "    image = cap.read()\n",
+    "    # stats = cv2.imread(\"white2.jpg\") \n",
+    "    \n",
+    "    # Flip the image horizontally for a later selfie-view display, and convert\n",
+    "    # the BGR image to RGB.\n",
+    "    image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)\n",
+    "\n",
+    "    # Display reps at down left corner\n",
+    "    cv2.putText(image, f\"Reps: {reps}\", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)\n",
+    "\n",
+    "    # To improve performance, optionally mark the image as not writeable to\n",
+    "    # pass by reference.\n",
+    "    image.flags.writeable = False\n",
+    "    results = pose.process(image)\n",
+    "\n",
+    "    # Draw the pose annotation on the image.\n",
+    "    image.flags.writeable = True\n",
+    "    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)\n",
+    "    #Creating a uper_body_only yes/no state\n",
+    "\n",
+    "    #Creating a list of dictionaries of the keypoints (x,y,z,visibility)\n",
+    "    if results.pose_landmarks:\n",
+    "\n",
+    "      keypoints = []\n",
+    "      for data_point in results.pose_landmarks.landmark:\n",
+    "        keypoints.append({\n",
+    "          \"X\": data_point.x,\n",
+    "          \"Y\": data_point.y,\n",
+    "          \"Z\": data_point.z,\n",
+    "          \"Visibility\": data_point.visibility,\n",
+    "        })\n",
+    "      image, stats, reps, rep_flag = bicep_curl(image, keypoints, \"right\", reps, rep_flag, rep_time)\n",
+    "\n",
+    "    else:\n",
+    "      image = cv2.putText(image, \"Upper body not visible\", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)\n",
+    "    if upper==False:  \n",
+    "      mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)\n",
+    "    elif upper==True:\n",
+    "      mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_RIGHT)\n",
+    "    \n",
+    "    end = time.time()\n",
+    "    if stats is not None:\n",
+    "      cv2.imshow(\"Stats\", stats)\n",
+    "    image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)\n",
+    "    cv2.imshow('FitPose', image)\n",
+    "    if cv2.waitKey(5) & 0xFF == 27:\n",
+    "      break\n",
+    "    \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "comfortable-radio",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "rep_time2 = rep_time\n",
+    "rep_time = rep_time2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "hungry-departure",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1 8.356146335601807\n",
+      "2 1.8093891143798828\n",
+      "3 1.7166316509246826\n",
+      "4 1.5710151195526123\n",
+      "5 1.4299001693725586\n"
+     ]
+    }
+   ],
+   "source": [
+    "for i in range(1, reps):\n",
+    "#     rep_time[i] = rep_time[i+1] - rep_time[i]\n",
+    "    print(i, rep_time[i])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "productive-latex",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.collections.PathCollection at 0x7fd412515970>"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "plt.scatter(range(1, reps), list(rep_time.values())[:reps-1])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "commercial-canadian",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
