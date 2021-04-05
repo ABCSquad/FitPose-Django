@@ -3,20 +3,15 @@ import mediapipe as mp
 import time
 from imutils.video import VideoStream, WebcamVideoStream
 import numpy as np
-from exfunc import *
+from main.exfunc import *
 import argparse
 
-def main():
+def main_pose(cap):
   # if not (args.reps or args.duration):
   #   parser.error('No action requested, add --reps or --duration')
   #time.sleep(5)
   mp_drawing = mp.solutions.drawing_utils
   mp_pose = mp.solutions.pose
-
-
-
-  # For webcam input:
-  cap = VideoStream(src=0,resolution=(960,720)).start()
 
   #Upper body only (y/n)
   upper = True 
@@ -75,20 +70,11 @@ def main():
       
       end = time.time()
       #print(1/(end-start))
-      if stats is not None:
-        cv2.imshow('Stats', stats)
+      # if stats is not None:
+      #   cv2.imshow('Stats', stats)
       image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
-      cv2.imshow('MediaPipe Pose', image)
-      if cv2.waitKey(5) & 0xFF == 27:
-        break
+      # cv2.imshow('MediaPipe Pose', image)
+      # if cv2.waitKey(5) & 0xFF == 27:
+      #   break
       
-
-  cap.stop()
-
-if __name__=="__main__":
-  #Arguments for reps and durations for which exercise will run
-  parser = argparse.ArgumentParser(description='Termination information')
-  parser.add_argument('--reps', metavar='path', required=False, help='number of reps to stop after')
-  parser.add_argument('--duration', metavar='path', required=False, help='total time in seconds to stop after')
-  args = parser.parse_args()
-  main()
+      return image
