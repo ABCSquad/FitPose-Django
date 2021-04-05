@@ -37,7 +37,7 @@ class DrawingSpec:
   # Color for drawing the annotation. Default to the green color.
   color: Tuple[int, int, int] = (0, 255, 0)
   # Thickness for drawing the annotation. Default to 2 pixels.
-  thickness: int = 2
+  thickness: int = 1
   # Circle radius. Default to 2 pixels.
   circle_radius: int = 2
 
@@ -64,7 +64,7 @@ def _normalized_to_pixel_coordinates(
 def draw_detection(
     image: np.ndarray,
     detection: detection_pb2.Detection,
-    keypoint_drawing_spec: DrawingSpec = DrawingSpec(color=RED_COLOR),
+    keypoint_drawing_spec: DrawingSpec = DrawingSpec(color=(RED_COLOR)),
     bbox_drawing_spec: DrawingSpec = DrawingSpec()):
   """Draws the detction bounding box and keypoints on the image.
 
@@ -116,7 +116,7 @@ def draw_landmarks(
     image: np.ndarray,
     landmark_list: landmark_pb2.NormalizedLandmarkList,
     connections: List[Tuple[int, int]] = None,
-    landmark_drawing_spec: DrawingSpec = DrawingSpec(color=RED_COLOR),
+    landmark_drawing_spec: DrawingSpec = DrawingSpec(color=(RED_COLOR)),
     connection_drawing_spec: DrawingSpec = DrawingSpec(color=WHITE_COLOR)):
   """Draws the landmarks and the connections on the image.
 

@@ -86,7 +86,7 @@ def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, dir
     else:
         upper_arm_deviation = shoulder_angle
 
-    if shoulder_angle<13 or shoulder_angle>355:
+    if shoulder_angle<13 or shoulder_angle>350:
         stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
         stats = cv2.putText(stats, "Your upper arm position is perfect", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
         if elbow_angle > 160:
@@ -110,7 +110,7 @@ def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, dir
 def tricep_extension_posture(shoulder_angle, elbow_angle, stats):
     upper_arm_deviation = abs(shoulder_angle - 180)
     
-    if shoulder_angle>160 and shoulder_angle<180:
+    if shoulder_angle>150 and shoulder_angle<190:
         stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
         stats = cv2.putText(stats, "Your upper arm position is perfect", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
         if elbow_angle < 70:

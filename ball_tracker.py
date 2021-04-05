@@ -1,6 +1,8 @@
 import cv2
 from body_parts import *
 import numpy as np
+import math
+from basics import *
 
 #Function maps a range a to b and returns the output for a value 's' from range a
 def maprange(a, b, s):
@@ -13,10 +15,10 @@ def curl_ball(keypoints, image, angle, movement, side):
     #Condition that changes the colour and thickness according to the motion of the hand
     if movement.lower() == "up":
         value = maprange((160, 65), (0, 255), angle)
-        thickness = maprange((160, 65), (20, 60), angle)
+        thickness = maprange((160, 65), (20, 40), angle)
     elif movement.lower() == "down":
         value = maprange((65, 160), (0, 255), angle)
-        thickness = maprange((65, 160), (20, 60), angle)
+        thickness = maprange((65, 160), (20, 40), angle)
 
     #Changing the elbow according the which hand is being used
     if side.lower() == "left":
@@ -38,6 +40,20 @@ def curl_ball(keypoints, image, angle, movement, side):
     cv2.circle(image, tuple(position), 1, color, int(thickness))
 
     return image
+
+def draw_vector(image, keypoints, draw_angle, side):
+    length = 150
+    if side.lower() == 'right':
+        p1 = (keypoints[LEFT_ELBOW]["X"],keypoints[LEFT_ELBOW]["Y"])
+    elif side.lower() == 'left':
+        p1 = (keypoints[RIGHT_ELBOW]["X"],keypoints[RIGHT_ELBOW]["Y"])
+    p1 = keypoint_scale(image, p1)
+    p2 =  (int(p1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0))))   
+
+    return p1, p2
+
+
+
 
 
 
