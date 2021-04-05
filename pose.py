@@ -15,10 +15,10 @@ import custom_pose
 # model = load_model(model_path)
 
 # Initializing variables related to reps as a dict
-rep = {}
-rep['no'] = 0
-rep['flag'] = -1
-rep['time'] = {}
+reps = {}
+reps['count'] = 0
+reps['flag'] = -1
+reps['time'] = {}
 
 #time.sleep(5)
 mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
@@ -47,7 +47,7 @@ with mp_pose.Pose(
     image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
     # Display reps at down left corner
-    cv2.putText(image, f"Reps: {rep['no']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+    cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
@@ -70,7 +70,7 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      image, stats, rep = bicep_curl(image, keypoints, "right", rep)
+      image, stats, reps = bicep_curl(image, keypoints, "right", reps)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -85,7 +85,7 @@ with mp_pose.Pose(
     # pose_landmarks = results.pose_landmarks
     # if pose_landmarks is not None:
       # pose_landmarks = reshape_landmarks(pose_landmarks)
-      # reps, rep_flag = count_reps(model, pose_landmarks, reps, rep_flag)
+      # reps, reps_flag = count_reps(model, pose_landmarks, reps, reps_flag)
     
     end = time.time()
     #print(1/(end-start))
