@@ -137,6 +137,24 @@ BICEP_CURL_LEFT = frozenset([
     (PoseLandmark.RIGHT_PINKY, PoseLandmark.RIGHT_INDEX),
     (PoseLandmark.RIGHT_SHOULDER, PoseLandmark.RIGHT_HIP),
 ])
+
+OHP = frozenset([
+    (PoseLandmark.RIGHT_SHOULDER, PoseLandmark.LEFT_SHOULDER),
+    (PoseLandmark.RIGHT_SHOULDER, PoseLandmark.RIGHT_ELBOW),
+    (PoseLandmark.RIGHT_ELBOW, PoseLandmark.RIGHT_WRIST),
+    (PoseLandmark.RIGHT_WRIST, PoseLandmark.RIGHT_PINKY),
+    (PoseLandmark.RIGHT_WRIST, PoseLandmark.RIGHT_INDEX),
+    (PoseLandmark.RIGHT_WRIST, PoseLandmark.RIGHT_THUMB),
+    (PoseLandmark.RIGHT_PINKY, PoseLandmark.RIGHT_INDEX),
+    (PoseLandmark.LEFT_SHOULDER, PoseLandmark.LEFT_ELBOW),
+    (PoseLandmark.LEFT_ELBOW, PoseLandmark.LEFT_WRIST),
+    (PoseLandmark.LEFT_WRIST, PoseLandmark.LEFT_PINKY),
+    (PoseLandmark.LEFT_WRIST, PoseLandmark.LEFT_INDEX),
+    (PoseLandmark.LEFT_WRIST, PoseLandmark.LEFT_THUMB),
+    (PoseLandmark.LEFT_PINKY, PoseLandmark.LEFT_INDEX),
+    (PoseLandmark.RIGHT_SHOULDER, PoseLandmark.RIGHT_HIP),
+    (PoseLandmark.LEFT_SHOULDER, PoseLandmark.LEFT_HIP),
+])
     
 
 class Pose(SolutionBase):

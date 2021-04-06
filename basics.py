@@ -28,8 +28,14 @@ def keypoint_scale(image, position):
     position = np.around(position, 5).flatten().astype(np.int).tolist()  
     return position
 
+#Function maps a range a to b and returns the output for a value 's' from range a
+def maprange(a, b, s):
+    (a1, a2), (b1, b2) = a, b
+    return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+
+
 #Function to draw vector given a start keypoint and an angle wrt positive x axis
-def draw_vector(image, keypoints, direction_flag, side):
+def draw_vector_bicep_curl(image, keypoints, direction_flag, side):
     length = 150
     if side.lower() == 'right':
         p1 = (keypoints[LEFT_ELBOW]["X"],keypoints[LEFT_ELBOW]["Y"])
@@ -48,7 +54,28 @@ def draw_vector(image, keypoints, direction_flag, side):
 
     return p1, p2
 
-#Function maps a range a to b and returns the output for a value 's' from range a
-def maprange(a, b, s):
-    (a1, a2), (b1, b2) = a, b
-    return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+#Function to draw vector given a start keypoint and an angle wrt positive x axis
+def draw_vector_ohp(image, keypoints, direction_flag, hand):
+    length = 100
+    
+    if hand.lower() == "right":
+        p1 = (keypoints[LEFT_SHOULDER]["X"],keypoints[LEFT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle = 80
+        elif direction_flag == 0:
+            draw_angle = 350
+    elif hand.lower() == "left":
+        p1 = (keypoints[RIGHT_SHOULDER]["X"],keypoints[RIGHT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle = 100
+        elif direction_flag == 0:
+            draw_angle = 190
+    
+    p1 = keypoint_scale(image, p1)
+    p2 =  (int(p1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0)))) 
+
+    q1 = p2
+    q2 =  (int(q1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0)))) 
+
+
+    return p1, p2, q1, q2

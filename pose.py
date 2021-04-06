@@ -5,7 +5,6 @@ import numpy as np
 import mediapipe as mp
 from exfunc import *
 from rep_counter import *
-from landmark_set import *
 
 import custom_drawing_utils
 import custom_pose
@@ -28,7 +27,7 @@ mp_pose = custom_pose
 
 full_keypoints = False
 upper = False                       #Requires full_keypoints to be True
-exercise_name = "BICEP_CURL"        #Requires full keypoints to be False
+exercise_name = "ohp"               #Requires full keypoints to be False
 side = "right"                      #Requires full keypoints to be False and exercise name to have a value
                  
 # For webcam input:
@@ -77,7 +76,7 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      image, stats, reps = bicep_curl(image, keypoints, side, reps)
+      image, stats, reps = shoulder_press(image, keypoints, reps)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -93,11 +92,15 @@ with mp_pose.Pose(
     
     #Exercise specific
     elif full_keypoints == False:
+
       if exercise_name.lower() == "bicep_curl":
           if side.lower() == "right":
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_RIGHT)
           elif side.lower() == "left":
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_LEFT)
+
+      if exercise_name.lower() == "ohp":
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.OHP)
 
     
     
