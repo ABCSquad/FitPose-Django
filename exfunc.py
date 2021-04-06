@@ -4,7 +4,7 @@ import cv2
 from basics import *
 from rep_counter import *
 from body_parts import *
-from ball_tracker import *
+from posture_basics import *
 
 
 #Global flag declarations 
@@ -14,11 +14,12 @@ flag_right_left = 0
 flag_wrong_left = 0
 direction_flag = -1
 
-def shoulder_press(keypoints, reps):
+def shoulder_press(image, keypoints, reps):
     global flag_wrong
     global flag_right
     global flag_right_left 
     global flag_wrong_left
+    global direction_flag
 
     #Right hand angle and deviation calculation
     right_shoulder_angle, x, y, z = keypoint_angle(keypoints, LEFT_ELBOW, LEFT_SHOULDER, LEFT_HIP)
@@ -33,6 +34,7 @@ def shoulder_press(keypoints, reps):
     #Rep counter
     reps = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps)
 
+
     #Blank white image to display stats
     stats = cv2.imread("white2.jpg") 
 
@@ -42,6 +44,22 @@ def shoulder_press(keypoints, reps):
     
     #Evaluating the posture for the right hand using a function
     stats, flag_right, flag_wrong = ohp_posture_right(right_deviation, flag_right, flag_wrong, stats)
+
+    #Condition to draw target vectors according to the hand motion direction 
+    if reps['flag'] == 1:
+      p1, p2, q1, q2 = draw_vector_ohp(image, keypoints, reps["flag"], "right")
+      value = maprange((90, 0), (0, 255), 170 - right_elbow_angle)
+      yellow = 255 - value
+      green = 0 + value
+      cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
+      cv2.line(image, tuple(q1), q2, (0,green,yellow), 2)
+    if reps['flag'] == 0:
+      p1, p2, q1, q2 = draw_vector_ohp(image, keypoints, reps["flag"], "right")
+      value = maprange((0, 90), (0, 255), 170 - right_elbow_angle)
+      yellow = 255 - value
+      green = 0 + value
+      cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
+      cv2.line(image, tuple(q1), q2, (0,green,yellow), 2)
     
     stats = cv2.putText(stats, "Angle at left shoulder : "+ str(round(left_shoulder_angle,2)), (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
     stats = cv2.putText(stats, "Angle at left elbow : "+ str(round(left_elbow_angle,2)), (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
@@ -49,7 +67,7 @@ def shoulder_press(keypoints, reps):
     #Evaluating the posture for the left hand using a function
     stats, flag_right_left, flag_wrong_left = ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats)
 
-    return(stats, reps)
+    return(image, stats, reps)
     
 def bicep_curl(image, keypoints, side, reps):
     global direction_flag
@@ -75,14 +93,15 @@ def bicep_curl(image, keypoints, side, reps):
     #Evaluating the posture for the right hand using a function
     image, stats, direction_flag = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag)
 
+    #Condition to draw target vectors according to the hand motion direction
     if direction_flag == 1:
-        p1, p2 = draw_vector(image, keypoints, 155, "right")
+        p1, p2 = draw_vector_bicep_curl(image, keypoints, direction_flag, side)
         value = maprange((95, 0), (0, 255), elbow_angle-65)
         yellow = 255 - value
         green = 0 + value
         cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
     elif direction_flag == 0:
-        p1, p2 = draw_vector(image, keypoints, 230, "right")
+        p1, p2 = draw_vector_bicep_curl(image, keypoints, direction_flag, side)
         value = maprange((0, 95), (0, 255), elbow_angle-65)
         yellow = 255 - value
         green = 0 + value
