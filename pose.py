@@ -19,13 +19,15 @@ reps = {}
 reps['count'] = 0
 reps['flag'] = -1
 reps['time'] = {}
+reps['correct_form'] = {}
+reps['wrong_form'] = {}
 
 #time.sleep(5)
 mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
 mp_pose = custom_pose
 
 # For webcam input:
-cap = WebcamVideoStream(src=0).start()
+cap = WebcamVideoStream(src=1).start()
 
 upper = True
 with mp_pose.Pose(
