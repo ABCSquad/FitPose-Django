@@ -25,7 +25,7 @@ mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing
 mp_pose = custom_pose
 
 # For webcam input:
-cap = WebcamVideoStream(src=1).start()
+cap = WebcamVideoStream(src=0).start()
 
 upper = True
 with mp_pose.Pose(

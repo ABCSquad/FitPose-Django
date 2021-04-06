@@ -76,9 +76,17 @@ def bicep_curl(image, keypoints, side, reps):
     image, stats, direction_flag = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag)
 
     if direction_flag == 1:
-        image = curl_ball(keypoints, image, elbow_angle, "up", side)
+        p1, p2 = draw_vector(image, keypoints, 155, "right")
+        value = maprange((95, 0), (0, 255), elbow_angle-65)
+        yellow = 255 - value
+        green = 0 + value
+        cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
     elif direction_flag == 0:
-        image = curl_ball(keypoints, image, elbow_angle, "down", side)
+        p1, p2 = draw_vector(image, keypoints, 230, "right")
+        value = maprange((0, 95), (0, 255), elbow_angle-65)
+        yellow = 255 - value
+        green = 0 + value
+        cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
     
     return(image, stats, reps)
 
