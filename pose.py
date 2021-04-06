@@ -5,6 +5,8 @@ import numpy as np
 import mediapipe as mp
 from exfunc import *
 from rep_counter import *
+from landmark_set import *
+
 import custom_drawing_utils
 import custom_pose
 
@@ -24,10 +26,15 @@ reps['time'] = {}
 mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
 mp_pose = custom_pose
 
+full_keypoints = False
+upper = False                       #Requires full_keypoints to be True
+exercise_name = "BICEP_CURL"        #Requires full keypoints to be False
+side = "right"                      #Requires full keypoints to be False and exercise name to have a value
+                 
 # For webcam input:
 cap = WebcamVideoStream(src=0).start()
 
-upper = True
+
 with mp_pose.Pose(
     static_image_mode=False,
     upper_body_only=upper,
@@ -70,14 +77,29 @@ with mp_pose.Pose(
           "Z": data_point.z,
           "Visibility": data_point.visibility,
         })
-      image, stats, reps = bicep_curl(image, keypoints, "right", reps)
+      image, stats, reps = bicep_curl(image, keypoints, side, reps)
 
     else:
       image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
-    if upper==False:  
-      mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-    elif upper==True:
-      mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_RIGHT)
+    
+
+    #Conditions to decide on which keypoint connections frozenset to use
+    #Upper body only/Full body
+    if full_keypoints == True:
+      if upper==True:  
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+      elif upper==False:
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
+    
+    #Exercise specific
+    elif full_keypoints == False:
+      if exercise_name.lower() == "bicep_curl":
+          if side.lower() == "right":
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_RIGHT)
+          elif side.lower() == "left":
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_LEFT)
+
+    
     
     # print(flag_right_wrong,"", flag_right_correct)
 
@@ -88,7 +110,6 @@ with mp_pose.Pose(
       # reps, reps_flag = count_reps(model, pose_landmarks, reps, reps_flag)
     
     end = time.time()
-    #print(1/(end-start))
     if stats is not None:
       cv2.imshow("Stats", stats)
     image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)

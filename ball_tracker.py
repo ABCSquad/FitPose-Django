@@ -1,13 +1,8 @@
 import cv2
 from body_parts import *
 import numpy as np
-import math
 from basics import *
-
-#Function maps a range a to b and returns the output for a value 's' from range a
-def maprange(a, b, s):
-    (a1, a2), (b1, b2) = a, b
-    return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+import posture_basics
 
 #Function for ball tracking for bicep curls
 def curl_ball(keypoints, image, angle, movement, side):
@@ -40,25 +35,3 @@ def curl_ball(keypoints, image, angle, movement, side):
     cv2.circle(image, tuple(position), 1, color, int(thickness))
 
     return image
-
-def draw_vector(image, keypoints, draw_angle, side):
-    length = 150
-    if side.lower() == 'right':
-        p1 = (keypoints[LEFT_ELBOW]["X"],keypoints[LEFT_ELBOW]["Y"])
-    elif side.lower() == 'left':
-        p1 = (keypoints[RIGHT_ELBOW]["X"],keypoints[RIGHT_ELBOW]["Y"])
-    p1 = keypoint_scale(image, p1)
-    p2 =  (int(p1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0))))   
-
-    return p1, p2
-
-
-
-
-
-
-
-
-
-
-

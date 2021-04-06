@@ -4,7 +4,7 @@ import cv2
 from basics import *
 from rep_counter import *
 from body_parts import *
-from ball_tracker import *
+from posture_basics import *
 
 
 #Global flag declarations 
@@ -75,14 +75,15 @@ def bicep_curl(image, keypoints, side, reps):
     #Evaluating the posture for the right hand using a function
     image, stats, direction_flag = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag)
 
+    #Condition to draw target vectors according to the hand motion direction
     if direction_flag == 1:
-        p1, p2 = draw_vector(image, keypoints, 155, "right")
+        p1, p2 = draw_vector(image, keypoints, direction_flag, side)
         value = maprange((95, 0), (0, 255), elbow_angle-65)
         yellow = 255 - value
         green = 0 + value
         cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
     elif direction_flag == 0:
-        p1, p2 = draw_vector(image, keypoints, 230, "right")
+        p1, p2 = draw_vector(image, keypoints, direction_flag, side)
         value = maprange((0, 95), (0, 255), elbow_angle-65)
         yellow = 255 - value
         green = 0 + value
