@@ -61,21 +61,27 @@ def draw_vector_ohp(image, keypoints, direction_flag, hand):
     if hand.lower() == "right":
         p1 = (keypoints[LEFT_SHOULDER]["X"],keypoints[LEFT_SHOULDER]["Y"])
         if direction_flag == 1:
-            draw_angle = 80
+            draw_angle1 = 80
+            draw_angle2 = 90
         elif direction_flag == 0:
-            draw_angle = 350
+            draw_angle1 = 350
+            draw_angle2 = 90
     elif hand.lower() == "left":
         p1 = (keypoints[RIGHT_SHOULDER]["X"],keypoints[RIGHT_SHOULDER]["Y"])
         if direction_flag == 1:
-            draw_angle = 100
+            draw_angle1 = 100
+            draw_angle2 = 90
         elif direction_flag == 0:
-            draw_angle = 190
+            draw_angle1 = 190
+            draw_angle2 = 90
     
     p1 = keypoint_scale(image, p1)
-    p2 =  (int(p1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0)))) 
+    p2 =  (int(p1[0] + length* math.cos(draw_angle1 * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle1 * (math.pi/180.0)))) 
 
     q1 = p2
-    q2 =  (int(q1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0)))) 
-
+    if direction_flag == 1:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0)))) 
+    if direction_flag == 0:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0))))
 
     return p1, p2, q1, q2

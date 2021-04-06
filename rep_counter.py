@@ -11,7 +11,7 @@ def checkForm(dict, key):
 # Counting reps for ohp
 def ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps):
 
-    if right_deviation < 10 and left_deviation < 10:
+    if right_deviation < 15 and left_deviation < 15:
 
         if right_shoulder_angle < 90 and left_shoulder_angle < 90 and reps['flag'] == 0:
             reps['flag'] = 1
