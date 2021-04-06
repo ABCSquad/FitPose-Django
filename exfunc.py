@@ -67,6 +67,22 @@ def shoulder_press(image, keypoints, reps):
     #Evaluating the posture for the left hand using a function
     stats, flag_right_left, flag_wrong_left = ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats)
 
+    #Condition to draw target vectors according to the hand motion direction 
+    if reps['flag'] == 1:
+      p1, p2, q1, q2 = draw_vector_ohp(image, keypoints, reps["flag"], "left")
+      value = maprange((90, 0), (0, 255), 170 - left_elbow_angle)
+      yellow = 255 - value
+      green = 0 + value
+      cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
+      cv2.line(image, tuple(q1), q2, (0,green,yellow), 2)
+    if reps['flag'] == 0:
+      p1, p2, q1, q2 = draw_vector_ohp(image, keypoints, reps["flag"], "left")
+      value = maprange((0, 90), (0, 255), 170 - left_elbow_angle)
+      yellow = 255 - value
+      green = 0 + value
+      cv2.line(image, tuple(p1), p2, (0,green,yellow), 2)
+      cv2.line(image, tuple(q1), q2, (0,green,yellow), 2)
+
     return(image, stats, reps)
     
 def bicep_curl(image, keypoints, side, reps):
