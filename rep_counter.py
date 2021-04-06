@@ -1,7 +1,15 @@
 # Imports
 import time
 
-# This function counts no. of frames in correct or wrong form for each rep
+# Initializing variables related to reps in a dict
+def initialize_reps(reps):
+    reps['count'] = 0
+    reps['flag'] = -1
+    reps['time'] = {}
+    reps['correct_form'] = {}
+    reps['wrong_form'] = {}
+
+# For counting no. of frames in correct or wrong form for each rep
 def checkForm(dict, key):
     if key in dict:
         dict[key] += 1

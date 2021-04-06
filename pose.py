@@ -11,17 +11,9 @@ from rep_counter import *
 import custom_drawing_utils
 import custom_pose
 
-# Initializing variables related to reps in a dict
-def initialize_reps(reps):
-    reps['count'] = 0
-    reps['flag'] = -1
-    reps['time'] = {}
-    reps['correct_form'] = {}
-    reps['wrong_form'] = {}
-
-def main():
+reps = {}
+def main(reps):
     
-    reps = {}
     initialize_reps(reps)
 
     mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
@@ -31,7 +23,7 @@ def main():
     upper = False                       #Requires full_keypoints to be True
     exercise_name = "bicep_curl"               #Requires full keypoints to be False
     side = "right"                      #Requires full keypoints to be False and exercise name to have a value
-                     
+    
     # For webcam input:
     cap = WebcamVideoStream(src=1).start()
 
@@ -113,4 +105,4 @@ def main():
           break
 
 if __name__ == "__main__":
-    main()
+    main(reps)
