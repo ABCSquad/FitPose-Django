@@ -69,7 +69,8 @@ p {
   font-family: "Raleway", sans-serif;
   width: 100%;
   height: 100vh;
-  background: url("/static/img/heroobg.jpg");
+  background-image: linear-gradient(rgb(142, 202, 230), rgb(142, 202, 230)),
+    url(/static/img/);
   background-size: cover;
 }
 #hero .container {
