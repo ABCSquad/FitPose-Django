@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import cv2
 from body_parts import *
 
 #Angle using arctan2
@@ -32,6 +33,29 @@ def keypoint_scale(image, position):
 def maprange(a, b, s):
     (a1, a2), (b1, b2) = a, b
     return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+  
+def dotted_line(img,pt1,pt2,color,thickness, gap):
+    pts = [pt1, pt2] 
+
+    s=pts[0]
+    e=pts[0]
+    pts.append(pts.pop(0))
+    for p in pts:
+        s=e
+        e=p
+        dist =((pt1[0]-pt2[0])**2+(pt1[1]-pt2[1])**2)**.5
+        pts= []
+        for i in  np.arange(0,dist,gap):
+            r=i/dist
+            x=int((pt1[0]*(1-r)+pt2[0]*r)+.5)
+            y=int((pt1[1]*(1-r)+pt2[1]*r)+.5)
+            p = (x,y)
+            pts.append(p)
+            for i in range(len(pts)-1):
+            #cv2.circle(img,p,thickness,color,-1)
+                if i%2 == 0:
+                    cv2.line(img, pts[i], pts[i+1], color, thickness)
+
 
 
 #Function to draw vector given a start keypoint and an angle wrt positive x axis
@@ -74,6 +98,37 @@ def draw_vector_ohp(image, keypoints, direction_flag, hand):
         elif direction_flag == 0:
             draw_angle1 = 190
             draw_angle2 = 90
+    
+    p1 = keypoint_scale(image, p1)
+    p2 =  (int(p1[0] + length* math.cos(draw_angle1 * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle1 * (math.pi/180.0)))) 
+
+    q1 = p2
+    if direction_flag == 1:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0)))) 
+    if direction_flag == 0:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0))))
+
+    return p1, p2, q1, q2
+
+def draw_vector_lateral(image, keypoints, direction_flag, hand):
+    length = 100
+    
+    if hand.lower() == "right":
+        p1 = (keypoints[LEFT_SHOULDER]["X"],keypoints[LEFT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle1 = 10
+            draw_angle2 = 12
+        elif direction_flag == 0:
+            draw_angle1 = 280
+            draw_angle2 = 275
+    elif hand.lower() == "left":
+        p1 = (keypoints[RIGHT_SHOULDER]["X"],keypoints[RIGHT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle1 = 170
+            draw_angle2 = 168
+        elif direction_flag == 0:
+            draw_angle1 = 260
+            draw_angle2 = 265
     
     p1 = keypoint_scale(image, p1)
     p2 =  (int(p1[0] + length* math.cos(draw_angle1 * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle1 * (math.pi/180.0)))) 

@@ -104,3 +104,22 @@ def curl_reps(shoulder_angle, elbow_angle, reps):
         form_increment(reps,'wrong_form')
             
     return reps
+
+# Counting reps for lateral raises
+def lateral_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps):
+
+    check_key(reps['correct_form'],reps['wrong_form'],reps['count'])
+
+    if right_deviation < 15 and left_deviation < 15:
+        form_increment(reps,'correct_form')
+
+        if right_shoulder_angle < 20 and left_shoulder_angle < 20 and (reps['flag'] == 0 or reps['flag'] == -1):
+            rep_increment(reps)
+
+        elif right_shoulder_angle > 90 and left_shoulder_angle > 90 and reps['flag'] == 1:
+            reps['flag'] = 0
+
+    else:
+        form_increment(reps,'wrong_form')
+
+    return reps
