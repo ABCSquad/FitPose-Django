@@ -29,7 +29,7 @@ def main():
 
     full_keypoints = False
     upper = False                       #Requires full_keypoints to be True
-    exercise_name = "ohp"               #Requires full keypoints to be False
+    exercise_name = "lateral_raise"     #Requires full keypoints to be False
     side = "right"                      #Requires full keypoints to be False and exercise name to have a value
                      
     # For webcam input:
@@ -78,7 +78,7 @@ def main():
               "Z": data_point.z,
               "Visibility": data_point.visibility,
             })
-          image, stats, reps = shoulder_press(image, keypoints, reps)
+          image, stats, reps = lateral_raise(image, keypoints, reps)
 
         else:
           image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -102,7 +102,7 @@ def main():
               elif side.lower() == "left":
                 mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_LEFT)
 
-          if exercise_name.lower() == "ohp":
+          if exercise_name.lower() == "ohp" or exercise_name.lower() == "lateral_raise":
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.OHP)
         
         end = time.time()
