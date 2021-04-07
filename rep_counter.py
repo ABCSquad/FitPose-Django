@@ -2,8 +2,10 @@
 import time
 
 
-# HELPER FUNCITONS -
-# These functions are called and used within or surrounding the exercise specific functions to aid them in carrying out their different operations.
+'''
+HELPER FUNCITONS -
+These functions are called and used within or surrounding the exercise specific functions to aid them in carrying out their different operations.
+'''
 
 
 # Initializing variables related to reps in a dict
@@ -30,8 +32,17 @@ def get_rep_time(reps):
         reps['time'][i] = reps['timestamp'][i+1] - reps['timestamp'][i]
 
 
-# EXERCISE SPECIFIC FUNCITONS - 
-# These functions are directly called by the main program depending on the exercise that the user selects and wishes to perform.
+# For converting dict values from no. of frames to time in seconds
+def frames_to_time(reps):
+    for i in range(1, reps['count']):
+        reps['correct_form'][i] = reps['time'][i] * reps['correct_form'][i] / (reps['correct_form'][i] + reps['wrong_form'][i])
+        reps['wrong_form'][i] = reps['time'][i] - reps['correct_form'][i]
+
+
+'''
+EXERCISE SPECIFIC FUNCITONS - 
+These functions are directly called by the main program depending on the exercise that the user selects and wishes to perform.
+'''
 
 
 # Counting reps for ohp

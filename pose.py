@@ -104,6 +104,7 @@ def main(reps):
         cv2.imshow('FitPose', image)
         if cv2.waitKey(5) & 0xFF == 27:
           get_rep_time(reps)
+          frames_to_time(reps)
           break
 
 if __name__ == "__main__":
