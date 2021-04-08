@@ -21,7 +21,7 @@ def main(reps):
 
     full_keypoints = False
     upper = False                       #Requires full_keypoints to be True
-    exercise_name = "lateral_raise"     #Requires full keypoints to be False
+    exercise_name = "bicep_curl"     #Requires full keypoints to be False
     side = "right"                      #Requires full keypoints to be False and exercise name to have a value
     
     # For webcam input:
@@ -70,7 +70,7 @@ def main(reps):
               "Z": data_point.z,
               "Visibility": data_point.visibility,
             })
-          image, stats, reps = lateral_raise(image, keypoints, reps)
+          image, stats, reps = bicep_curl(image, keypoints, 'right', reps)
 
         else:
           image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
