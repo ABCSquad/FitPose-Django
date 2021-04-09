@@ -14,38 +14,34 @@ def initialize_reps(reps):
     reps['flag'] = -1
     reps['timestamp'] = {}
     reps['time'] = {}
+    reps['frame'] = 0
     reps['correct_form'] = {}
     reps['wrong_form'] = {}
+    reps['frame_form'] = {}
 
 
-# For initializing correct_form and wrong_form dicts for each succesful rep 
-def check_key(dict1, dict2, key):
-    if key not in dict1:
-        dict1[key] = 0
-    if key not in dict2:
-        dict2[key] = 0
+# For checking if key exists in dict
+def check_key(dict, key, value):
+    if key not in dict:
+        dict[key] = value
 
 
-# For converting starting timestamps of reps to time taken for each rep
-def get_rep_time(reps):
-    for i in range(reps['count']):
-        if reps['count'] >= 0:
-            reps['time'][i+1] = reps['timestamp'][i+1] - reps['timestamp'][i]
+# To initialize dicts values for correct_form, wrong_form and frame_form
+def initialize_dicts(reps):
+    if reps['count'] >= 0:
+        check_key(reps['correct_form'],reps['count'],0)
+        check_key(reps['wrong_form'],reps['count'],0)
+        check_key(reps['frame_form'],reps['count'],{})
 
 
-# For converting dict values from no. of frames to time in seconds
-def frames_to_time(reps):
-    for i in range(reps['count']):
-        if reps['count'] >= 0:
-            reps['correct_form'][i] = reps['time'][i+1] * reps['correct_form'][i] / (reps['correct_form'][i] + reps['wrong_form'][i])
-            reps['wrong_form'][i] = reps['time'][i+1] - reps['correct_form'][i]
-
-
-# For incrementing value of correct form or wrong form after the user has assumed initial stance and the exercise has commenced
+# For incrementing value (which is the no. of frames) of correct form or wrong form after the user has assumed initial stance and the exercise has commenced
+# Also for checking form in each frame for each rep
 def form_increment(reps, form):
-        if reps['count'] >= 0:
-            reps[form][reps['count']] += 1
-
+    if reps['count'] >= 0:
+        reps[form][reps['count']] += 1
+        reps['frame_form'][reps['count']][reps['frame']] = form
+        reps['frame'] += 1
+            
 
 # For incrementng rep count and changing related variables once a succesful rep has been executed
 def rep_increment(reps):
@@ -54,9 +50,17 @@ def rep_increment(reps):
     reps['timestamp'][reps['count']] = time.time()
 
 
+# For converting correct_form and wrong_form values from no. of frames to time in seconds
+def frames_to_time(reps):
+    if reps['count'] >= 0:
+        for i in range(reps['count']):
+            reps['time'][i+1] = reps['timestamp'][i+1] - reps['timestamp'][i] # For converting starting timestamps of reps to time taken for each rep
+            reps['correct_form'][i] = reps['time'][i+1] * reps['correct_form'][i] / (reps['correct_form'][i] + reps['wrong_form'][i])
+            reps['wrong_form'][i] = reps['time'][i+1] - reps['correct_form'][i]
+
+
 # To call required functions to perform calculations after exercise loop is over in main function
 def update_reps(reps):
-    get_rep_time(reps)
     frames_to_time(reps)
 
 
@@ -66,10 +70,10 @@ These functions are directly called by the main program depending on the exercis
 '''
 
 
-# Counting reps for ohp
+# Counting reps for over head press
 def ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps):
 
-    check_key(reps['correct_form'],reps['wrong_form'],reps['count'])
+    initialize_dicts(reps)
 
     if right_deviation < 15 and left_deviation < 15:
         form_increment(reps,'correct_form')
@@ -89,7 +93,7 @@ def ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulde
 # Counting reps for bicep curls
 def curl_reps(shoulder_angle, elbow_angle, reps):
 
-    check_key(reps['correct_form'],reps['wrong_form'],reps['count'])
+    initialize_dicts(reps)
 
     if shoulder_angle < 13 or shoulder_angle > 355 : 
         form_increment(reps,'correct_form')
@@ -105,10 +109,11 @@ def curl_reps(shoulder_angle, elbow_angle, reps):
             
     return reps
 
+
 # Counting reps for lateral raises
 def lateral_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps):
 
-    check_key(reps['correct_form'],reps['wrong_form'],reps['count'])
+    initialize_dicts(reps)
 
     if right_deviation < 15 and left_deviation < 15:
         form_increment(reps,'correct_form')
