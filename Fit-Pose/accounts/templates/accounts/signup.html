@@ -1,90 +1,139 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
     {% load static %}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-<link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-    <title>Document</title>
-</head>
-<body>
-<br><br>
-<div class="container">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <title>Sign-up</title>
+  </head>
+  <body>
+    <div class="container sign-up">
+      <div class="row">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-img-left d-none d-md-flex"></div>
+            <div class="card-body">
+              <h5 class="card-title text-center">Register</h5>
+              <form method="POST" class="form-signin">
+                {% csrf_token %}
+                <div class="form-label-group">
+                  <input
+                    name="username"
+                    type="text"
+                    id="inputUsername"
+                    class="form-control"
+                    placeholder="Username"
+                    required
+                    autofocus
+                  />
+                  <label for="inputUsername">Username</label>
+                </div>
 
-<div class="card bg-light">
-<article class="card-body mx-auto" style="max-width: 400px;">
-	<h4 class="card-title mt-3 text-center">Create Account</h4>
-	<p class="text-center">Get started with your free account</p>
-	
-	<form action="" method="POST">
-    <!-- form-group//  USERNAME -->
-    {% csrf_token %}
-    <div class="form-group input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-             </div>
-            <input  name="username" class="form-control" placeholder="Username" type="text" required="required">
-     </div>
+                <div class="form-label-group">
+                  <input
+                    name="first_name"
+                    type="text"
+                    id="inputFirstname"
+                    class="form-control"
+                    placeholder="First Name"
+                    required
+                  />
+                  <label for="inputFirstname">First Name</label>
+                </div>
 
-      <!-- form-group//  F&LNAME -->
-	<div class="form-group input-group">
-		<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-		 </div>
-        <input  name="first_name" class="form-control" placeholder="First name" type="text" required="required"><br>
-        <input  name="last_name" class="form-control" placeholder="Last name" type="text" required="required">
-    </div> 
-    
-    <!-- form-group//  EMAIL -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
-		 </div>
-        <input name="email" class="form-control" placeholder="Email address" type="email" required="required">
-    </div> 
+                <div class="form-label-group">
+                  <input
+                    name="last_name"
+                    type="text"
+                    id="inputLastname"
+                    class="form-control"
+                    placeholder="Last Name"
+                    required
+                  />
+                  <label for="inputLastname">Last Name</label>
+                </div>
 
-    <!-- form-group// PASS1 -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        <input name="password1" class="form-control" placeholder="Create password" type="password" required="required">
+                <div class="form-label-group">
+                  <input
+                    name="email"
+                    type="email"
+                    id="inputEmail"
+                    class="form-control"
+                    placeholder="Email address"
+                    required
+                  />
+                  <label for="inputEmail">Email address</label>
+                </div>
+
+                <hr />
+
+                <div class="form-label-group">
+                  <input
+                    name="password1"
+                    type="password"
+                    id="inputPassword"
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                  />
+                  <label for="inputPassword">Password</label>
+                </div>
+
+                <div class="form-label-group">
+                  <input
+                    name="password2"
+                    type="password"
+                    id="inputConfirmPassword"
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                  />
+                  <label for="inputConfirmPassword">Confirm password</label>
+                </div>
+
+                <button
+                  class="btn btn-lg btn-primary btn-block text-uppercase"
+                  type="submit"
+                >
+                  Register
+                </button>
+                <a
+                  class="d-block text-center mt-2 small"
+                  href="{% url 'login' %}"
+                  >Sign In</a
+                >
+                <hr class="my-4" />
+                <button
+                  id="btn-google"
+                  class="btn btn-lg btn-block text-uppercase"
+                  type="submit"
+                >
+                  <i class="fab fa-google mr-2"></i> Sign up with Google
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <!-- form-group// PASS2 -->
-    <div class="form-group input-group">
-    	<div class="input-group-prepend">
-		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-		</div>
-        <input name="password2" class="form-control" placeholder="Repeat password" type="password" required="required">
-    </div> 
-    
-    <!-- form-group// SUBMIT -->                                      
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
-    </div>
-    
-    <!-- form-group// -->      
-    <p class="text-center">Have an account? <a href="{% url 'login' %}">Log In</a> </p>                                                                 
-</form>
-</article>
-</div> <!-- card.// -->
-
-</div> 
-<!--container end.//-->
-
-<br><br>
-
-
-</body>
+  </body>
 </html>
 {% endblock %}

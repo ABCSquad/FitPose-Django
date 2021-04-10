@@ -12,32 +12,14 @@
 
   <!-- CSS only -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-
-
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholcmder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
-
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
 </head>
 
 <body>
 
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light ">
       <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">
         <img src="{% static 'logo.png' %}" height="35" width="35" class="d-inline-block align-top" alt="logo">
@@ -71,7 +53,7 @@
         </ul>
         {% else %}
         <!-- <a class="nav-link " aria-current="page" href="#">Sign Up</a> -->
-        <a class="nav-link ml-auto" href="{% url 'login' %}">Login</a>
+        <a class="nav-link ml-auto btn" href="{% url 'login' %}">Login</a>
         </a>
         {% endif %}
       </div>
@@ -79,22 +61,72 @@
     </nav>
   </header>
 
-  <div class="container">
+  <div class="all-content">
+    
     {% block content %}
     {% endblock %}
   </div>
 
-  <footer class="text-muted fixed-bottom py-5">
-    <div class="container text-center">
-      <p>Year {% now "Y" %}</p>
+<!-- Footer -->
+<footer style="background: #374955;" class="page-footer font-small ">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Grid row-->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-12 py-5">
+        <div class="mb-5 d-flex justify-content-center">
+
+          <!-- Facebook -->
+          <a class="fb-ic">
+            <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+          <!-- Twitter -->
+          <a class="tw-ic">
+            <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+          <!-- Google +-->
+          <a class="gplus-ic">
+            <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+          <!--Linkedin -->
+          <a class="li-ic">
+            <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+          <!--Instagram-->
+          <a class="ins-ic">
+            <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+          </a>
+          <!--Pinterest-->
+          <a class="pin-ic">
+            <i class="fab fa-pinterest fa-lg white-text fa-2x"> </i>
+          </a>
+        </div>
+      </div>
+      <!-- Grid column -->
+
     </div>
-  </footer>
+    <!-- Grid row-->
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© {% now "Y" %} Copyright:
+    <strong><span> PIP INSTALL GOD SQUAD</span></strong>   
+  </div>
+  <!-- End Footer -->
 
 
   <!-- JavaScript Bundle with Popper -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+
 </body>
 
 </html>
