@@ -1,15 +1,245 @@
-{% extends 'base.html' %}
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <title>FitPose</title>
+  </head>
+  <body>
+    <header>
+      <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-light ">
+        <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'logo.png' %}" height="35" width="35" class="d-inline-block align-top" alt="logo">
+            FitPose
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          {% if user.is_authenticated %}
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" alt="user_img" height="30" width="30">
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">
+                  Logged in as: <br><b>{{ user.username }}</b>
+                </a>
+                <hr>
+                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">
+                  Logout
+                </a>
+                <form id="logout" method="POST" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <input type="hidden" />
+                </form>
+              </div>
+            </li>
+          </ul>
+          {% else %}
+          <!-- <a class="nav-link " aria-current="page" href="#">Sign Up</a> -->
+          <a class="nav-link ml-auto btn" href="{% url 'login' %}">Login</a>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      </nav>
+    </header>
 
 
-<br>
-<br>
-<a href="{% url 'exercises' %}">Get started</a>
-<br>
-<br>
-<a href="{% url 'signup' %}">Be a member</a>
-<br>
-<br>
 
-{% endblock %}
+
+
+
+
+
+
+    <section id="hero" class="hero-img">
+      <div class="container">
+        <div class="row">
+          <div
+            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            data-aos="fade-right"
+            data-aos-delay="100"
+          >
+            <div class="hero-text-box">
+              <h1 class="display-1">FitPose.</h1>
+              <h2 class="display-4">Your AI Fitness Trainer.</h2>
+            </div>
+            <div class="d-lg-flex">
+              <a href="{% url 'exercises' %}" class="btn-get-started"
+                >Get Started</a
+              >
+            </div>
+          </div>
+          <div
+            class="col-lg-6 order-1 order-lg-2 hero-img"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <lottie-player
+              src="https://assets5.lottiefiles.com/packages/lf20_bkxesbz1.json"
+              background="transparent"
+              speed="1"
+              style="width: 700px; height: 700px"
+              loop
+              autoplay
+            ></lottie-player>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======Features Section ======= -->
+    <section id="features" class="features section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h1>Our Features</h1>
+          <p>
+            The power of AI comes with great responsibility. We aren't creating
+            any terminators we are just taking care of you health!
+          </p>
+        </div>
+
+        <div class="row">
+          <div
+            class="col-xl-3 col-md-6 d-flex align-items-stretch"
+            data-aos="zoom-in"
+            data-aos-delay="100"
+          >
+            <div class="icon-box">
+              <img
+                width="50"
+                height="50"
+                style="margin-bottom: 20px"
+                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDEyOCAxMjgiPjxwYXRoIGQ9Ik0xMjEuMjUsMjAuNjczaC0yLjMxM1YxNS41MTdhNi43NTcsNi43NTcsMCwwLDAtNi43NS02Ljc1aC03LjI1YTYuNzU3LDYuNzU3LDAsMCwwLTYuNzQ5LDYuNzV2MTcuNUg3OS41MzF2LS41NTZhNi41LDYuNSwwLDAsMC01LjcyNi02LjUxMSw2LjM4OSw2LjM4OSwwLDAsMC00Ljg4NCwxLjYxOXEtLjE2OS4xNTUtLjMyNy4zMi0uMTU3LS4xNjUtLjMyNy0uMzJhNi4zNjMsNi4zNjMsMCwwLDAtNC44ODUtMS42MTksNi4xOTIsNi4xOTIsMCwwLDAtMy45NDMsMS45ODcsNi4zMTQsNi4zMTQsMCwwLDAtOS4yMi0uMDM1LDYuMzM1LDYuMzM1LDAsMCwwLTEwLjkzOCw0LjM2MnYuNzUzSDI5LjgxM3YtMTcuNWE2Ljc1OCw2Ljc1OCwwLDAsMC02Ljc1LTYuNzVoLTcuMjVhNi43NTcsNi43NTcsMCwwLDAtNi43NSw2Ljc1djUuMTU2SDYuNzVBNi43NTgsNi43NTgsMCwwLDAsMCwyNy40MjNWNTYuOTg2YTYuNzU4LDYuNzU4LDAsMCwwLDYuNzUsNi43NUg5LjA2M3Y1LjE1NmE2Ljc1Nyw2Ljc1NywwLDAsMCw2Ljc1LDYuNzVoNy4yNWE2Ljc1OCw2Ljc1OCwwLDAsMCw2Ljc1LTYuNzV2LTE3LjVIMzkuM2MwLC4wMzgsMCwuMDc3LjAwNi4xMTVhMS43MDksMS43MDksMCwwLDAtLjAyMy4yMjh2Ny4yYTE4LjksMTguOSwwLDAsMCwyLjM0OCw5LjExMWw2Ljg0LDEyLjM5djM3LjA0N2ExLjc1LDEuNzUsMCwwLDAsMS43NSwxLjc1SDc3Ljc4MWExLjc1LDEuNzUsMCwwLDAsMS43NS0xLjc1VjgwLjUzNEw4Ni43LDcwLjJhMTEuMjc3LDExLjI3NywwLDAsMCwyLjAyLTYuNDU1VjUxLjM4OWg5LjQ2OXYxNy41YTYuNzU3LDYuNzU3LDAsMCwwLDYuNzQ5LDYuNzVoNy4yNWE2Ljc1Nyw2Ljc1NywwLDAsMCw2Ljc1LTYuNzVWNjMuNzM2aDIuMzEzYTYuNzU4LDYuNzU4LDAsMCwwLDYuNzUtNi43NVYyNy40MjNBNi43NTgsNi43NTgsMCwwLDAsMTIxLjI1LDIwLjY3M1pNNzAuMzQ0LDMyLjI2N2EyLjg0NCwyLjg0NCwwLDAsMSwzLjEyOC0yLjgzLDIuOTc2LDIuOTc2LDAsMCwxLDIuNTU5LDMuMDI3di41NTZINzAuMTc0QTEuNzQsMS43NCwwLDAsMCw3MC4zNDQsMzIuMjY3Wm0tNi42MjktMi44M2MuMDk1LS4wMDkuMTkxLS4wMTQuMjg1LS4wMTRhMi44NDUsMi44NDUsMCwwLDEsMi44NDQsMi44NDQsMS43NCwxLjc0LDAsMCwwLC4xNy43NTNINjRhNi4zNTcsNi4zNTcsMCwwLDAtMi44NDQuNjc1VjMyLjQ2NEEyLjk3NiwyLjk3NiwwLDAsMSw2My43MTUsMjkuNDM3Wk02Ni44NDQsNTEuMDVhMi44NDQsMi44NDQsMCwxLDEtNS42ODgsMFY0NC45NzFhNi42NDksNi42NDksMCwwLDAsMy4wNDEuNzM3aDIuNjQ3Wk01NC44MTMsMjkuNDIzYTIuODQ3LDIuODQ3LDAsMCwxLDIuODQzLDIuODQ0VjUxLjA1YTIuODQ0LDIuODQ0LDAsMSwxLTUuNjg3LDBWMzIuMjY3QTIuODQ3LDIuODQ3LDAsMCwxLDU0LjgxMywyOS40MjNaTTQyLjc4MSwzMi4yNjdhMi44NDQsMi44NDQsMCwxLDEsNS42ODgsMFY1MS4wNWEyLjg0NCwyLjg0NCwwLDAsMS01LjY4OCwwVjMyLjI2N1pNNi43NSw2MC4yMzZhMy4yNTQsMy4yNTQsMCwwLDEtMy4yNS0zLjI1VjI3LjQyM2EzLjI1NCwzLjI1NCwwLDAsMSwzLjI1LTMuMjVIOS4wNjNWNjAuMjM2Wm0xOS41NjMsOC42NTZhMy4yNTQsMy4yNTQsMCwwLDEtMy4yNSwzLjI1aC03LjI1YTMuMjUzLDMuMjUzLDAsMCwxLTMuMjUtMy4yNVYxNS41MTdhMy4yNTMsMy4yNTMsMCwwLDEsMy4yNS0zLjI1aDcuMjVhMy4yNTQsMy4yNTQsMCwwLDEsMy4yNSwzLjI1VjY4Ljg5MlptMy41LTMyLjM3Mmg5LjQ2OFY0Ny44ODlIMjkuODEzWk04NS4yMTksNjMuNzQ4YTcuNzg5LDcuNzg5LDAsMCwxLTEuNCw0LjQ2bC03LjQ4LDEwLjc4YTEuNzUyLDEuNzUyLDAsMCwwLS4zMTIsMXYzNS43NDdINTEuOTY5Vjc5Ljk4NmExLjc1LDEuNzUsMCwwLDAtLjIxOC0uODQ2TDQ0LjY5Myw2Ni4zNTVhMTUuMzkyLDE1LjM5MiwwLDAsMS0xLjkxMi03LjQyVjU2LjcxMmE2LjMsNi4zLDAsMCwwLDcuNDM4LTEuMyw2LjMxNCw2LjMxNCwwLDAsMCw5LjE4NywwLDYuMzE1LDYuMzE1LDAsMCwwLDkuMTg4LDBBNi4zMzUsNi4zMzUsMCwwLDAsNzkuNTMxLDUxLjA1VjQzLjk1OGExLjc1LDEuNzUsMCwwLDAtMS43NS0xLjc1SDY0LjJhMi45NzYsMi45NzYsMCwwLDEtMy4wMjctMi41NTljLS4wMDktLjA4OS0uMDEzLS4xNzgtLjAxNC0uMjY2di0uMDM4QTIuODQ1LDIuODQ1LDAsMCwxLDY0LDM2LjUySDc3LjM5NGwuMzE0LjAxOS4wMiwwYTcuODI4LDcuODI4LDAsMCwxLDcuNDkxLDcuODA4djE5LjRaTTcwLjM0NCw0NS43MDhoNS42ODdWNTEuMDVhMi44NDQsMi44NDQsMCwxLDEtNS42ODcsMFptMTguMzc1LDIuMTgxVjQ0LjM0NWExMS4yODgsMTEuMjg4LDAsMCwwLTMuMTQ1LTcuODI1SDk4LjE4OFY0Ny44ODlabTI2LjcxOCwyMWEzLjI1NCwzLjI1NCwwLDAsMS0zLjI1LDMuMjVoLTcuMjVhMy4yNTQsMy4yNTQsMCwwLDEtMy4yNS0zLjI1VjE1LjUxN2EzLjI1NCwzLjI1NCwwLDAsMSwzLjI1LTMuMjVoNy4yNWEzLjI1NCwzLjI1NCwwLDAsMSwzLjI1LDMuMjVWNjguODkyWk0xMjQuNSw1Ni45ODZhMy4yNTQsMy4yNTQsMCwwLDEtMy4yNSwzLjI1aC0yLjMxM1YyNC4xNzNoMi4zMTNhMy4yNTQsMy4yNTQsMCwwLDEsMy4yNSwzLjI1WiIvPjwvc3ZnPgo="
+              />
+              <h4><a href="">Choose your workout</a></h4>
+              <p>
+                Various kinds of exercises sorted according to muscle type to
+                choose from
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
+            <div class="icon-box">
+              <img
+                width="50"
+                height="50"
+                style="margin-bottom: 20px"
+                src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIuNzc3IDUxMi43NzciIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyLjc3NyA1MTIuNzc3IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Im00NzIuNTY2LjMwNWgtMzcxLjU1MmMtMjIuMTczIDAtNDAuMjExIDE4LjAzOC00MC4yMTEgNDAuMjF2MTU2LjkzNmwtMzIuNDM2IDQzLjk2Yy0yLjQ1OSAzLjMzMy0xLjc1MSA4LjAyOSAxLjU4MiAxMC40ODggMS4zNDEuOTg5IDIuOSAxLjQ2NSA0LjQ0NyAxLjQ2NSAyLjMgMCA0LjU3LTEuMDU1IDYuMDQxLTMuMDQ4bDIwLjM2NS0yNy42MDF2ODkuMTAxYzAgMTIuNzEgNi4wNDQgMjQuNTI0IDE1LjkxNyAzMi4wMzJsLTcuMDc2IDkuOTU2Yy0yLjM5OSAzLjM3Ni0xLjYwNyA4LjA1OCAxLjc2OSAxMC40NTggMy4zNzcgMi40IDguMDU4IDEuNjA4IDEwLjQ1OC0xLjc2OWw2OC43MzItOTYuNzA2YzIuMTU3LTMuMDM1IDUuMzcxLTUuMDIxIDkuMDUxLTUuNTkzIDMuNjg2LS41NzEgNy4zNDYuMzQ3IDEwLjMyMyAyLjU4NCA1LjE4MSAzLjg5NiA2LjkxNiAxMC45NyA0LjEyNyAxNi44MjFsLTMwLjkzOCA2NC45MWMtLjYyIDEuMzAxLS44NTMgMi43NTQtLjY2OCA0LjE4NGwxLjg0OSAxNC4zNzVjMi40MjggMTguODg2LS44NzMgMzcuODI5LTkuNTQ2IDU0Ljc4LS41ODYgMS4xNDUtLjg2NyAyLjQyMi0uODE3IDMuNzA4bDMuMjU0IDgzLjcwNmMuMTU3IDQuMDQgMy40ODEgNy4yMDkgNy40ODkgNy4yMDguMDk4IDAgLjE5Ny0uMDAyLjI5Ni0uMDA2IDQuMTQtLjE2MSA3LjM2NC0zLjY0NiA3LjIwMy03Ljc4NmwtMy4xNzktODEuNzgyYzkuMzg5LTE5LjE5NyAxMi45MDctNDAuNSAxMC4xNzctNjEuNzQxbC0xLjE3NC05LjEzaDMxNC41MTZjMjIuMTczIDAgNDAuMjExLTE4LjAzOCA0MC4yMTEtNDAuMjF2LTI3MS4zYy4wMDEtMjIuMTcyLTE4LjAzNy00MC4yMS00MC4yMS00MC4yMXptMjUuMjExIDMxMS41MTJjMCAxMy45MDEtMTEuMzEgMjUuMjEtMjUuMjExIDI1LjIxaC0zMDkuMjE2bDcuMTUtMTVoMjYxLjkyM2M1LjYzIDAgMTAuMjExLTQuNTgxIDEwLjIxMS0xMC4yMXYtMjcxLjMwMmMwLTUuNjMtNC41ODEtMTAuMjExLTEwLjIxMS0xMC4yMTFoLTIzNi43NTJjLTQuMTQzIDAtNy41IDMuMzU4LTcuNSA3LjVzMy4zNTcgNy41IDcuNSA3LjVoMjMxLjk2M3YyNjEuNzIzaC0yNDkuOTg1bDkuOTk2LTIwLjk3MmM1Ljg0Ny0xMi4yNjcgMi4yMDgtMjcuMDk4LTguNjU0LTM1LjI2NS02LjI0LTQuNjkyLTEzLjkyNi02LjYxOC0yMS42NC01LjQxNy03LjcxNCAxLjE5OC0xNC40NTIgNS4zNjItMTguOTc1IDExLjcyNmwtMzIuNTczIDQ1Ljgzdi0yNTcuNjI0aDU3LjkwNGM0LjE0MyAwIDcuNS0zLjM1OCA3LjUtNy41cy0zLjM1Ny03LjUtNy41LTcuNWgtNjIuNjkzYy01LjYzIDAtMTAuMjExIDQuNTgxLTEwLjIxMSAxMC4yMXYyNzEuMzAxYzAgMi45OCAxLjI5MiA1LjY1OCAzLjMzNCA3LjUyNmwtOC43MTggMTIuMjY2Yy01Ljk3MS00LjcyLTkuNjE3LTExLjk4My05LjYxNy0xOS43OTF2LTI3MS4zMDJjMC0xMy45MDEgMTEuMzEtMjUuMjEgMjUuMjExLTI1LjIxaDM3MS41NTJjMTMuOTAxIDAgMjUuMjExIDExLjMxIDI1LjIxMSAyNS4yMXYyNzEuMzAyeiIvPjxwYXRoIGQ9Im00NjkuOTY3IDE2OC42NjZjLTQuMTQzIDAtNy41IDMuMzU4LTcuNSA3LjV2MjIuMTRjMCA0LjE0MiAzLjM1NyA3LjUgNy41IDcuNXM3LjUtMy4zNTggNy41LTcuNXYtMjIuMTRjMC00LjE0Mi0zLjM1Ny03LjUtNy41LTcuNXoiLz48cGF0aCBkPSJtMjkuMzk5IDM4Ny4wMDNjLTE3LjU0OS0zNC4xNjYtMTkuMTI3LTc0LjA5NS00LjMzLTEwOS41NDkgMS41OTUtMy44MjMtLjIxMS04LjIxNS00LjAzMy05LjgxLTMuODIyLTEuNTk2LTguMjE0LjIxLTkuODExIDQuMDMzLTE2LjUwMiAzOS41NDItMTQuNzQxIDg0LjA3NCA0LjgzIDEyMi4xOGw5Ljg5MiAxOS4yNTgtMi43MDcgOTEuNjM2Yy0uMTIyIDQuMTQgMy4xMzYgNy41OTYgNy4yNzUgNy43MTguMDc2LjAwMi4xNS4wMDMuMjI2LjAwMyA0LjA0IDAgNy4zNzMtMy4yMTQgNy40OTMtNy4yNzhsMi43NjQtOTMuNTY2Yy4wMzctMS4yNjctLjI0Ny0yLjUyMS0uODI1LTMuNjQ4eiIvPjxwYXRoIGQ9Im0yNjkuMTM1IDI3Ni41NzFjMjUuMjc1IDAgNDkuMjA0LTkuNjc2IDY3LjM3Ni0yNy4yNDcgMi45NzktMi44NzkgMy4wNTktNy42MjcuMTc5LTEwLjYwNS0yLjg3OC0yLjk3Ny03LjYyNy0zLjA1OC0xMC42MDQtLjE3OS0xNS4zNiAxNC44NTItMzUuNTg2IDIzLjAzMS01Ni45NSAyMy4wMzEtNDUuMTg1IDAtODEuOTQ1LTM2Ljc2MS04MS45NDUtODEuOTQ2IDAtNDUuMTg2IDM2Ljc2MS04MS45NDYgODEuOTQ1LTgxLjk0NiA0NS4xODYgMCA4MS45NDYgMzYuNzYxIDgxLjk0NiA4MS45NDYgMCAxMi4yNDItMi42MzYgMjQuMDE5LTcuODM1IDM1LjAwNC0xLjc3MSAzLjc0NC0uMTczIDguMjE2IDMuNTcxIDkuOTg4IDMuNzQzIDEuNzcgOC4yMTYuMTczIDkuOTg3LTMuNTcxIDYuMTU1LTEzLjAwNiA5LjI3Ni0yNi45NDIgOS4yNzYtNDEuNDIxIDAtNTMuNDU3LTQzLjQ5LTk2Ljk0Ni05Ni45NDYtOTYuOTQ2cy05Ni45NDUgNDMuNDktOTYuOTQ1IDk2Ljk0NiA0My40ODkgOTYuOTQ2IDk2Ljk0NSA5Ni45NDZ6Ii8+PHBhdGggZD0ibTI2My42OTIgMTI2LjE1MWMtNi4yNy00LjMyNi0xNC4zNTQtNC44MTYtMjEuMDk4LTEuMjc2cy0xMC45MzQgMTAuNDctMTAuOTM0IDE4LjA4N3Y3My4zMjhjMCA3LjYxNyA0LjE4OSAxNC41NDcgMTAuOTM1IDE4LjA4NyAyLjk5NCAxLjU3MiA2LjI1MiAyLjM0OSA5LjQ5OCAyLjM0OSA0LjA2NiAwIDguMTEzLTEuMjIgMTEuNTk5LTMuNjI1bDUzLjExMy0zNi42NjRjNS41MjQtMy44MTMgOC44MjItMTAuMDk4IDguODIyLTE2LjgxMXMtMy4yOTgtMTIuOTk3LTguODIyLTE2LjgxMXptNDQuNTkyIDU3Ljk0LTUzLjExMyAzNi42NjRjLTIuNDM3IDEuNjgyLTQuNzMyLjc5OC01LjYwNC4zMzktLjg3NC0uNDU4LTIuOTA1LTEuODQ0LTIuOTA1LTQuODA1di03My4zMjhjMC0yLjk2MSAyLjAzMS00LjM0NyAyLjkwNC00LjgwNS40ODgtLjI1NiAxLjQyMS0uNjQ2IDIuNTczLS42NDYuOTEgMCAxLjk1Ny4yNDMgMy4wMzIuOTg1bDUzLjExMyAzNi42NjRjMi4xMTUgMS40NiAyLjM0NCAzLjYwOSAyLjM0NCA0LjQ2NnMtLjIyOSAzLjAwNi0yLjM0NCA0LjQ2NnoiLz48L2c+PC9zdmc+"
+              />
+              <h4><a href="">Guides to Follow Along </a></h4>
+              <p>Video guides to follow along as you workout</p>
+            </div>
+          </div>
+
+          <div
+            class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
+            <div class="icon-box">
+              <img
+                width="50"
+                height="50"
+                style="margin-bottom: 20px"
+                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDgwIDQ4MCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDgwIDQ4MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik00NjgsMTA0SDI4NS44OEMyOTQuNjk2LDkzLjAzMiwzMDAsNzkuMTI4LDMwMCw2NGMwLTM1LjI4OC0yOC43MTItNjQtNjQtNjRjLTM1LjI4OCwwLTY0LDI4LjcxMi02NCw2NA0KCQkJYzAsMTUuMTI4LDUuMzA0LDI5LjAzMiwxNC4xMiw0MEgxMmMtNC40MTYsMC04LDMuNTg0LTgsOGMwLDMwLjg4LDI1LjEyLDU2LDU2LDU2aDk2djk2YzAsMTUuNDk2LDQuOTY4LDI5LjgyNCwxMy4zMjgsNDEuNTg0DQoJCQlMNjEuMzQ0LDQ2Ny41NmMtMS42NCwyLjQ1Ni0xLjc5Miw1LjYwOC0wLjQsOC4yMDhDNjIuMzM2LDQ3OC4zNzYsNjUuMDQ4LDQ4MCw2OCw0ODBoNjRjMi42NzIsMCw1LjE2OC0xLjMzNiw2LjY1Ni0zLjU2DQoJCQlMMjMyLjI4LDMzNkgzMzJ2MTM2YzAsNC40MTYsMy41ODQsOCw4LDhoNTZjNC40MTYsMCw4LTMuNTg0LDgtOFYzMDRjMC0yMi4wNTYtMTcuOTQ0LTQwLTQwLTQwaC01NnYtOTZoMTEyDQoJCQljMzAuODgsMCw1Ni0yNS4xMiw1Ni01NkM0NzYsMTA3LjU4NCw0NzIuNDE2LDEwNCw0NjgsMTA0eiBNMjM2LDE2YzI2LjQ3MiwwLDQ4LDIxLjUyOCw0OCw0OGMwLDE3LjUwNC05LjQ0OCwzMi44MDgtMjMuNDgsNDEuMTkyDQoJCQljLTE0Ljg5Niw4Ljg5Ni0zNC4xMzYsOC44OTYtNDkuMDMyLDBDMTk3LjQ0OCw5Ni44MDgsMTg4LDgxLjUwNCwxODgsNjRDMTg4LDM3LjUyOCwyMDkuNTI4LDE2LDIzNiwxNnogTTEyNy43Miw0NjRIODIuOTUyDQoJCQlsOTcuNDMyLTE0Ni4xNDRjOS4zNjgsOC4yOTYsMjAuODY0LDE0LjIyNCwzMy42LDE2Ljc1MkwxMjcuNzIsNDY0eiBNNDIwLDE1MkgzMDBjLTQuNDE2LDAtOCwzLjU4NC04LDh2MTA0aC00OHYxNmg1Nmg4aDU2DQoJCQljMTMuMjMyLDAsMjQsMTAuNzY4LDI0LDI0djE2MGgtNDBWMzI4YzAtNC40MTYtMy41ODQtOC04LThIMjI4Yy0zMC44OCwwLTU2LTI1LjEyLTU2LTU2VjE2MGMwLTQuNDE2LTMuNTg0LTgtOC04SDYwDQoJCQljLTE5LjMyLDAtMzUuNDgtMTMuNzY4LTM5LjE5Mi0zMmgxODQuMjhjOS4xNzYsNS4wODgsMTkuNzA0LDgsMzAuOTEyLDhzMjEuNzQ0LTIuOTEyLDMwLjkxMi04aDE5Mi4yOA0KCQkJQzQ1NS40OCwxMzguMjMyLDQzOS4zMiwxNTIsNDIwLDE1MnoiLz4NCgk8L2c+DQo8L2c+DQo8Zz4NCgk8Zz4NCgkJPHJlY3QgeD0iMzAwIiB5PSI0NjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIvPg0KCTwvZz4NCjwvZz4NCjxnPg0KCTxnPg0KCQk8cmVjdCB4PSIyNjgiIHk9IjQ2NCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQoJPGc+DQoJCTxyZWN0IHg9IjIzNiIgeT0iNDY0IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiLz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg=="
+              />
+              <h4><a href="">Get assessed in real-time</a></h4>
+              <p>AI assistance that helps you maintain proper posture</p>
+            </div>
+          </div>
+
+          <div
+            class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
+            data-aos="zoom-in"
+            data-aos-delay="400"
+          >
+            <div class="icon-box">
+              <img
+                width="50"
+                height="50"
+                style="margin-bottom: 20px"
+                src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHdpZHRoPSI1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGc+PGc+PHBhdGggZD0ibTQzNC4zNyAzMjEuNjYzYzAgNC4xNDMgMy4zNTggNy41IDcuNSA3LjVoNjIuNjNjNC4xNDIgMCA3LjUtMy4zNTcgNy41LTcuNSAwLTY0LjI5LTIzLjc0OS0xMjUuMzQzLTY3LjAwOC0xNzIuNjMzbDE1LjY0NS0yMS41MjhjMi4xNjktMi45ODQgMS44NDUtNy4xMDItLjc2Mi05LjcxMS4wMDEtLjAwMS4wMDEtLjAwMi4wMDItLjAwMy01NC40NTctNTQuNDU5LTEyNi44NjItODQuNDUxLTIwMy44NzctODQuNDUxLTQuMTQyIDAtNy41IDMuMzU3LTcuNSA3LjVzMy4zNTggNy41IDcuNSA3LjVjNzAuMDY1IDAgMTM2LjA5NCAyNi4xOTkgMTg2LjkzMyA3My45NGwtMTQuMjc4IDEwLjM3NmMtNDcuMjc4LTQzLjI0OC0xMDguMzM5LTY2Ljk5LTE3Mi42NTUtNjYuOTktMzguNjY3IDAtNzUuODIxIDguNDA2LTExMC40MyAyNC45ODYtMy43MzYgMS43ODktNS4zMTMgNi4yNjktMy41MjQgMTAuMDA0IDEuNzkgMy43MzUgNi4yNyA1LjMxNCAxMC4wMDQgMy41MjMgMzAuMzI3LTE0LjUyOCA2Mi43MzktMjIuMzc5IDk2LjQ1LTIzLjM5M3Y0Ny42NjVjLTIzLjQ1NS44ODctNDYuMjIxIDUuOTI4LTY3Ljc3MSAxNS4wNDYtMjAuNzI2IDguNzY0LTM5LjU0NCAyMC45NDYtNTYuMDQ5IDM2LjI0MWwtMzMuNzA0LTMzLjcwNGM5LjgyNS05LjIzMyAyMC40MTUtMTcuNjUyIDMxLjU3Ny0yNS4wNzQgMy40NDktMi4yOTMgNC4zODYtNi45NDkgMi4wOTItMTAuMzk4LTIuMjkzLTMuNDQ4LTYuOTQ5LTQuMzg3LTEwLjM5OC0yLjA5Mi0xNC4wNTggOS4zNDgtMjcuMjcxIDIwLjE3Mi0zOS4yNzEgMzIuMTcyLS4xNTQuMTU0LS4zMDEuMzE1LS40NC40ODEtNDguMDcxIDQ4LjMxLTc0LjUzNiAxMTIuNC03NC41MzYgMTgwLjU0MyAwIDQuMTQzIDMuMzU4IDcuNSA3LjUgNy41aDYyLjYzYzQuMTQyIDAgNy41LTMuMzU3IDcuNS03LjUgMC00Ny42NDUgMTguNTU0LTkyLjQzNyA1Mi4yNDMtMTI2LjEyNiAxNi4zODUtMTYuMzg2IDM1LjQ2MS0yOS4yNDYgNTYuNjk5LTM4LjIyNyAyMS45ODMtOS4zMDIgNDUuMzQyLTE0LjAxOCA2OS40MjgtMTQuMDE4IDM5LjA3IDAgNzcuMDM1IDEyLjg2MiAxMDcuOTUxIDM2LjM4MWwtNjguMDQxIDQ5LjQ0NWMtMTAuNDA3LTkuODg2LTI0LjQ1Ny0xNS45NzEtMzkuOTEtMTUuOTcxLTMxLjk4NiAwLTU4LjAwOCAyNi4wMjItNTguMDA4IDU4LjAwOCAwIDE3LjA0IDcuMzg4IDMyLjM4NiAxOS4xMjYgNDMuMDA4aC01LjU2NWMtMjYuNDE2IDAtNDcuOTA2IDIxLjQ5MS00Ny45MDYgNDcuOTA3djQ0LjQ0N2MwIDQuMTQzIDMuMzU4IDcuNSA3LjUgNy41aDE2OS43MDdjNC4xNDIgMCA3LjUtMy4zNTcgNy41LTcuNXYtNDQuNDQ3YzAtMTguODgzLTEwLjk4NS0zNS4yNDUtMjYuODk4LTQzLjA0NGwzMi42MzEtNDQuOTA1YzIuNDM1LTMuMzUxIDEuNjkyLTguMDQxLTEuNjU4LTEwLjQ3Ny0zLjM1MS0yLjQzNS04LjA0Mi0xLjY5Mi0xMC40NzcgMS42NThsLTM1Ljc2NCA0OS4yMTZjLTEuODg0LS4yMjYtMy43OTctLjM1Ni01Ljc0MS0uMzU2aC01LjU2NWMxMS43MzgtMTAuNjIyIDE5LjEyNi0yNS45NjggMTkuMTI2LTQzLjAwOCAwLTExLjEzMy0zLjE1OS0yMS41MzktOC42MTktMzAuMzgybDExNS4yNTUtODMuNzU2LTU4LjEyMSA3OS45NzdjLTIuNDM1IDMuMzUxLTEuNjkzIDguMDQxIDEuNjU4IDEwLjQ3NyAxLjMzMi45NjcgMi44NzQgMS40MzQgNC40MDMgMS40MzQgMi4zMTktLjAwMSA0LjYwNi0xLjA3MiA2LjA3My0zLjA5MmwyMy4zMzQtMzIuMTA4YzkuMDQ0IDExLjg3NiAxNi41NSAyNC43OTcgMjIuMzYyIDM4LjUzMSA5LjMwMSAyMS45ODIgMTQuMDE3IDQ1LjM0MiAxNC4wMTcgNjkuNDI4em0tMzcxLjU5OS03LjVoLTQ3LjY1N2MxLjc5NC01OS4wNTEgMjQuNzY4LTExNC40NTkgNjUuMjc2LTE1Ny41MDNsMzMuNjgyIDMzLjY4MmMtMzEuNTMgMzQuMDEzLTQ5LjU0NiA3Ny40NzUtNTEuMzAxIDEyMy44MjF6bTIwMC43MjktMTg1LjcxNnYtNDcuNjU2YzU2Ljc1NSAxLjczNiAxMTAuNDIxIDIzLjE0IDE1Mi43NCA2MC44ODNsLTM5LjY2NCAyOC44MjRjLTMyLjE4OS0yNS42OTYtNzEuODgxLTQwLjQ0OS0xMTMuMDc2LTQyLjA1MXptMzYuOTQ3IDIwMC43MTZjMTguMTQ1IDAgMzIuOTA2IDE0Ljc2MiAzMi45MDYgMzIuOTA3djM2Ljk0N2gtMjcuNDI3di0xMi43MDRjMC00LjE0My0zLjM1OC03LjUtNy41LTcuNXMtNy41IDMuMzU3LTcuNSA3LjV2MTIuNzA0aC02OS44NTR2LTEyLjcwNGMwLTQuMTQzLTMuMzU4LTcuNS03LjUtNy41cy03LjUgMy4zNTctNy41IDcuNXYxMi43MDRoLTI3LjQyN3YtMzYuOTQ3YzAtMTguMTQ2IDE0Ljc2Mi0zMi45MDcgMzIuOTA2LTMyLjkwN3ptLTQ0LjQ0Ny0xNWMtMjMuNzE1IDAtNDMuMDA4LTE5LjI5My00My4wMDgtNDMuMDA4czE5LjI5My00My4wMDggNDMuMDA4LTQzLjAwOCA0My4wMDggMTkuMjkzIDQzLjAwOCA0My4wMDgtMTkuMjkzIDQzLjAwOC00My4wMDggNDMuMDA4em0xNzkuOTcxLTE1Mi43MjFjMzcuNzU0IDQyLjMzIDU5LjE3NyA5NS45ODkgNjAuOTE0IDE1Mi43MjFoLTQ3LjY1N2MtLjg4Ny0yMy40NTYtNS45NDMtNDYuMjIxLTE1LjA2Mi02Ny43NzMtNi44ODMtMTYuMjY2LTE1Ljk1OS0zMS40NzktMjcuMDAzLTQ1LjMwN3oiLz48cGF0aCBkPSJtMzQwLjg1IDQzMS4zNDJoLTExMS40M2MtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNWgxMDMuOTN2MTcuMzJoLTE1NC43di0xNy4zMmgxNS43N2M0LjE0MiAwIDcuNS0zLjM1NyA3LjUtNy41cy0zLjM1OC03LjUtNy41LTcuNWgtMjMuMjdjLTQuMTQyIDAtNy41IDMuMzU3LTcuNSA3LjV2MzIuMzJjMCA0LjE0MyAzLjM1OCA3LjUgNy41IDcuNWgxNjkuN2M0LjE0MiAwIDcuNS0zLjM1NyA3LjUtNy41di0zMi4zMmMwLTQuMTQyLTMuMzU4LTcuNS03LjUtNy41eiIvPjxwYXRoIGQ9Im01MDQuNSAzNDUuNTkyaC02Mi42M2MtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNWg2Mi42M2M0LjE0MiAwIDcuNS0zLjM1NyA3LjUtNy41cy0zLjM1OC03LjUtNy41LTcuNXoiLz48cGF0aCBkPSJtNDg0LjI5NyAzNzcuOTE3aC0yMi4yMjRjLTQuMTQyIDAtNy41IDMuMzU3LTcuNSA3LjVzMy4zNTggNy41IDcuNSA3LjVoMjIuMjI0YzQuMTQyIDAgNy41LTMuMzU3IDcuNS03LjVzLTMuMzU4LTcuNS03LjUtNy41eiIvPjxwYXRoIGQ9Im03MC4xMyAzNDUuNTkyaC02Mi42M2MtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNWg2Mi42M2M0LjE0MiAwIDcuNS0zLjM1NyA3LjUtNy41cy0zLjM1OC03LjUtNy41LTcuNXoiLz48cGF0aCBkPSJtNDkuOTI3IDM3Ny45MTdoLTIyLjIyNGMtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNWgyMi4yMjRjNC4xNDIgMCA3LjUtMy4zNTcgNy41LTcuNXMtMy4zNTgtNy41LTcuNS03LjV6Ii8+PC9nPjwvZz48L3N2Zz4="
+              />
+              <h4><a href="">Review your performance </a></h4>
+              <p>Proper representation of data from previous sessions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Services Section -->
+
+    <!-- links -->
+    <br />
+    <br />
+    <div class="container">
+      <a href="{% url 'signup' %}">Be a member</a>
+      <br />
+      <br />
+    </div>
+
+    <!-- JavaScript Bundle -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+      $(document).ready(function(){
+      $(window).scroll(function(){
+      var scroll = $(window).scrollTop();
+      if(scroll>50){
+      $("#nav").css("background", " rgba(240,240,240,0.8)");
+       }
+       else {
+      $("#nav").css("background", "transparent");
+       }
+      })
+    })
+
+    </script>
+
+  </body>
+</html>
