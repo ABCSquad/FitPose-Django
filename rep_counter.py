@@ -39,7 +39,7 @@ def initialize_dicts(reps):
 def form_increment(reps, form):
     if reps['count'] >= 0:
         reps[form][reps['count']] += 1
-        reps['frame_form'][reps['count']][reps['frame']] = form
+        reps['frame_form'][reps['frame']] = [reps['count'], form.capitalize().replace('_',' ')]
         reps['frame'] += 1
             
 
