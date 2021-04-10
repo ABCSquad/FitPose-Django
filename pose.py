@@ -25,7 +25,7 @@ def main(reps):
     side = "right"                      #Requires full keypoints to be False and exercise name to have a value
     
     # For webcam input:
-    cap = WebcamVideoStream(src=1).start()
+    cap = WebcamVideoStream(src=0).start()
 
 
     with mp_pose.Pose(
@@ -70,7 +70,7 @@ def main(reps):
               "Z": data_point.z,
               "Visibility": data_point.visibility,
             })
-          image, stats, reps = bicep_curl(image, keypoints, 'right', reps)
+          image, stats, reps = bicep_curl(image, keypoints, side, reps)
 
         else:
           image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
