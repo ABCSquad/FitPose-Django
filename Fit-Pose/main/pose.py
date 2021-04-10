@@ -3,7 +3,7 @@ import mediapipe as mp
 import time
 from imutils.video import VideoStream, WebcamVideoStream
 import numpy as np
-from main.exfunc import *
+
 import argparse
 
 def main_pose(cap):

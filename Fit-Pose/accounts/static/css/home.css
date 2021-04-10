@@ -12,6 +12,23 @@
 /*---------------------------------------------*/
 /* REUSE */
 /*---------------------------------------------*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1d1e2200;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: #b3b3b3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #47b2e4;
+}
 
 div.image {
   max-width: 256px;
@@ -430,3 +447,4 @@ p {
 .page-footer {
   background: #374955;
 }
+
