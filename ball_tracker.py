@@ -1,11 +1,18 @@
+"""
+
+
+
+This file is not in use.
+
+
+
+"""
+
 import cv2
 from body_parts import *
 import numpy as np
-
-#Function maps a range a to b and returns the output for a value 's' from range a
-def maprange(a, b, s):
-    (a1, a2), (b1, b2) = a, b
-    return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+from basics import *
+import posture_basics
 
 #Function for ball tracking for bicep curls
 def curl_ball(keypoints, image, angle, movement, side):
@@ -13,10 +20,10 @@ def curl_ball(keypoints, image, angle, movement, side):
     #Condition that changes the colour and thickness according to the motion of the hand
     if movement.lower() == "up":
         value = maprange((160, 65), (0, 255), angle)
-        thickness = maprange((160, 65), (20, 60), angle)
+        thickness = maprange((160, 65), (20, 40), angle)
     elif movement.lower() == "down":
         value = maprange((65, 160), (0, 255), angle)
-        thickness = maprange((65, 160), (20, 60), angle)
+        thickness = maprange((65, 160), (20, 40), angle)
 
     #Changing the elbow according the which hand is being used
     if side.lower() == "left":
@@ -38,11 +45,3 @@ def curl_ball(keypoints, image, angle, movement, side):
     cv2.circle(image, tuple(position), 1, color, int(thickness))
 
     return image
-
-
-
-
-
-
-
-

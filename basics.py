@@ -22,106 +22,121 @@ def keypoint_angle(keypoints,a,b,c):
     angle1 = angle(a2,b2,c2)
     return(angle1,a2,b2,c2)
 
+#Function to scale keypoint values to frame coordinates
 def keypoint_scale(image, position):
     frame_height, frame_width = image.shape[:2]
     position *= np.array([frame_width, frame_height])
     position = np.around(position, 5).flatten().astype(np.int).tolist()  
     return position
 
-def ohp_posture_right(right_deviation, flag_right, flag_wrong, stats):
-    if right_deviation<10:
-      stats = cv2.putText(stats, "Right deviation: "+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
-      flag_right += 1
-      if flag_right>0 and flag_right<=20:
-        stats = cv2.putText(stats, "Fix your right hand form!", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-      elif flag_right>20:
-        flag_wrong = 0
-        stats = cv2.putText(stats, "Your right hand form is perfect", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-    else:
-      stats = cv2.putText(stats, "Right deviation: "+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
-      flag_wrong+=1
-      if flag_wrong>0 and flag_wrong<=15:
-        stats = cv2.putText(stats, "Your right hand form is perfect", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-      elif flag_wrong>15:
-        flag_right = 0
-        stats = cv2.putText(stats, "Fix your right hand form!", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    return(stats, flag_right, flag_wrong)
+#Function maps a range a to b and returns the output for a value 's' from range a
+def maprange(a, b, s):
+    (a1, a2), (b1, b2) = a, b
+    return  b1 + ((s - a1) * (b2 - b1) / (a2 - a1))
+  
+def dotted_line(img,pt1,pt2,color,thickness, gap):
+    pts = [pt1, pt2] 
 
-def ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats):
-    if left_deviation<10:
-      stats = cv2.putText(stats, "Left deviation: "+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA) 
-      flag_right_left += 1
-      if flag_right_left>0 and flag_right_left<=20:
-        stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-      elif flag_right_left>20:
-        flag_wrong_left = 0
-        stats = cv2.putText(stats, "Your left hand form is perfect", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-    else:
-      stats = cv2.putText(stats, "Left deviation: "+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA) 
-      flag_wrong_left+=1
-      if flag_wrong_left>0 and flag_wrong_left<=15:
-        stats = cv2.putText(stats, "Your left hand form is perfect", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-      elif flag_wrong_left>15:
-        flag_right_left  = 0
-        stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    return(stats, flag_right_left, flag_wrong_left)
+    s=pts[0]
+    e=pts[0]
+    pts.append(pts.pop(0))
+    for p in pts:
+        s=e
+        e=p
+        dist =((pt1[0]-pt2[0])**2+(pt1[1]-pt2[1])**2)**.5
+        pts= []
+        for i in  np.arange(0,dist,gap):
+            r=i/dist
+            x=int((pt1[0]*(1-r)+pt2[0]*r)+.5)
+            y=int((pt1[1]*(1-r)+pt2[1]*r)+.5)
+            p = (x,y)
+            pts.append(p)
+            for i in range(len(pts)-1):
+            #cv2.circle(img,p,thickness,color,-1)
+                if i%2 == 0:
+                    cv2.line(img, pts[i], pts[i+1], color, thickness)
 
-def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag):
 
-    if side.lower() == "right":
-        shoulder_point = [keypoints[LEFT_SHOULDER]['X'], keypoints[LEFT_SHOULDER]["Y"]]
-        elbow_point = [keypoints[LEFT_ELBOW]['X'], keypoints[LEFT_ELBOW]["Y"]]
-        wrist_point = [keypoints[LEFT_WRIST]['X'], keypoints[LEFT_WRIST]["Y"]]
-    elif side.lower() == "left":
-        shoulder_point = [keypoints[RIGHT_SHOULDER]['X'], keypoints[RIGHT_SHOULDER]["Y"]]
-        elbow_point = [keypoints[RIGHT_ELBOW]['X'], keypoints[RIGHT_ELBOW]["Y"]]
-        wrist_point = [keypoints[RIGHT_WRIST]['X'], keypoints[RIGHT_WRIST]["Y"]]
 
-    shoulder_point = keypoint_scale(image, shoulder_point)
-    elbow_point = keypoint_scale(image, elbow_point)
-    wrist_point = keypoint_scale(image, wrist_point)
+#Function to draw vector given a start keypoint and an angle wrt positive x axis
+def draw_vector_bicep_curl(image, keypoints, direction_flag, side):
+    length = 150
+    if side.lower() == 'right':
+        p1 = (keypoints[LEFT_ELBOW]["X"],keypoints[LEFT_ELBOW]["Y"])
+        if direction_flag == 1:
+            draw_angle = 155
+        elif direction_flag == 0:
+            draw_angle = 230
+    elif side.lower() == 'left':
+        p1 = (keypoints[RIGHT_ELBOW]["X"],keypoints[RIGHT_ELBOW]["Y"])
+        if direction_flag == 1:
+            draw_angle = 25
+        elif direction_flag == 0:
+            draw_angle = 320
+    p1 = keypoint_scale(image, p1)
+    p2 =  (int(p1[0] + length* math.cos(draw_angle * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle * (math.pi/180.0))))   
 
-    if shoulder_angle>180:
-        upper_arm_deviation = abs(shoulder_angle - 360)
-    else:
-        upper_arm_deviation = shoulder_angle
+    return p1, p2
 
-    if shoulder_angle<13 or shoulder_angle>355:
-        stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
-        stats = cv2.putText(stats, "Your upper arm position is perfect", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        if elbow_angle > 160:
-            stats = cv2.putText(stats, "Lift your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-            direction_flag = 1
-        elif elbow_angle < 160 and elbow_angle > 65:
-            stats = cv2.putText(stats, "Your forearm posture is perfect", (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-            stats = cv2.putText(stats, "Complete the rep!", (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,0,0), 2, cv2.LINE_AA)
-        else:
-            stats = cv2.putText(stats, "Lower your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-            direction_flag = 0
-        cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,255,0), 3)
-    else:
-        stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
-        stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,0,255), 3)
-        direction_flag = -1
+#Function to draw vector given a start keypoint and an angle wrt positive x axis
+def draw_vector_ohp(image, keypoints, direction_flag, hand):
+    length = 100
     
-    return(image, stats, direction_flag)
+    if hand.lower() == "right":
+        p1 = (keypoints[LEFT_SHOULDER]["X"],keypoints[LEFT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle1 = 80
+            draw_angle2 = 90
+        elif direction_flag == 0:
+            draw_angle1 = 350
+            draw_angle2 = 90
+    elif hand.lower() == "left":
+        p1 = (keypoints[RIGHT_SHOULDER]["X"],keypoints[RIGHT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle1 = 100
+            draw_angle2 = 90
+        elif direction_flag == 0:
+            draw_angle1 = 190
+            draw_angle2 = 90
+    
+    p1 = keypoint_scale(image, p1)
+    p2 =  (int(p1[0] + length* math.cos(draw_angle1 * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle1 * (math.pi/180.0)))) 
 
-def tricep_extension_posture(shoulder_angle, elbow_angle, stats):
-    upper_arm_deviation = abs(shoulder_angle - 180)
+    q1 = p2
+    if direction_flag == 1:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0)))) 
+    if direction_flag == 0:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0))))
+
+    return p1, p2, q1, q2
+
+def draw_vector_lateral(image, keypoints, direction_flag, hand):
+    length = 100
     
-    if shoulder_angle>160 and shoulder_angle<180:
-        stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
-        stats = cv2.putText(stats, "Your upper arm position is perfect", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        if elbow_angle < 70:
-            stats = cv2.putText(stats, "Lift your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        elif elbow_angle < 160 and elbow_angle >= 70:
-            stats = cv2.putText(stats, "Your forearm posture is perfect", (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-            stats = cv2.putText(stats, "Complete the rep!", (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,0,0), 2, cv2.LINE_AA)
-        else:
-            stats = cv2.putText(stats, "Lower your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    else:
-        stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
-        stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    if hand.lower() == "right":
+        p1 = (keypoints[LEFT_SHOULDER]["X"],keypoints[LEFT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle1 = 10
+            draw_angle2 = 12
+        elif direction_flag == 0:
+            draw_angle1 = 280
+            draw_angle2 = 275
+    elif hand.lower() == "left":
+        p1 = (keypoints[RIGHT_SHOULDER]["X"],keypoints[RIGHT_SHOULDER]["Y"])
+        if direction_flag == 1:
+            draw_angle1 = 170
+            draw_angle2 = 168
+        elif direction_flag == 0:
+            draw_angle1 = 260
+            draw_angle2 = 265
     
-    return(stats)
+    p1 = keypoint_scale(image, p1)
+    p2 =  (int(p1[0] + length* math.cos(draw_angle1 * (math.pi/180.0))) , int(p1[1] + (-length) * math.sin(draw_angle1 * (math.pi/180.0)))) 
+
+    q1 = p2
+    if direction_flag == 1:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0)))) 
+    if direction_flag == 0:
+        q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0))))
+
+    return p1, p2, q1, q2
