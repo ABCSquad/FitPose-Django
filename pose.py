@@ -21,8 +21,8 @@ def main(reps):
 
     full_keypoints = False
     upper = False                       #Requires full_keypoints to be True
-    exercise_name = "bicep_curl"     #Requires full keypoints to be False
-    side = "right"                      #Requires full keypoints to be False and exercise name to have a value
+    exercise_name = "squats"            #Requires full keypoints to be False
+    side = "left"                      #Requires full keypoints to be False and exercise name to have a value
     
     # For webcam input:
     cap = WebcamVideoStream(src=0).start()
@@ -70,7 +70,7 @@ def main(reps):
               "Z": data_point.z,
               "Visibility": data_point.visibility,
             })
-          image, stats, reps = bicep_curl(image, keypoints, side, reps)
+          image, stats, reps = shoulder_press(image, keypoints, reps)
 
         else:
           image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -96,6 +96,9 @@ def main(reps):
 
           if exercise_name.lower() == "ohp" or exercise_name.lower() == "lateral_raise":
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.OHP)
+
+          if exercise_name.lower() == "squats"
+            mp_drawing.draw_landmarks(image, resuls.pose_landmarks, mp.pose.SQUATS)
         
         end = time.time()
         if stats is not None:

@@ -219,3 +219,44 @@ def lateral_raise(image, keypoints, reps):
       dotted_line(image, tuple(q1), q2, (0,green,yellow), 3, 10)
 
     return(image, stats, reps)
+
+def squats(image, keypoints, side, reps):
+  
+    global direction_flag
+
+    #Right hand angles calculation
+    if side.lower() == "right":
+      shoulder_angle, x, y, z = keypoint_angle(keypoints, LEFT_HIP, LEFT_SHOULDER, LEFT_ELBOW)
+      elbow_angle, x, y, z = keypoint_angle(keypoints, LEFT_WRIST, LEFT_ELBOW, LEFT_SHOULDER)
+    elif side.lower() == "left":
+      shoulder_angle, x, y, z = keypoint_angle(keypoints, RIGHT_ELBOW, RIGHT_SHOULDER, RIGHT_HIP)
+      elbow_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, RIGHT_ELBOW, RIGHT_WRIST)
+
+    #Rep counter
+    reps = curl_reps(shoulder_angle, elbow_angle, reps)
+
+    #Blank white image to display stats
+    stats = cv2.imread("white2.jpg") 
+
+    stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    stats = cv2.putText(stats, "Angle at "+ side +" shoulder: "+ str(round(shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
+    stats = cv2.putText(stats, "Angle at "+ side +" elbow: "+ str(round(elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
+    
+    #Evaluating the posture for the right hand using a function
+    image, stats, direction_flag = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag)
+
+    #Condition to draw target vectors according to the hand motion direction
+    if direction_flag == 1:
+        p1, p2 = draw_vector_bicep_curl(image, keypoints, direction_flag, side)
+        value = maprange((95, 0), (0, 255), elbow_angle-65)
+        yellow = 255 - value
+        green = 0 + value
+        dotted_line(image, tuple(p1), p2, (0,green,yellow), 3, 10)
+    elif direction_flag == 0:
+        p1, p2 = draw_vector_bicep_curl(image, keypoints, direction_flag, side)
+        value = maprange((0, 95), (0, 255), elbow_angle-65)
+        yellow = 255 - value
+        green = 0 + value
+        dotted_line(image, tuple(p1), p2, (0,green,yellow), 3, 10)
+    
+    return(image, stats, reps)

@@ -155,7 +155,19 @@ OHP = frozenset([
     (PoseLandmark.RIGHT_SHOULDER, PoseLandmark.RIGHT_HIP),
     (PoseLandmark.LEFT_SHOULDER, PoseLandmark.LEFT_HIP),
 ])
-    
+
+SQUATS = frozenset([
+        (PoseLandmark.RIGHT_HIP, PoseLandmark.RIGHT_KNEE),
+        (PoseLandmark.LEFT_HIP, PoseLandmark.LEFT_KNEE),
+        (PoseLandmark.RIGHT_KNEE, PoseLandmark.RIGHT_ANKLE),
+        (PoseLandmark.LEFT_KNEE, PoseLandmark.LEFT_ANKLE),
+        (PoseLandmark.RIGHT_ANKLE, PoseLandmark.RIGHT_HEEL),
+        (PoseLandmark.LEFT_ANKLE, PoseLandmark.LEFT_HEEL),
+        (PoseLandmark.RIGHT_HEEL, PoseLandmark.RIGHT_FOOT_INDEX),
+        (PoseLandmark.LEFT_HEEL, PoseLandmark.LEFT_FOOT_INDEX),
+        (PoseLandmark.RIGHT_ANKLE, PoseLandmark.RIGHT_FOOT_INDEX),
+        (PoseLandmark.LEFT_ANKLE, PoseLandmark.LEFT_FOOT_INDEX),
+    ]))
 
 class Pose(SolutionBase):
   """MediaPipe Pose.
