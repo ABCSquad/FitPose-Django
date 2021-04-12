@@ -98,10 +98,10 @@ def main(reps):
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.OHP)
 
           if exercise_name.lower() == "squats":
-            mp_drawing.draw_landmarks(image, resuls.pose_landmarks, mp.pose.SQUATS)
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.SQUATS)
 
           if exercise_name.lower() == "pushups":
-            mp_drawing.draw_landmarks(image, resuls.pose_landmarks, mp.pose.PUSHUPS)
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.PUSHUPS)
         
         end = time.time()
         if stats is not None:

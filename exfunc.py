@@ -230,14 +230,19 @@ def push_ups(image, keypoints, side, reps):
     if side.lower() == "right":
       shoulder_angle, x, y, z = keypoint_angle(keypoints, LEFT_HIP, LEFT_SHOULDER, LEFT_ELBOW)
       elbow_angle, x, y, z = keypoint_angle(keypoints, LEFT_WRIST, LEFT_ELBOW, LEFT_SHOULDER)
-      hip_angle, x, y, z = keypoint_angle(keypoints, LEFT_SHOULDER, LEFT_HIP, LEFT_KNEE)
+      hip_angle, x, y, z = keypoint_angle(keypoints, LEFT_KNEE, LEFT_HIP, LEFT_HIP)
     elif side.lower() == "left":
       shoulder_angle, x, y, z = keypoint_angle(keypoints, RIGHT_ELBOW, RIGHT_SHOULDER, RIGHT_HIP)
       elbow_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, RIGHT_ELBOW, RIGHT_WRIST)
       hip_angle, x, y, z = keypoint_angle(keypoints, RIGHT_SHOULDER, RIGHT_HIP, RIGHT_KNEE)
 
+    if shoulder_angle>180:
+      shoulder_angle = abs(shoulder_angle - 360) 
+    if elbow_angle>180:
+      elbow_angle = abs(elbow_angle - 360) 
+
     hip_deviation = abs(180 - hip_angle)
-    arm_deviation = abs((elbow_angle - (shoulder_angle + 80)))
+    arm_deviation = abs((elbow_angle - (shoulder_angle + 70)))
 
     #Rep counter
     #reps = curl_reps(shoulder_angle, elbow_angle, reps)
@@ -251,7 +256,7 @@ def push_ups(image, keypoints, side, reps):
     stats = cv2.putText(stats, "Angle at "+ side +" hip: "+ str(round(hip_angle,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    image, stats, flag_right, flag_wrong = pushups_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, arm_deviation, hip_deviation)
+    image, stats, flag_right, flag_wrong = pushups_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, arm_deviation, hip_deviation, flag_right, flag_wrong)
 
     #Condition to draw target vectors according to the hand motion direction
     if direction_flag == 1:

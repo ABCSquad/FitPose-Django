@@ -140,7 +140,7 @@ def lateral_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats
 
     return(stats, flag_right_left, flag_wrong_left)
 
-def pushups_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, arm_deviation, hip_deviation):
+def pushups_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, arm_deviation, hip_deviation, flag_right, flag_wrong):
     if side.lower() == "right":
         shoulder_point = [keypoints[LEFT_SHOULDER]['X'], keypoints[LEFT_SHOULDER]["Y"]]
         hip_point = [keypoints[LEFT_HIP]['X'], keypoints[LEFT_HIP]["Y"]]
@@ -155,33 +155,34 @@ def pushups_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, 
     knee_point = keypoint_scale(image, knee_point)
 
 
-    if hip_deviation<5:
+    if hip_deviation<15 and hip_deviation>0:
         cv2.line(image, tuple(shoulder_point), tuple(hip_point), (0,255,0), 3)
         cv2.line(image, tuple(hip_point), tuple(knee_point), (0,255,0), 3)
-        stats = cv2.putText(stats, "Your back is straight", (5,95), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        if arm_deviation<5:
-            stats = cv2.putText(stats, "Hip angle deviation: "+ str(round(hip_deviation,2)), (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
-            stats = cv2.putText(stats, "Elbow-Shoulder Deviation: "+ str(round(arm_deviation,2)), (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
+        stats = cv2.putText(stats, "Hip angle deviation: "+ str(round(hip_deviation,2)), (5,95), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
+        stats = cv2.putText(stats, "Your back is straight", (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
+        if arm_deviation<15:
+            stats = cv2.putText(stats, "Elbow-Shoulder Deviation: "+ str(round(arm_deviation,2)), (5,145), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
             flag_right += 1
             if flag_right>0 and flag_right<=20:
-                stats = cv2.putText(stats, "Fix your upper and forearm form!", (5,145), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+                stats = cv2.putText(stats, "Fix your upper and forearm form!", (5,165), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
             elif flag_right>20:
                 flag_wrong = 0
-                stats = cv2.putText(stats, "Your hand form is perfect", (5,145), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
+                stats = cv2.putText(stats, "Your hand form is perfect", (5,165), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
         else:
-            stats = cv2.putText(stats, "Hip angle deviation: "+ str(round(hip_deviation,2)), (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
-            stats = cv2.putText(stats, "Elbow-Shoulder Deviation: "+ str(round(arm_deviation,2)), (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
+            stats = cv2.putText(stats, "Elbow-Shoulder Deviation: "+ str(round(arm_deviation,2)), (5,145), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
             flag_wrong+=1
             if flag_wrong>0 and flag_wrong<=15:
-                stats = cv2.putText(stats, "Your hand form is perfect", (5,145), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
+                stats = cv2.putText(stats, "Your hand form is perfect", (5,165), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
             elif flag_wrong>15:
                 flag_right = 0
-                stats = cv2.putText(stats, "Fix your upper and forearm form!", (5,145), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+                stats = cv2.putText(stats, "Fix your upper and forearm form!", (5,165), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
     else:
         stats = cv2.putText(stats, "Hip angle deviation: "+ str(round(hip_deviation,2)), (5,95), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
-        stats = cv2.putText(stats, "Your back is not straight", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+        stats = cv2.putText(stats, "Your back is not straight", (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
         cv2.line(image, tuple(shoulder_point), tuple(hip_point), (0,0,255), 3)
         cv2.line(image, tuple(hip_point), tuple(knee_point), (0,0,255), 3)
+        flag_right = -1
+        flag_wrong = -1
 
 
     return(image, stats, flag_right, flag_wrong)
