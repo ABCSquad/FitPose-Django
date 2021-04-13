@@ -11,34 +11,24 @@ from rep_counter import *
 import custom_drawing_utils
 import custom_pose
 
-# Initializing variables related to reps in a dict
-def initialize_reps(reps):
-    reps['count'] = 0
-    reps['flag'] = -2
-    reps['time'] = {}
-    reps['correct_form'] = {}
-    reps['wrong_form'] = {}
+reps = {}
+stats_dict = {}
 
-def main():
+def main_pose(stats_dict, reps, exercise_name, side="right", exit_rep_count=5000):
     
-    reps = {}
     initialize_reps(reps)
+    initialize_stats(stats_dict)
 
     mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
     mp_pose = custom_pose
-
-    full_keypoints = False
-    upper = False                       #Requires full_keypoints to be True
-    exercise_name = "lateral_raise"     #Requires full keypoints to be False
-    side = "right"                      #Requires full keypoints to be False and exercise name to have a value
-                     
+    
     # For webcam input:
     cap = WebcamVideoStream(src=0).start()
 
 
     with mp_pose.Pose(
         static_image_mode=False,
-        upper_body_only=upper,
+        upper_body_only=False,
         smooth_landmarks=True,
         min_detection_confidence=0.9,
         min_tracking_confidence=0.9) as pose:
@@ -78,7 +68,19 @@ def main():
               "Z": data_point.z,
               "Visibility": data_point.visibility,
             })
-          image, stats, reps = lateral_raise(image, keypoints, reps)
+
+          if exercise_name.lower() == "bicep_curl":
+            image, stats, stats_dict, reps = bicep_curl(image, keypoints, side, reps, stats_dict)
+
+          elif exercise_name.lower() == "ohp": 
+            image, stats, stats_dict, reps = shoulder_press(image, keypoints, reps, stats_dict)
+          
+          elif exercise_name.lower() == "lateral_raise":
+            image, stats, stats_dict, reps = lateral_raise(image, keypoints, reps, stats_dict)
+
+          elif exercise_name.lower() == "pushups":
+            image, stats, stats_dict, reps = push_ups(image, keypoints, side, reps, stats_dict)
+          
 
         else:
           image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
@@ -86,32 +88,35 @@ def main():
         
 
         #Conditions to decide on which keypoint connections frozenset to use
-        #Upper body only/Full body
-        if full_keypoints == True:
-          if upper==True:  
-            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-          elif upper==False:
-            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
+        if exercise_name.lower=="full":  
+          mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+        if exercise_name.lower()=="upper":
+          mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.UPPER_BODY_POSE_CONNECTIONS)
         
-        #Exercise specific
-        elif full_keypoints == False:
+        if exercise_name.lower() == "bicep_curl":
+            if side.lower() == "right":
+              mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_RIGHT)
+            elif side.lower() == "left":
+              mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_LEFT)
 
-          if exercise_name.lower() == "bicep_curl":
-              if side.lower() == "right":
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_RIGHT)
-              elif side.lower() == "left":
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.BICEP_CURL_LEFT)
+        if exercise_name.lower() == "ohp" or exercise_name.lower() == "lateral_raise":
+          mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.OHP)
 
-          if exercise_name.lower() == "ohp" or exercise_name.lower() == "lateral_raise":
-            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.OHP)
+        if exercise_name.lower() == "squats":
+          mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.SQUATS)
+
+        if exercise_name.lower() == "pushups":
+          mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.PUSHUPS)
         
         end = time.time()
         if stats is not None:
           cv2.imshow("Stats", stats)
         image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         cv2.imshow('FitPose', image)
-        if cv2.waitKey(5) & 0xFF == 27:
+        if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == exit_rep_count:
+          update_reps(reps)
           break
 
 if __name__ == "__main__":
-    main()
+    main_pose(stats_dict, reps, "ohp", "right", 4)
