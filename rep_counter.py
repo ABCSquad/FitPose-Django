@@ -10,14 +10,14 @@ These functions are called and used within or surrounding the exercise specific 
 
 # Initializing variables related to reps in a dict
 def initialize_reps(reps):
-    reps['count'] = -1
-    reps['flag'] = -1
-    reps['timestamp'] = {}
-    reps['time'] = {}
-    reps['frame'] = 0
-    reps['correct_form'] = {}
-    reps['wrong_form'] = {}
-    reps['frame_form'] = {}
+    reps['count'] = -1         # No. of reps
+    reps['flag'] = -1          # Flag that changes every time an exercise reaches its terminal state
+    reps['timestamp'] = {}     # time.time() saved at the beginning of every rep
+    reps['time'] = {}          # Time taken for each rep
+    reps['frame'] = 0          # No. of frames
+    reps['correct_form'] = {}  # No. of frames in correct form for each rep
+    reps['wrong_form'] = {}    # No. of frames in wrong form for each rep
+    reps['frame_form'] = {}    # Form in each frame
 
 
 # For checking if key exists in dict
@@ -39,7 +39,7 @@ def initialize_dicts(reps):
 def form_increment(reps, form):
     if reps['count'] >= 0:
         reps[form][reps['count']] += 1
-        reps['frame_form'][reps['count']][reps['frame']] = form
+        reps['frame_form'][reps['frame']] = [reps['count'], form.capitalize().replace('_',' ')]
         reps['frame'] += 1
             
 
