@@ -1,5 +1,72 @@
-MAIN APP
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<br>
-<br>
-<img src="{% url 'webcam_feed' %}" >
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="left-screen"
+      style="
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100vw;
+      "
+    >
+      <img
+        style="
+          position: absolute;
+          right: 3%;
+          transform: translateX(-50%) scaleX(1);
+          height: 100%;
+        "
+        src="{% url 'webcam_feed' %}"
+      />
+    </div>
+    <div
+      style="
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('{{ videos.video.url }}');
+        background-size: cover;
+        overflow: hidden;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 100%;
+        width: 40%;
+        text-align: left;
+        padding: 100px;
+        box-sizing: border-box;
+        line-height: 1.5;
+      "
+      id="left-screen"
+    >
+      <div
+        class="text"
+        style="
+          color: #fff;
+          font-family: 'Raleway', sans-serif;
+          font-weight: 700;
+          font-size: 90px;
+          transform: translate(-70px, -70px);
+          width: calc(50vw - 60px);
+        "
+      >
+        Reps : 0
+      </div>
+    </div>
+  </body>
+</html>
