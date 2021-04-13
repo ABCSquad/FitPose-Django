@@ -19,7 +19,7 @@ def main_pose(stats_dict, reps, exercise_name, side="right", exit_rep_count=5000
     initialize_reps(reps)
     initialize_stats(stats_dict)
 
-    mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
+    mp_drawing = custom_drawing_utils         #Using our own custom version of the drawing functions file
     mp_pose = custom_pose
     
     # For webcam input:
