@@ -14,7 +14,7 @@ import custom_pose
 reps = {}
 stats_dict = {}
 
-def main_pose(stats_dict, reps, exercise_name, side, exit_rep_count):
+def main_pose(stats_dict, reps, exercise_name, side="right", exit_rep_count=5000):
     
     initialize_reps(reps)
     initialize_stats(stats_dict)
