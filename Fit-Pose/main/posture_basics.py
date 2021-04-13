@@ -1,6 +1,6 @@
 import cv2
-from body_parts import *
-from basics import *
+from main.body_parts import *
+from main.basics import *
 
 def ohp_posture_right(right_deviation, flag_right, flag_wrong, stats):
     if right_deviation<10:

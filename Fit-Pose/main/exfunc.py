@@ -1,10 +1,10 @@
 import numpy as np
 import math
 import cv2
-from basics import *
-from rep_counter import *
-from body_parts import *
-from posture_basics import *
+from main.basics import *
+from main.rep_counter import *
+from main.body_parts import *
+from main.posture_basics import *
 
 
 #Global flag declarations 

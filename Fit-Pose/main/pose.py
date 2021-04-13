@@ -6,15 +6,25 @@ from imutils.video import WebcamVideoStream
 import mediapipe as mp
 
 # Local imports
-from exfunc import *
-from rep_counter import *
-import custom_drawing_utils
-import custom_pose
+from main.exfunc import *
+from main.rep_counter import *
+from main.basics import *
+from . import custom_drawing_utils
+from . import custom_pose
 
 reps = {}
 stats_dict = {}
 
-def main_pose(stats_dict, reps, exercise_name, side="right", exit_rep_count=5000):
+def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5000):
+
+    exercise_id = int(exercise_id)
+    if exercise_id == 1:
+      exercise_name = "bicep_curl"
+    elif exercise_id == 2:
+      exercise_name = "ohp"
+    elif exercise_id == 3:
+      exercise_name = "lateral_raise"
+   
     
     initialize_reps(reps)
     initialize_stats(stats_dict)

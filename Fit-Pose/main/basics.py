@@ -140,3 +140,13 @@ def draw_vector_lateral(image, keypoints, direction_flag, hand):
         q2 =  (int(q1[0] + length* math.cos((draw_angle2) * (math.pi/180.0))) , int(q1[1] + (-length) * math.sin((draw_angle2) * (math.pi/180.0))))
 
     return p1, p2, q1, q2
+
+def initialize_stats(stats_dict):
+    stats_dict['right_shoulder_angle'] = -1
+    stats_dict['right_elbow_angle'] = -1
+    stats_dict['left_shoulder_angle'] = -1
+    stats_dict['left_elbow_angle'] = -1
+    stats_dict['hip_angle'] = -1
+    stats_dict['arm_right_deviation'] = -1
+    stats_dict['arm_left_deviation'] = -1
+    stats_dict['hip_deviation'] = -1
