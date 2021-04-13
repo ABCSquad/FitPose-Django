@@ -1,7 +1,6 @@
 import cv2
 from imutils.video import WebcamVideoStream
-from main import pose
-from .pose import main_pose
+from main.pose import main_pose
 
 class VideoCamera(object):
     def __init__(self):
@@ -16,8 +15,8 @@ class VideoCamera(object):
     def __del__(self):
         self.cap.stop()
     
-    def get_frame(self):
-        image = main_pose(self.cap)
+    def get_frame(self, detail_id):
+        image = main_pose(self.cap,detail_id)
         # We are using Motion JPEG, but OpenCV defaults to capture raw images,
         # so we must encode it into JPEG in order to correctly display the
         # video stream.
@@ -25,8 +24,8 @@ class VideoCamera(object):
         return jpeg.tobytes()
 
 
-def gen(camera):
+def gen(camera, detail_id):
     while True:
-        frame = camera.get_frame()
+        frame = camera.get_frame(detail_id)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
