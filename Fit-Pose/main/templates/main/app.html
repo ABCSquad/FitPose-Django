@@ -46,7 +46,7 @@
         top: 0px;
         right: 0px;
         height: 100%;
-        width: 40%;
+        width:45%;
         text-align: left;
         padding: 100px;
         box-sizing: border-box;
@@ -81,14 +81,9 @@
         content = [];
 
         final_data.forEach(function (item) {
-          content += buildPostContent(
-            item["zero"],
-            item["one"],
-            item["two"],
-            item["three"],
-            item["four"],
-            item["five"]
-          );
+          content += item;
+          content = content.split(/(?=[A-Z])/).join(" ");
+
           console.log(content);
         });
 
@@ -100,7 +95,18 @@
       };
 
       function buildPostContent(zero, one, two, three, four, five) {
-        content = `<p>${zero}</p><br><p>${one}</p><br><p>${two}</p><br><p>${three}</p><br><p>${four}</p><br><p>${five}</p><br>`;
+        content = `<div
+        id="real"
+        class="text"
+        style="
+          color: #fff;
+          font-family: 'Raleway', sans-serif;
+          font-weight: 700;
+          font-size: 90px;
+          transform: translate(-70px, -70px);
+          width: calc(50vw - 60px);
+        "
+      ><p>${zero}</p><br><p>${one}</p><br><p>${two}</p><br><p>${three}</p><br><p>${four}</p><br><p>${five}</p><br></div>`;
         return content;
       }
     </script>
