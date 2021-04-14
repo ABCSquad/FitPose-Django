@@ -21,9 +21,9 @@ messages = {}
 def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=5000):
 
     exercise_id = int(exercise_id)
-    if exercise_id == 2:
+    if exercise_id == 1:
       exercise_name = "bicep_curl"
-    elif exercise_id == 1:
+    elif exercise_id == 2:
       exercise_name = "ohp"
     elif exercise_id == 4:
       exercise_name = "lateral_raise"
@@ -54,7 +54,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
         # Display reps at down left corner
-        # cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+        cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
@@ -122,7 +122,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         # if stats is not None:
         #   cv2.imshow("Stats", stats)
         fps = round((1/(end-start)),2)
-        image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
+        image = cv2.putText(image, str(fps), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         # cv2.imshow('FitPose', image)
         if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == exit_rep_count:
           update_reps(reps)

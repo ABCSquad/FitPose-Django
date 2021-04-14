@@ -16,7 +16,7 @@ class VideoCamera(object):
         # Using OpenCV to capture from device 0. If you have trouble capturing
         # from a webcam, comment the line below out and use a video file
         # instead.
-        self.cap = WebcamVideoStream(src=1).start()
+        self.cap = WebcamVideoStream(src=0).start()
         # If you decide to use video.mp4, you must have this file in the folder
         # as the main.py.
         # self.video = cv2.VideoCapture('video.mp4')
@@ -45,7 +45,6 @@ def gen(camera, detail_id):
     initialize_reps(reps)
     while True:
         stats_dict = {}
-        reps = {}
         messages = {}
         frame = camera.get_frame(detail_id, stats_dict, reps, messages)
         yield (b'--frame\r\n'
@@ -59,7 +58,7 @@ def gene(real):
         if not initial_data == data:
             yield "\ndata: {}\n\n".format(data) 
             initial_data = data
-        time.sleep(0.001)
+        time.sleep(0.1)
 
 class realtime:
     def rl(self):
@@ -68,7 +67,7 @@ class realtime:
         global messages_global
 
         for i in range(1000):
-            print(messages_global)
+            #print(messages_global)
             # print(reps_global)
             message = messages_global
             return message
