@@ -14,6 +14,7 @@ from . import custom_pose
 from main.basics import initialize_stats
 
 reps = {}
+initialize_reps(reps)
 stats_dict = {}
 
 def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5000):
@@ -27,7 +28,6 @@ def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5
       exercise_name = "lateral_raise"
    
     
-    initialize_reps(reps)
     initialize_stats(stats_dict)
 
     mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
@@ -120,10 +120,12 @@ def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5
         # if stats is not None:
         #   cv2.imshow("Stats", stats)
         fps = round((1/(end-start)),2)
-        image = cv2.putText(image, str(fps), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
+        image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         # cv2.imshow('FitPose', image)
         if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == exit_rep_count:
           update_reps(reps)
           break
+
+        # print(reps)
 
         return image, stats_dict, reps
