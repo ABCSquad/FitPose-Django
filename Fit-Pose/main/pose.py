@@ -19,7 +19,7 @@ stats_dict = {}
 def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5000):
 
     exercise_id = int(exercise_id)
-    if exercise_id == 1:
+    if exercise_id == 4:
       exercise_name = "bicep_curl"
     elif exercise_id == 5:
       exercise_name = "ohp"

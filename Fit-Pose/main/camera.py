@@ -58,7 +58,7 @@ def gene(real):
 class realtime:
     def rl(self):
         global stats_dict_global
-        global reps
+        global reps_global
 
         for i in range(1000):
             print(stats_dict_global)
