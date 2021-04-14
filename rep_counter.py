@@ -78,10 +78,10 @@ def ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulde
     if right_deviation < 15 and left_deviation < 15:
         form_increment(reps,'correct_form')
 
-        if right_shoulder_angle < 90 and left_shoulder_angle < 90 and reps['flag'] == 0:
+        if right_shoulder_angle < 90 and left_shoulder_angle < 90 and (reps['flag'] == 0 or reps['flag'] == -1):
             rep_increment(reps)
 
-        elif right_shoulder_angle > 170 and left_shoulder_angle > 170 and (reps['flag'] == 1 or reps['flag'] == -1):
+        elif right_shoulder_angle > 170 and left_shoulder_angle > 170 and reps['flag'] == 1:
             reps['flag'] = 0
 
     else:
