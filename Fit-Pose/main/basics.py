@@ -150,3 +150,11 @@ def initialize_stats(stats_dict):
     stats_dict['arm_right_deviation'] = -1
     stats_dict['arm_left_deviation'] = -1
     stats_dict['hip_deviation'] = -1
+
+def initialize_messages(messages):
+    messages[0] = ""
+    messages[1] = ""
+    messages[2] = ""
+    messages[3] = ""
+    messages[4] = ""
+    messages[5] = ""

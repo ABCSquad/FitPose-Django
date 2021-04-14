@@ -15,8 +15,9 @@ from main.basics import initialize_stats
 
 reps = {}
 stats_dict = {}
+messages = {}
 
-def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5000):
+def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=5000):
 
     exercise_id = int(exercise_id)
     if exercise_id == 1:
@@ -29,6 +30,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5
     
     initialize_reps(reps)
     initialize_stats(stats_dict)
+    initialize_messages(messages)
 
     mp_drawing = custom_drawing_utils   #Using our own custom version of the drawing functions file
     mp_pose = custom_pose
@@ -77,16 +79,16 @@ def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5
             })
 
           if exercise_name.lower() == "bicep_curl":
-            image, stats, stats_dict, reps = bicep_curl(image, keypoints, side, reps, stats_dict)
+            image, stats, stats_dict, reps, messages = bicep_curl(image, keypoints, side, reps, stats_dict, messages)
 
           elif exercise_name.lower() == "ohp": 
-            image, stats, stats_dict, reps = shoulder_press(image, keypoints, reps, stats_dict)
+            image, stats, stats_dict, reps, messages = shoulder_press(image, keypoints, reps, stats_dict, messages)
           
           elif exercise_name.lower() == "lateral_raise":
-            image, stats, stats_dict, reps = lateral_raise(image, keypoints, reps, stats_dict)
+            image, stats, stats_dict, reps, messages = lateral_raise(image, keypoints, reps, stats_dict, messages)
 
           elif exercise_name.lower() == "pushups":
-            image, stats, stats_dict, reps = push_ups(image, keypoints, side, reps, stats_dict)
+            image, stats, stats_dict, reps, messages = push_ups(image, keypoints, side, reps, stats_dict, messages)
           
 
         else:
@@ -126,4 +128,4 @@ def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5
           update_reps(reps)
           break
 
-        return image, stats_dict, reps
+        return image, stats_dict, reps, messages

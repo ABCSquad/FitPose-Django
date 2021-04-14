@@ -8,6 +8,7 @@ from django.core.serializers.json import  DjangoJSONEncoder
 
 stats_dict_global = {}
 reps_global = {}
+messages_global = {}
 
 class VideoCamera(object):
     def __init__(self):
@@ -22,13 +23,15 @@ class VideoCamera(object):
     def __del__(self):
         self.cap.stop()
     
-    def get_frame(self, detail_id, stats_dict, reps):
+    def get_frame(self, detail_id, stats_dict, reps, messages):
         global stats_dict_global
         global reps_global
+        global messages_global
 
-        image, stats_dict, reps = main_pose(self.cap, detail_id, stats_dict, reps)
+        image, stats_dict, reps, messages = main_pose(self.cap, detail_id, stats_dict, reps, messages)
         stats_dict_global = stats_dict
         reps_global = reps
+        messages_global = messages
         # We are using Motion JPEG, but OpenCV defaults to capture raw images,
         # so we must encode it into JPEG in order to correctly display the
         # video stream.
@@ -41,7 +44,8 @@ def gen(camera, detail_id):
     while True:
         stats_dict = {}
         reps = {}
-        frame = camera.get_frame(detail_id, stats_dict, reps)
+        messages = {}
+        frame = camera.get_frame(detail_id, stats_dict, reps, messages)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
@@ -53,15 +57,16 @@ def gene(real):
         if not initial_data == data:
             yield "\ndata: {}\n\n".format(data) 
             initial_data = data
-        time.sleep(1)
+        time.sleep(0.001)
 
 class realtime:
     def rl(self):
         global stats_dict_global
-        global reps
+        global reps_global
+        global messages_global
 
         for i in range(1000):
-            print(stats_dict_global)
+            print(messages_global)
             # print(reps_global)
-            message = stats_dict_global
+            message = messages_global
             return message

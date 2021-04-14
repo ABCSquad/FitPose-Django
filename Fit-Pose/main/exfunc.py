@@ -14,7 +14,7 @@ flag_right_left = 0
 flag_wrong_left = 0
 direction_flag = -1
 
-def shoulder_press(image, keypoints, reps, stats_dict):
+def shoulder_press(image, keypoints, reps, stats_dict, messages):
     global flag_wrong
     global flag_right
     global flag_right_left 
@@ -32,7 +32,7 @@ def shoulder_press(image, keypoints, reps, stats_dict):
     left_deviation = abs(left_shoulder_angle - left_elbow_angle)
 
     #Rep counter
-    reps = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps)
+    reps, messages = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps)
 
 
     #Blank white image to display stats
@@ -90,9 +90,9 @@ def shoulder_press(image, keypoints, reps, stats_dict):
     stats_dict['arm_right_deviation'] = right_deviation
     stats_dict['arm_left_deviation'] = left_deviation
 
-    return(image, stats, stats_dict, reps)
+    return(image, stats, stats_dict, reps, messages)
     
-def bicep_curl(image, keypoints, side, reps, stats_dict):
+def bicep_curl(image, keypoints, side, reps, stats_dict, messages):
     global direction_flag
 
     #Right hand angles calculation
@@ -114,7 +114,7 @@ def bicep_curl(image, keypoints, side, reps, stats_dict):
     stats = cv2.putText(stats, "Angle at "+ side +" elbow: "+ str(round(elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    image, stats, direction_flag = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag)
+    image, stats, direction_flag, messages = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag, messages)
 
     #Condition to draw target vectors according to the hand motion direction
     if direction_flag == 1:
@@ -133,7 +133,7 @@ def bicep_curl(image, keypoints, side, reps, stats_dict):
     stats_dict['right_shoulder_angle'] = shoulder_angle
     stats_dict['right_elbow_angle'] = elbow_angle
     
-    return(image, stats, stats_dict, reps)
+    return(image, stats, stats_dict, reps, messages)
 
 # def tricep_extension(keypoints, side):
 #     #Right hand angles calculation
@@ -159,7 +159,7 @@ def bicep_curl(image, keypoints, side, reps, stats_dict):
 
     return(stats)
 
-def lateral_raise(image, keypoints, reps, stats_dict):
+def lateral_raise(image, keypoints, reps, stats_dict, messages):
     global flag_wrong
     global flag_right
     global flag_right_left 
@@ -235,9 +235,9 @@ def lateral_raise(image, keypoints, reps, stats_dict):
     stats_dict['arm_right_deviation'] = right_deviation
     stats_dict['arm_left_deviation'] = left_deviation
 
-    return(image, stats, stats_dict, reps)
+    return(image, stats, stats_dict, reps, messages)
 
-def push_ups(image, keypoints, side, reps, stats_dict):
+def push_ups(image, keypoints, side, reps, stats_dict, messages):
   
     global direction_flag
     global flag_right
@@ -295,4 +295,4 @@ def push_ups(image, keypoints, side, reps, stats_dict):
     stats_dict['hip_angle'] = hip_angle
     stats_dict['hip_deviation'] = hip_deviation
     
-    return(image, stats, stats_dict, reps)
+    return(image, stats, stats_dict, reps, messages)
