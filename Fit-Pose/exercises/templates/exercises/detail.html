@@ -1,24 +1,152 @@
+{% extends 'base.html' %} {% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    {{ exercise.title }}
-    <br />
-    <br />
+    <head>
+      {% load static %}
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous"
+      />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+      <link rel="stylesheet" href="{% static 'exe.css' %}" />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous"
+      />
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+  <style>
+    .header-images{
+      padding-top: 160px;
+    }
 
-    <img width="100" height="100" src="{{ details.gif_1.url }}" alt="" />
-    <img width="100" height="100" src="{{ details.gif_2.url }}" alt="" />
+    .steps_row_1 {
+      padding: 15px 10px 15px 15px;
+      margin-bottom: 10px;
+      border-radius: 1rem;
+      background-color:#003554;
+    }
+    .step_1{
+      font-size: 20px;
+    }
+    .step_1 p{
+      color: #fff;
+      margin : 0;
+    }
+    
+    .get-started{
+      padding-top: 90px;
+      padding-bottom:35px;
+      background: rgba(240, 240, 240, 0.8);
+      z-index: 998;
+    }
 
-    <br />
-    <br />
+    .get-started .btn {
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 1px;
+    display: inline-block;
+    border-radius: 50px;
+    transition: 0.5s;
+    margin-top: 10px;
+    color: #fff;
+    background: #47b2e4;
+    text-decoration: none;
+  }
 
-    <a href="{% url 'main:app' exercise.id%}"
-      ><button>Start Exercise</button></a
-    >
+  .get-started .btn:hover {
+    background: #209dd8;
+  }
+
+  </style>
+</head>
+<section class="get-started fixed-top" >
+  <div class="container " >
+    <div class="row justify-content-center">
+      
+        <h3>Click to Start Exercise</h3>
+      </div>
+    <div class="row justify-content-center">
+      <a href="{% url 'main:app' exercise.id%}" class="btn"
+          >Start Exercise</a>
+    </div> 
+  </div>
+</section>
+  <body style="background-color:#47b2e48f;">
+    <section style="margin-bottom: 50px" class="header-images">
+      <div style="padding-top: 100px" class="container">
+        <div class="row">
+          <div class="md-col-10 mx-auto">
+            <h1>{{ exercise.title }}</h1>
+            <hr />
+            <br />
+          </div>
+        </div>
+        <div class="row mx-auto">
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <img
+              width="auto"
+              height="300vh"
+              src="{{ details.gif_1.url }}"
+              alt=""
+            />
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <img
+            width="auto"
+            height="300vh"
+              src="{{ details.gif_2.url }}"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+      </section>
+      <section style="margin-bottom: 50px" class="steps">
+        <div class="container">
+        <div class="row steps_row_1">
+          <div class="md-col-10 step_1"><p>{{ details.step_1 }}</p></div>
+        </div>
+        <div class="row steps_row_1" >
+          <div class="md-col-10 step_1"><p>{{ details.step_2 }}</p></div>
+        </div>
+        <div class="row steps_row_1">
+          <div class="md-col-10 step_1"><p>{{ details.step_3 }}</p></div>
+        </div>
+        <div class="row steps_row_1">
+          <div class="md-col-10 step_1"><p>{{ details.step_4 }}</h3></div>
+        </div>
+      </div>
+      </section>
+
+    
+
+    <!-- <section class="get-started " >
+      <div class="container " >
+        <div class="row justify-content-center">
+          
+            <h3>Click to Start Exercise</h3>
+          </div>
+        <div class="row justify-content-center">
+          <a href="{% url 'main:app' exercise.id%}" class="btn"
+              >Start Exercise</a>
+        </div> 
+      </div>
+    </section> -->
+
   </body>
 </html>
+
+{% endblock %}

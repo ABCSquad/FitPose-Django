@@ -82,6 +82,7 @@ p {
 }
 
 .navbar {
+  z-index: 999;
   background: rgba(240, 240, 240, 0.8);
 }
 

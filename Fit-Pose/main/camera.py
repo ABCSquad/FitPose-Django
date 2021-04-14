@@ -4,6 +4,7 @@ from main.pose import main_pose
 import json 
 from random import randint 
 import time
+from .rep_counter import *
 from django.core.serializers.json import  DjangoJSONEncoder
 
 stats_dict_global = {}
@@ -15,7 +16,7 @@ class VideoCamera(object):
         # Using OpenCV to capture from device 0. If you have trouble capturing
         # from a webcam, comment the line below out and use a video file
         # instead.
-        self.cap = WebcamVideoStream(src=0).start()
+        self.cap = WebcamVideoStream(src=1).start()
         # If you decide to use video.mp4, you must have this file in the folder
         # as the main.py.
         # self.video = cv2.VideoCapture('video.mp4')
@@ -40,7 +41,8 @@ class VideoCamera(object):
 
 
 def gen(camera, detail_id):
-
+    reps = {}
+    initialize_reps(reps)
     while True:
         stats_dict = {}
         reps = {}

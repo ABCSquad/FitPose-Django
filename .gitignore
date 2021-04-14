@@ -162,8 +162,8 @@ Thumbs.db #thumbnail cache on Windows
 __pycache__/
 .vscode/
 .gitignore.swp
-dataset_in/
 .pose.py.swp
 .exfunc.py.swp
 .basics.py.swp
-renamer.py
+.data_viz.ipynb.swp
+*.csv

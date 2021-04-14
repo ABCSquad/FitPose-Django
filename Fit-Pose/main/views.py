@@ -29,3 +29,5 @@ class realtime_feed(View):
 		response = StreamingHttpResponse(gene(realtime()))
 		response['Content-Type'] = 'text/event-stream'
 		return response
+
+
