@@ -33,7 +33,7 @@
           transform: translateX(-50%) scaleX(1);
           height: 100%;
         "
-        src="{% url 'webcam_feed' %}"
+        src="{% url 'main:webcam_feed' %}"
       />
     </div>
     <div
@@ -55,6 +55,7 @@
       id="left-screen"
     >
       <div
+        id="real"
         class="text"
         style="
           color: #fff;
@@ -64,9 +65,24 @@
           transform: translate(-70px, -70px);
           width: calc(50vw - 60px);
         "
-      >
-        Reps : 0
-      </div>
+      ></div>
     </div>
+
+    <script>
+      var eventsource = new EventSource("{% url 'main:realtime_feed' %}");
+      eventsource.onopen = function () {
+        console.log("we have open connection");
+      };
+
+      eventsource.onmessage = function (e) {
+        console.log(e);
+        final_data = JSON.parse(e.data);
+        document.querySelector("#real").innerText = final_data.message;
+      };
+
+      eventsource.onerror = function (e) {
+        console.log(`error:`, e);
+      };
+    </script>
   </body>
 </html>
