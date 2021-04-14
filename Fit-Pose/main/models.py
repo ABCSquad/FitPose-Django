@@ -1,6 +1,6 @@
 from django.db import models
 from exercises.models import Detail
-from accounts.models import Profile
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -14,7 +14,7 @@ class Video(models.Model):
         return self.title
 
 class Session(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Detail, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True, null=False)
 
