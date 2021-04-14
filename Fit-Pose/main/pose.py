@@ -6,11 +6,12 @@ from imutils.video import WebcamVideoStream
 import mediapipe as mp
 
 # Local imports
-from main.exfunc import *
-from main.rep_counter import *
+from main.exfunc import bicep_curl, shoulder_press, lateral_raise,push_ups
+from main.rep_counter import initialize_reps, update_reps 
 from main.basics import *
 from . import custom_drawing_utils
 from . import custom_pose
+from main.basics import initialize_stats
 
 reps = {}
 stats_dict = {}
@@ -18,11 +19,11 @@ stats_dict = {}
 def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5000):
 
     exercise_id = int(exercise_id)
-    if exercise_id == 1:
+    if exercise_id == 4:
       exercise_name = "bicep_curl"
-    elif exercise_id == 2:
+    elif exercise_id == 5:
       exercise_name = "ohp"
-    elif exercise_id == 3:
+    elif exercise_id == 6:
       exercise_name = "lateral_raise"
    
     
@@ -118,6 +119,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5
         end = time.time()
         # if stats is not None:
         #   cv2.imshow("Stats", stats)
+        fps = round((1/(end-start)),2)
         image = cv2.putText(image, str(round((1/(end-start)),2)), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         # cv2.imshow('FitPose', image)
         if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == exit_rep_count:

@@ -3,11 +3,14 @@
 
 from django.urls import path, include
 from . import views
+from .views import realtime_feed
 
+app_name = 'main'
 
 urlpatterns = [
     path('<detail_id>/', views.app, name="app"),  
     path('webcam_feed', views.webcam_feed, name='webcam_feed'),
+    path('realtime_feed', realtime_feed.as_view(), name='realtime_feed'),
 ]
 
 
