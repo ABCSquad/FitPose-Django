@@ -1,6 +1,7 @@
 # Imports
 import pandas as pd
 import psycopg2
+from .models import Session
 
 # Converts dictionary to dataframe
 def dataframer(reps):
@@ -17,11 +18,14 @@ def dataframer(reps):
     wrong_form = list(reps['wrong_form'].values())[:reps['count']]
     wrong_form = [round(x,1) for x in wrong_form]
 
+    session_id = list(Session.objects.latest('id').id for x in time)
+
     # Storing lists in a dataframe
-    data = [rep_no, time, correct_form, wrong_form]
-    columns = ['rep_no', 'time', 'correct_form', 'wrong_form']
+    data = [rep_no, time, correct_form, wrong_form, session_id]
+    columns = ['rep_no', 'time', 'correct_form', 'wrong_form', 'session_id']
 
     df = pd.DataFrame(data, columns).transpose()
+    df['session_id'] = df['session_id'].astype(int)
     df.to_csv('exercise_stats.csv',  header=False, index=False)
 
     return df
@@ -34,12 +38,12 @@ def databaser():
     cur = pg_conn.cursor()
 
     insert_sql = '''
-    COPY main_stats(rep_no, time, correct_form, wrong_form)
-    FROM '/home/krantheman/FitPose/exercise_stats.csv'
+    COPY main_stats(rep_no, time, correct_form, wrong_form, session_id)
+    FROM '/home/krantheman/FitPose/Fit-Pose/exercise_stats.csv'
     DELIMITER ',' CSV;
     '''
-    # cur.execute(insert_sql)
-    cur.execute('TRUNCATE TABLE main_stats')
+    cur.execute(insert_sql)
+    # cur.execute('TRUNCATE TABLE main_stats')
 
     pg_conn.commit()
     cur.close()
