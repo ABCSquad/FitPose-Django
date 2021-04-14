@@ -11,7 +11,7 @@ from main.rep_counter import initialize_reps, update_reps
 from main.basics import *
 from . import custom_drawing_utils
 from . import custom_pose
-from main.basics import initialize_stats
+from main.basics import initialize_stats, initialize_messages
 
 reps = {}
 stats_dict = {}
@@ -20,7 +20,7 @@ messages = {}
 def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=5000):
 
     exercise_id = int(exercise_id)
-    if exercise_id == 2:
+    if exercise_id == 4:
       exercise_name = "bicep_curl"
     elif exercise_id == 1:
       exercise_name = "ohp"

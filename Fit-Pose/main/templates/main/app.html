@@ -76,14 +76,33 @@
       };
 
       eventsource.onmessage = function (e) {
-        console.log(e);
         final_data = JSON.parse(e.data);
-        document.querySelector("#real").innerText = final_data.message;
+        console.log(e);
+        content = [];
+
+        final_data.forEach(function (item) {
+          content += buildPostContent(
+            item["zero"],
+            item["one"],
+            item["two"],
+            item["three"],
+            item["four"],
+            item["five"]
+          );
+          console.log(content);
+        });
+
+        document.querySelector("#real").innerHTML = content;
       };
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
       };
+
+      function buildPostContent(zero, one, two, three, four, five) {
+        content = `<p>${zero}</p><br><p>${one}</p><br><p>${two}</p><br><p>${three}</p><br><p>${four}</p><br><p>${five}</p><br>`;
+        return content;
+      }
     </script>
   </body>
 </html>
