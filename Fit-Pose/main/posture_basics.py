@@ -88,8 +88,8 @@ def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, direction_
     else:
         # stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
         # stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[0] = "Your upper arm is not parallel to your torso"
-        messages[1] = "None"
+        messages[0] = "Upper arm not parallel to torso"
+        # messages[1] = "None"
         cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,0,255), 3)
         direction_flag = -1
     

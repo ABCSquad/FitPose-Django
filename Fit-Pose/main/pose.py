@@ -11,7 +11,7 @@ from main.rep_counter import initialize_reps, update_reps
 from main.basics import *
 from . import custom_drawing_utils
 from . import custom_pose
-from main.basics import initialize_stats
+from main.basics import initialize_stats, initialize_messages
 
 reps = {}
 initialize_reps(reps)

@@ -54,7 +54,7 @@ def gene(real):
 
     initial_data = ""
     while True:
-        data = json.dumps(dict((real.rl())),cls=DjangoJSONEncoder)
+        data = json.dumps(list((real.rl()).values()),cls=DjangoJSONEncoder)
         if not initial_data == data:
             yield "\ndata: {}\n\n".format(data) 
             initial_data = data

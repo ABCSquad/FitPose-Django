@@ -46,7 +46,7 @@
         top: 0px;
         right: 0px;
         height: 100%;
-        width: 40%;
+        width:45%;
         text-align: left;
         padding: 100px;
         box-sizing: border-box;
@@ -76,14 +76,39 @@
       };
 
       eventsource.onmessage = function (e) {
-        console.log(e);
         final_data = JSON.parse(e.data);
-        document.querySelector("#real").innerText = final_data.message;
+        console.log(e);
+        content = [];
+
+        final_data.forEach(function (item) {
+          content += item;
+          content = content.split(/(?=[A-Z])/).join(" ");
+
+          console.log(content);
+        });
+
+        document.querySelector("#real").innerHTML = content;
       };
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
       };
+
+      function buildPostContent(zero, one, two, three, four, five) {
+        content = `<div
+        id="real"
+        class="text"
+        style="
+          color: #fff;
+          font-family: 'Raleway', sans-serif;
+          font-weight: 700;
+          font-size: 90px;
+          transform: translate(-70px, -70px);
+          width: calc(50vw - 60px);
+        "
+      ><p>${zero}</p><br><p>${one}</p><br><p>${two}</p><br><p>${three}</p><br><p>${four}</p><br><p>${five}</p><br></div>`;
+        return content;
+      }
     </script>
   </body>
 </html>
