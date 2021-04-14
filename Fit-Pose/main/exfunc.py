@@ -32,18 +32,18 @@ def shoulder_press(image, keypoints, reps, stats_dict, messages):
     left_deviation = abs(left_shoulder_angle - left_elbow_angle)
 
     #Rep counter
-    reps, messages = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps)
+    reps = ohp_reps(right_deviation, left_deviation, right_shoulder_angle, left_shoulder_angle, reps)
 
 
     #Blank white image to display stats
-    stats = cv2.imread("white2.jpg") 
+    # stats = cv2.imread("white2.jpg") 
 
-    stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    stats = cv2.putText(stats, "Angle at right shoulder : "+ str(round(right_shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
-    stats = cv2.putText(stats, "Angle at right elbow : "+ str(round(right_elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
+    # stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    # stats = cv2.putText(stats, "Angle at right shoulder : "+ str(round(right_shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
+    # stats = cv2.putText(stats, "Angle at right elbow : "+ str(round(right_elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    stats, flag_right, flag_wrong = ohp_posture_right(right_deviation, flag_right, flag_wrong, stats)
+    flag_right, flag_wrong, messages = ohp_posture_right(right_deviation, flag_right, flag_wrong, messages)
 
     #Condition to draw target vectors according to the hand motion direction 
     if reps['flag'] == 1:
@@ -61,11 +61,11 @@ def shoulder_press(image, keypoints, reps, stats_dict, messages):
       dotted_line(image, tuple(p1), p2, (0,green,yellow), 3, 10)
       dotted_line(image, tuple(q1), q2, (0,green,yellow), 3, 10)
     
-    stats = cv2.putText(stats, "Angle at left shoulder : "+ str(round(left_shoulder_angle,2)), (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
-    stats = cv2.putText(stats, "Angle at left elbow : "+ str(round(left_elbow_angle,2)), (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
+    # stats = cv2.putText(stats, "Angle at left shoulder : "+ str(round(left_shoulder_angle,2)), (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
+    # stats = cv2.putText(stats, "Angle at left elbow : "+ str(round(left_elbow_angle,2)), (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
    
     #Evaluating the posture for the left hand using a function
-    stats, flag_right_left, flag_wrong_left = ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats)
+    flag_right_left, flag_wrong_left, messages = ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, messages)
 
     #Condition to draw target vectors according to the hand motion direction 
     if reps['flag'] == 1:
@@ -90,7 +90,7 @@ def shoulder_press(image, keypoints, reps, stats_dict, messages):
     stats_dict['arm_right_deviation'] = right_deviation
     stats_dict['arm_left_deviation'] = left_deviation
 
-    return(image, stats, stats_dict, reps, messages)
+    return(image, stats_dict, reps, messages)
     
 def bicep_curl(image, keypoints, side, reps, stats_dict, messages):
     global direction_flag
@@ -107,14 +107,14 @@ def bicep_curl(image, keypoints, side, reps, stats_dict, messages):
     reps = curl_reps(shoulder_angle, elbow_angle, reps)
 
     #Blank white image to display stats
-    stats = cv2.imread("white2.jpg") 
+    # stats = cv2.imread("white2.jpg") 
 
-    stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    stats = cv2.putText(stats, "Angle at "+ side +" shoulder: "+ str(round(shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
-    stats = cv2.putText(stats, "Angle at "+ side +" elbow: "+ str(round(elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
+    # stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    # stats = cv2.putText(stats, "Angle at "+ side +" shoulder: "+ str(round(shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
+    # stats = cv2.putText(stats, "Angle at "+ side +" elbow: "+ str(round(elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    image, stats, direction_flag, messages = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, stats, direction_flag, messages)
+    image, direction_flag, messages = curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, direction_flag, messages)
 
     #Condition to draw target vectors according to the hand motion direction
     if direction_flag == 1:
@@ -133,7 +133,7 @@ def bicep_curl(image, keypoints, side, reps, stats_dict, messages):
     stats_dict['right_shoulder_angle'] = shoulder_angle
     stats_dict['right_elbow_angle'] = elbow_angle
     
-    return(image, stats, stats_dict, reps, messages)
+    return(image, stats_dict, reps, messages)
 
 # def tricep_extension(keypoints, side):
 #     #Right hand angles calculation
@@ -157,7 +157,7 @@ def bicep_curl(image, keypoints, side, reps, stats_dict, messages):
 #     #Evaluating the posture for the right hand using a function
 #     stats = tricep_extension_posture(shoulder_angle, elbow_angle, stats)
 
-    return(stats)
+#    return(stats)
 
 def lateral_raise(image, keypoints, reps, stats_dict, messages):
     global flag_wrong
@@ -181,14 +181,14 @@ def lateral_raise(image, keypoints, reps, stats_dict, messages):
 
 
     #Blank white image to display stats
-    stats = cv2.imread("white2.jpg") 
+    # stats = cv2.imread("white2.jpg") 
 
-    stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-    stats = cv2.putText(stats, "Angle at right shoulder : "+ str(round(right_shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
-    stats = cv2.putText(stats, "Angle at right elbow : "+ str(round(right_elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
+    # stats = cv2.putText(stats, "Stats", (5,15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
+    # stats = cv2.putText(stats, "Angle at right shoulder : "+ str(round(right_shoulder_angle,2)), (5,35), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
+    # stats = cv2.putText(stats, "Angle at right elbow : "+ str(round(right_elbow_angle,2)), (5,55), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)
     
     #Evaluating the posture for the right hand using a function
-    stats, flag_right, flag_wrong = lateral_posture_right(right_deviation, flag_right, flag_wrong, stats)
+    flag_right, flag_wrong, messages = lateral_posture_right(right_deviation, flag_right, flag_wrong, messages)
 
     #Condition to draw target vectors according to the hand motion direction 
     if reps['flag'] == 1:
@@ -206,11 +206,11 @@ def lateral_raise(image, keypoints, reps, stats_dict, messages):
       dotted_line(image, tuple(p1), p2, (0,green,yellow), 3, 10)
       dotted_line(image, tuple(q1), q2, (0,green,yellow), 3, 10)
     
-    stats = cv2.putText(stats, "Angle at left shoulder : "+ str(round(left_shoulder_angle,2)), (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
-    stats = cv2.putText(stats, "Angle at left elbow : "+ str(round(left_elbow_angle,2)), (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
+    # stats = cv2.putText(stats, "Angle at left shoulder : "+ str(round(left_shoulder_angle,2)), (5,115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA)    
+    # stats = cv2.putText(stats, "Angle at left elbow : "+ str(round(left_elbow_angle,2)), (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 1, cv2.LINE_AA) 
    
     #Evaluating the posture for the left hand using a function
-    stats, flag_right_left, flag_wrong_left = lateral_posture_left(left_deviation, flag_right_left, flag_wrong_left, stats)
+    flag_right_left, flag_wrong_left, messages = lateral_posture_left(left_deviation, flag_right_left, flag_wrong_left, messages)
 
     #Condition to draw target vectors according to the hand motion direction 
     if reps['flag'] == 1:
@@ -235,7 +235,7 @@ def lateral_raise(image, keypoints, reps, stats_dict, messages):
     stats_dict['arm_right_deviation'] = right_deviation
     stats_dict['arm_left_deviation'] = left_deviation
 
-    return(image, stats, stats_dict, reps, messages)
+    return(image, stats_dict, reps, messages)
 
 def push_ups(image, keypoints, side, reps, stats_dict, messages):
   

@@ -20,9 +20,9 @@ messages = {}
 def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=5000):
 
     exercise_id = int(exercise_id)
-    if exercise_id == 1:
+    if exercise_id == 2:
       exercise_name = "bicep_curl"
-    elif exercise_id == 5:
+    elif exercise_id == 1:
       exercise_name = "ohp"
     elif exercise_id == 6:
       exercise_name = "lateral_raise"
@@ -54,7 +54,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
         # Display reps at down left corner
-        cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+        # cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
@@ -79,13 +79,13 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
             })
 
           if exercise_name.lower() == "bicep_curl":
-            image, stats, stats_dict, reps, messages = bicep_curl(image, keypoints, side, reps, stats_dict, messages)
+            image, stats_dict, reps, messages = bicep_curl(image, keypoints, side, reps, stats_dict, messages)
 
           elif exercise_name.lower() == "ohp": 
-            image, stats, stats_dict, reps, messages = shoulder_press(image, keypoints, reps, stats_dict, messages)
+            image, stats_dict, reps, messages = shoulder_press(image, keypoints, reps, stats_dict, messages)
           
           elif exercise_name.lower() == "lateral_raise":
-            image, stats, stats_dict, reps, messages = lateral_raise(image, keypoints, reps, stats_dict, messages)
+            image, stats_dict, reps, messages = lateral_raise(image, keypoints, reps, stats_dict, messages)
 
           elif exercise_name.lower() == "pushups":
             image, stats, stats_dict, reps, messages = push_ups(image, keypoints, side, reps, stats_dict, messages)
