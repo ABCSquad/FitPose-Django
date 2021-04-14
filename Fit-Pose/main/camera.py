@@ -15,8 +15,8 @@ class VideoCamera(object):
     def __del__(self):
         self.cap.stop()
     
-    def get_frame(self, detail_id):
-        image = main_pose(self.cap,detail_id)
+    def get_frame(self, detail_id, stats_dict, reps):
+        image, stats_dict = main_pose(self.cap, detail_id, stats_dict, reps)
         # We are using Motion JPEG, but OpenCV defaults to capture raw images,
         # so we must encode it into JPEG in order to correctly display the
         # video stream.
@@ -25,7 +25,10 @@ class VideoCamera(object):
 
 
 def gen(camera, detail_id):
+
     while True:
-        frame = camera.get_frame(detail_id)
+        stats_dict = {}
+        reps = {}
+        frame = camera.get_frame(detail_id, stats_dict, reps)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
