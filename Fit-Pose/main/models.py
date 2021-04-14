@@ -18,8 +18,9 @@ class Session(models.Model):
     exercise = models.ForeignKey(Detail, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True, null=False)
 
+
 class Stats(models.Model):
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, default=Session.objects.latest('id'), on_delete=models.CASCADE)
     rep_no = models.DecimalField(max_digits=4, decimal_places=1)
     time = models.DecimalField(max_digits=4, decimal_places=1)
     correct_form = models.DecimalField(max_digits=4, decimal_places=1)

@@ -17,7 +17,7 @@ reps = {}
 initialize_reps(reps)
 stats_dict = {}
 
-def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=5000):
+def main_pose(cap, exercise_id, stats_dict, reps, side="right", exit_rep_count=6):
 
     exercise_id = int(exercise_id)
     if exercise_id == 3:
