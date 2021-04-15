@@ -79,6 +79,17 @@
           width: calc(50vw - 60px);
         "
       ></div>
+      <div
+        id="reps"
+        style="
+          color: #fff;
+          font-family: 'Raleway', sans-serif;
+          font-weight: 700;
+          font-size: 70px;
+          transform: translate(-90px, -10px);
+          width: calc(50vw - 60px);
+        "
+      ></div>
     </div>
 
     <script>
@@ -93,22 +104,29 @@
         content = [];
 
         final_data.forEach(function (item) {
-          content += item;
-          content = content.replace(",", "");
-          console.log(content);
-          content = content.split(/(?=[A-Z])/);
+          content += item;         
         });
-        if (content[0] != undefined) {
-          document.querySelector("#real1").innerHTML = content[0];
-          if (content[1] != undefined) {
+
+        content= content.replace(',', '');
+        content = content.split(/(?=[A-Z])|(?=[0-9]+)/);
+        console.log(content);
+
+        if(content[0].length > 3){
+          if(content[1].length > 3){
+            document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = content[1];
-          } else {
+            document.querySelector("#reps").innerHTML = content[2];
+          }else{
+            document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = "";
+            document.querySelector("#reps").innerHTML = content[1];
           }
-        } else {
-          document.querySelector("#real1").innerHTML = "";
-          document.querySelector("#real2").innerHTML = "";
+        }else{
+            document.querySelector("#real1").innerHTML = "";
+            document.querySelector("#real2").innerHTML = "";
+            document.querySelector("#reps").innerHTML = content[0];
         }
+        
       };
 
       eventsource.onerror = function (e) {

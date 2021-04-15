@@ -54,11 +54,11 @@ def gene(real):
 
     initial_data = ""
     while True:
-        data = json.dumps(list((real.rl()).values()),cls=DjangoJSONEncoder)
+        data = json.dumps((real.rl()),cls=DjangoJSONEncoder)
         if not initial_data == data:
             yield "\ndata: {}\n\n".format(data) 
             initial_data = data
-        time.sleep(0.5)
+        time.sleep(0.1)
 
 class realtime:
     def rl(self):
@@ -66,11 +66,19 @@ class realtime:
         global reps_global
         global messages_global
 
-    
         #print(messages_global)
         # print(reps_global)
         message = messages_global
         reps = reps_global
-        # message = list(message).append(reps['count'])
-        #print(reps)
+        #message = (list(message)).append(reps['count'])
+        message = list(message.values())
+        try:
+            if reps['count'] != -1:
+                message.append(reps['count'])
+            else:
+                message.append(int(0))
+        except:
+            print("nahi hai reps") 
+
+        print(message)
         return message
