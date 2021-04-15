@@ -59,7 +59,7 @@
         id="real1"
         class="text"
         style="
-          color: #fff;
+          color: rgb(142, 166, 235);
           font-family: 'Raleway', sans-serif;
           font-weight: 700;
           font-size: 70px;
@@ -71,7 +71,7 @@
         id="real2"
         class="text"
         style="
-          color: #fff;
+          color: rgb(105, 211, 111);
           font-family: 'Raleway', sans-serif;
           font-weight: 700;
           font-size: 70px;
@@ -89,27 +89,25 @@
 
       eventsource.onmessage = function (e) {
         final_data = JSON.parse(e.data);
-        
+
         content = [];
 
         final_data.forEach(function (item) {
           content += item;
-          content= content.replace(',', '');
+          content = content.replace(",", "");
           console.log(content);
           content = content.split(/(?=[A-Z])/);
-
-          
         });
-        if(content[0] != undefined ){
+        if (content[0] != undefined) {
           document.querySelector("#real1").innerHTML = content[0];
-          if(content[1] != undefined){
+          if (content[1] != undefined) {
             document.querySelector("#real2").innerHTML = content[1];
-          }else{
+          } else {
             document.querySelector("#real2").innerHTML = "";
           }
-        }else{
-        document.querySelector("#real1").innerHTML = "";
-        document.querySelector("#real2").innerHTML = "";
+        } else {
+          document.querySelector("#real1").innerHTML = "";
+          document.querySelector("#real2").innerHTML = "";
         }
       };
 

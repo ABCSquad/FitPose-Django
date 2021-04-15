@@ -34,7 +34,7 @@ class Detail(models.Model):
     step_3 = models.CharField(max_length=200)
     step_4 = models.CharField(max_length=200)
     
-    exercise = models.ForeignKey(Exercise, null=True, on_delete=models.SET_NULL)
+    exercise = models.ForeignKey(Exercise, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

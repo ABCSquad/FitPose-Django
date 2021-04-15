@@ -25,6 +25,9 @@ def app(request, detail_id):
 	video = get_object_or_404(Video, pk=detail_id)
 	return render(request, 'main/app.html',{'id':detail_id,'videos':video})
 
+def result(request):
+	return render(request, 'main/result.html')
+
 
 def webcam_feed(request):
 	global detailid
@@ -38,3 +41,5 @@ class realtime_feed(View):
 		response = StreamingHttpResponse(gene(realtime()))
 		response['Content-Type'] = 'text/event-stream'
 		return response
+
+

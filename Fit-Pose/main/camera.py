@@ -66,8 +66,11 @@ class realtime:
         global reps_global
         global messages_global
 
-        for i in range(1000):
-            #print(messages_global)
-            # print(reps_global)
-            message = messages_global
-            return message
+    
+        #print(messages_global)
+        # print(reps_global)
+        message = messages_global
+        reps = reps_global
+        # message = list(message).append(reps['count'])
+        print(reps)
+        return message
