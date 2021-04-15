@@ -190,7 +190,7 @@ class Pose(SolutionBase):
                static_image_mode=False,
                upper_body_only=False,
                smooth_landmarks=True,
-               min_detection_confidence=0.9,
+               min_detection_confidence=0.7,
                min_tracking_confidence=0.9):
     """Initializes a MediaPipe Pose object.
 

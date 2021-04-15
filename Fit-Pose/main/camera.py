@@ -78,7 +78,6 @@ class realtime:
             else:
                 message.append(int(0))
         except:
-            print("nahi hai reps") 
+            pass
 
-        #print(message)
         return message

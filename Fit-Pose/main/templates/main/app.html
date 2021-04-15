@@ -7,8 +7,11 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
 
+    <link href="https://fonts.googleapis.com/css2?family=Kameron:wght@700&family=Lato:wght@700&display=swap" rel="stylesheet"> 
+
     <link
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;900&display=swap"
+      
       rel="stylesheet"
     />
 
@@ -87,14 +90,14 @@
         font-size: 70px;
         position: fixed;
         left: 0;
-        bottom: 0;
+        top: 14px;
         width: 100%;
       "
     >
       Reps:
       <div
         id="reps"
-        style="position: fixed; bottom: 0; width: 100%; margin-left: 200px"
+        style="font-family: 'Kameron', sans-serif; font-size:100px; color: rgb(142, 166, 235); position: fixed; top: 0; width: 100%; margin-left: 200px"
       ></div>
     </div>
 
@@ -119,15 +122,24 @@
 
         if (content[0].length > 3) {
           if (content[1].length > 3) {
+            document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
             document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = content[1];
             document.querySelector("#reps").innerHTML = content[2];
           } else {
-            document.querySelector("#real1").innerHTML = content[0];
+
+            if(content[0] == "Stand in view of the camera"){
+              document.querySelector("#real1").style.color = "rgba(255, 62, 25, 0.85)";
+              document.querySelector("#real1").innerHTML = content[0];
+            }else{
+              document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
+              document.querySelector("#real1").innerHTML = content[0];
+            }
             document.querySelector("#real2").innerHTML = "";
-            document.querySelector("#reps").innerHTML = content[1];
+            document.querySelector("#reps").innerHTML = content[1];                       
           }
         } else {
+          document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
           document.querySelector("#real1").innerHTML = "";
           document.querySelector("#real2").innerHTML = "";
           document.querySelector("#reps").innerHTML = content[0];
