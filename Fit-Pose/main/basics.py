@@ -152,9 +152,9 @@ def initialize_stats(stats_dict):
     stats_dict['hip_deviation'] = -1
 
 def initialize_messages(messages):
-    messages[0] = ""
-    messages[1] = ""
-    messages[2] = ""
-    messages[3] = ""
-    messages[4] = ""
-    messages[5] = ""
+    messages["msg1"] = ""
+    messages["msg2"] = ""
+    messages["msg3"] = ""
+    messages["msg4"] = ""
+    messages["msg5"] = ""
+    messages["msg6"] = ""

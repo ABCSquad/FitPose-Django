@@ -8,21 +8,21 @@ def ohp_posture_right(right_deviation, flag_right, flag_wrong, messages):
       flag_right += 1
       if flag_right>0 and flag_right<=20:
         # stats = cv2.putText(stats, "Fix your right hand form!", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[0] = "Fix your right hand form!"
+        messages["msg1"] = "Fix your right hand form!"
       elif flag_right>20:
         flag_wrong = 0
         # stats = cv2.putText(stats, "Your right hand form is perfect", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[0] = "Your right hand form is perfect"
+        messages["msg1"] = "Your right hand form is perfect"
     else:
       # stats = cv2.putText(stats, "Right deviation: "+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
       flag_wrong+=1
       if flag_wrong>0 and flag_wrong<=15:
         # stats = cv2.putText(stats, "Your right hand form is perfect", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[0] = "Your right hand form is perfect"
+        messages["msg1"] = "Your right hand form is perfect"
       elif flag_wrong>15:
         flag_right = 0
         # stats = cv2.putText(stats, "Fix your right hand form!", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[0] = "Fix your right hand form!"
+        messages["msg1"] = "Fix your right hand form!"
     return(flag_right, flag_wrong, messages)
 
 def ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, messages):
@@ -31,21 +31,21 @@ def ohp_posture_left(left_deviation, flag_right_left, flag_wrong_left, messages)
       flag_right_left += 1
       if flag_right_left>0 and flag_right_left<=20:
         # stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[1] = "Fix your left hand form!"
+        messages["msg2"] = "Fix your left hand form!"
       elif flag_right_left>20:
         flag_wrong_left = 0
         # stats = cv2.putText(stats, "Your left hand form is perfect", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[1] = "Your left hand form is perfect"
+        messages["msg2"] = "Your left hand form is perfect"
     else:
       # stats = cv2.putText(stats, "Left deviation: "+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA) 
       flag_wrong_left+=1
       if flag_wrong_left>0 and flag_wrong_left<=15:
         # stats = cv2.putText(stats, "Your left hand form is perfect", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[1] = "Your left hand form is perfect"
+        messages["msg2"] = "Your left hand form is perfect"
       elif flag_wrong_left>15:
         flag_right_left  = 0
         # stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[1] = "Fix your left hand form!"
+        messages["msg2"] = "Fix your left hand form!"
     return(flag_right_left, flag_wrong_left, messages)
 
 def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, direction_flag, messages):
@@ -71,25 +71,25 @@ def curl_posture(image, keypoints, side, shoulder_angle, elbow_angle, direction_
     if shoulder_angle<13 or shoulder_angle>350:
         # stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2, cv2.LINE_AA)
         # stats = cv2.putText(stats, "Your upper arm position is perfect", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[0] = "Your upper arm position is perfect"
+        messages["msg1"] = "Your upper arm position is perfect"
         if elbow_angle > 160:
             # stats = cv2.putText(stats, "Lift your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-            messages[1] = "Lift your forearm"
+            messages["msg2"] = "Lift your forearm"
             direction_flag = 1
         elif elbow_angle < 160 and elbow_angle > 65:
             # stats = cv2.putText(stats, "Your forearm posture is perfect", (5,135), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
             # stats = cv2.putText(stats, "Complete the rep!", (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,0,0), 2, cv2.LINE_AA)
-            messages[1] = "Your forearm posture is perfect, complete the rep"
+            messages["msg2"] = "Your forearm posture is perfect, complete the rep"
         else:
             # stats = cv2.putText(stats, "Lower your forearm", (5,125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-            messages[1] = "Lower your forearm"
+            messages["msg2"] = "Lower your forearm"
             direction_flag = 0
         cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,255,0), 3)
     else:
         # stats = cv2.putText(stats, "Upper arm deviation: "+ str(round(upper_arm_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
         # stats = cv2.putText(stats, "Your upper arm is not parallel to your torso", (5,105), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[0] = "Upper arm not parallel to torso"
-        # messages[1] = "None"
+        messages["msg1"] = "Upper arm not parallel to torso"
+        # messages["msg2"] = "None"
         cv2.line(image, tuple(shoulder_point), tuple(elbow_point), (0,0,255), 3)
         direction_flag = -1
     
@@ -120,21 +120,21 @@ def lateral_posture_right(right_deviation, flag_right, flag_wrong, messages):
       flag_right += 1
       if flag_right>0 and flag_right<=20:
         # stats = cv2.putText(stats, "Fix your right hand form!", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[0] = "Fix your right hand form!"
+        messages["msg1"] = "Fix your right hand form!"
       elif flag_right>20:
         flag_wrong = 0
         # stats = cv2.putText(stats, "Your right hand form is perfect", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[0] = "Your right hand form is perfect"
+        messages["msg1"] = "Your right hand form is perfect"
     else:
       # stats = cv2.putText(stats, "Right elbow deviation: "+ str(round(right_deviation,2)), (5,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA)
       flag_wrong+=1
       if flag_wrong>0 and flag_wrong<=15:
         # stats = cv2.putText(stats, "Your right hand form is perfect", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[0] = "Your right hand form is perfect"
+        messages["msg1"] = "Your right hand form is perfect"
       elif flag_wrong>15:
         flag_right = 0
         # stats = cv2.putText(stats, "Fix your right hand form!", (5,185), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[0] = "Fix your right hand form"
+        messages["msg1"] = "Fix your right hand form"
 
     return(flag_right, flag_wrong, messages)
 
@@ -144,21 +144,21 @@ def lateral_posture_left(left_deviation, flag_right_left, flag_wrong_left, messa
       flag_right_left += 1
       if flag_right_left>0 and flag_right_left<=20:
         # stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[1] = "Fix left right hand form"
+        messages["msg2"] = "Fix left right hand form"
       elif flag_right_left>20:
         flag_wrong_left = 0
         # stats = cv2.putText(stats, "Your left hand form is perfect", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        essages[1] = "Your left hand form is perfect"
+        messages["msg2"] = "Your left hand form is perfect"
     else:
       # stats = cv2.putText(stats, "Left elbow deviation: "+ str(round(left_deviation,2)), (5,155), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2, cv2.LINE_AA) 
       flag_wrong_left+=1
       if flag_wrong_left>0 and flag_wrong_left<=15:
         # stats = cv2.putText(stats, "Your left hand form is perfect", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2, cv2.LINE_AA)
-        messages[1] = "Your left hand form is perfect"
+        messages["msg2"] = "Your left hand form is perfect"
       elif flag_wrong_left>15:
         flag_right_left  = 0
         # stats = cv2.putText(stats, "Fix your left hand form!", (5,205), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2, cv2.LINE_AA)
-        messages[1] = "Fix left right hand form"
+        messages["msg2"] = "Fix left right hand form"
 
     return(flag_right_left, flag_wrong_left, messages)
 
