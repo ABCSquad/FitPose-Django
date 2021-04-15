@@ -1,5 +1,6 @@
 # Imports
 import time
+from main.df_to_db import *
 
 
 '''
@@ -62,6 +63,8 @@ def frames_to_time(reps):
 # To call required functions to perform calculations after exercise loop is over in main function
 def update_reps(reps):
     frames_to_time(reps)
+    df = dataframer(reps)
+    databaser()
 
 
 '''
