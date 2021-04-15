@@ -72,5 +72,5 @@ class realtime:
         message = messages_global
         reps = reps_global
         # message = list(message).append(reps['count'])
-        print(reps)
+        #print(reps)
         return message
