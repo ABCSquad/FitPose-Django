@@ -56,7 +56,7 @@
       id="left-screen"
     >
       <div
-        id="real"
+        id="real1"
         class="text"
         style="
           color: #fff;
@@ -64,6 +64,18 @@
           font-weight: 700;
           font-size: 70px;
           transform: translate(-90px, -70px);
+          width: calc(50vw - 60px);
+        "
+      ></div>
+      <div
+        id="real2"
+        class="text"
+        style="
+          color: #fff;
+          font-family: 'Raleway', sans-serif;
+          font-weight: 700;
+          font-size: 70px;
+          transform: translate(-90px, -40px);
           width: calc(50vw - 60px);
         "
       ></div>
@@ -77,38 +89,33 @@
 
       eventsource.onmessage = function (e) {
         final_data = JSON.parse(e.data);
-        console.log(e);
+        
         content = [];
 
         final_data.forEach(function (item) {
           content += item;
-          content = content.split(/(?=[A-Z])/).join(" ");
-
+          content= content.replace(',', '');
           console.log(content);
-        });
+          content = content.split(/(?=[A-Z])/);
 
-        document.querySelector("#real").innerHTML = content;
+          
+        });
+        if(content[0] != undefined ){
+          document.querySelector("#real1").innerHTML = content[0];
+          if(content[1] != undefined){
+            document.querySelector("#real2").innerHTML = content[1];
+          }else{
+            document.querySelector("#real2").innerHTML = "";
+          }
+        }else{
+        document.querySelector("#real1").innerHTML = "";
+        document.querySelector("#real2").innerHTML = "";
+        }
       };
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
       };
-
-      function buildPostContent(zero, one, two, three, four, five) {
-        content = `<div
-        id="real"
-        class="text"
-        style="
-          color: #fff;
-          font-family: 'Raleway', sans-serif;
-          font-weight: 700;
-          font-size: 90px;
-          transform: translate(-70px, -70px);
-          width: calc(50vw - 60px);
-        "
-      ><p>${zero}</p><br><p>${one}</p><br><p>${two}</p><br><p>${three}</p><br><p>${four}</p><br><p>${five}</p><br></div>`;
-        return content;
-      }
     </script>
   </body>
 </html>

@@ -18,7 +18,7 @@ initialize_reps(reps)
 stats_dict = {}
 messages = {}
 
-def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=5000):
+def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=4):
 
     exercise_id = int(exercise_id)
     if exercise_id == 1:
@@ -54,7 +54,8 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
         # Display reps at down left corner
-        cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+        if reps['count'] != -1:
+          cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.

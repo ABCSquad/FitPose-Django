@@ -156,5 +156,5 @@ def initialize_messages(messages):
     messages["msg2"] = ""
     messages["msg3"] = ""
     messages["msg4"] = ""
-    messages["msg5"] = ""
-    messages["msg6"] = ""
+    # messages["msg5"] = ""
+    # messages["msg6"] = ""

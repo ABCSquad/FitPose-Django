@@ -58,7 +58,7 @@ def gene(real):
         if not initial_data == data:
             yield "\ndata: {}\n\n".format(data) 
             initial_data = data
-        time.sleep(0.1)
+        time.sleep(0.5)
 
 class realtime:
     def rl(self):
