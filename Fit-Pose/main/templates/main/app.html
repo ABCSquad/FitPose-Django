@@ -48,9 +48,9 @@
         height: 100%;
         width:40%;
         text-align: left;
-        padding: 100px;
+        padding: 30px;
         box-sizing: border-box;
-        line-height: 1.5;
+        line-height:1.1;
         
       "
       id="left-screen"
@@ -59,36 +59,42 @@
         id="real1"
         class="text"
         style="
+          padding: 0;
           color: rgb(142, 166, 235);
           font-family: 'Raleway', sans-serif;
           font-weight: 700;
-          font-size: 70px;
-          transform: translate(-90px, -70px);
-          width: calc(50vw - 60px);
+          font-size: 90px;
         "
       ></div>
       <div
         id="real2"
         class="text"
         style="
+          margin-top: 50px;
           color: rgb(105, 211, 111);
           font-family: 'Raleway', sans-serif;
           font-weight: 700;
-          font-size: 70px;
-          transform: translate(-90px, -40px);
-          width: calc(50vw - 60px);
+          font-size: 90px;
         "
       ></div>
+    </div>
+    <div
+      id="reps-outer"
+      style="
+        color: #fff;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 700;
+        font-size: 70px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+      "
+    >
+      Reps:
       <div
         id="reps"
-        style="
-          color: #fff;
-          font-family: 'Raleway', sans-serif;
-          font-weight: 700;
-          font-size: 70px;
-          transform: translate(-90px, -10px);
-          width: calc(50vw - 60px);
-        "
+        style="position: fixed; bottom: 0; width: 100%; margin-left: 200px"
       ></div>
     </div>
 
@@ -104,29 +110,28 @@
         content = [];
 
         final_data.forEach(function (item) {
-          content += item;         
+          content += item;
         });
 
-        content= content.replace(',', '');
+        content = content.replace(",", "");
         content = content.split(/(?=[A-Z])|(?=[0-9]+)/);
         console.log(content);
 
-        if(content[0].length > 3){
-          if(content[1].length > 3){
+        if (content[0].length > 3) {
+          if (content[1].length > 3) {
             document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = content[1];
             document.querySelector("#reps").innerHTML = content[2];
-          }else{
+          } else {
             document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = "";
             document.querySelector("#reps").innerHTML = content[1];
           }
-        }else{
-            document.querySelector("#real1").innerHTML = "";
-            document.querySelector("#real2").innerHTML = "";
-            document.querySelector("#reps").innerHTML = content[0];
+        } else {
+          document.querySelector("#real1").innerHTML = "";
+          document.querySelector("#real2").innerHTML = "";
+          document.querySelector("#reps").innerHTML = content[0];
         }
-        
       };
 
       eventsource.onerror = function (e) {
