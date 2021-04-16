@@ -6,7 +6,7 @@ import time
 from django.views import View
 from .models import Session
 from exercises.models import Detail
-
+from django.views.generic import TemplateView
 # Create your views here.
 detailid = 0
 try:
@@ -28,8 +28,8 @@ def app(request, detail_id):
 	video = get_object_or_404(Video, pk=detail_id)
 	return render(request, 'main/app.html',{'id':detail_id,'videos':video})
 
-def result(request):
-	return render(request, 'main/result.html')
+# def result(request):
+# 	return render(request, 'main/result.html')
 
 
 def webcam_feed(request):
@@ -45,8 +45,15 @@ class realtime_feed(View):
 		response['Content-Type'] = 'text/event-stream'
 		return response
 
-def make_graph():
-	import plotly.graph_objects as go
-	fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
-	fig.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
+# def make_graph():
+# 	import plotly.graph_objects as go
+# 	fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+# 	fig.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
 
+class ResultChartView(TemplateView):
+	template_name="main/result.html"
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context["qs"] = Session.objects.all()
+		return context
