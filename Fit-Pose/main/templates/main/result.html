@@ -72,13 +72,13 @@
     </style>
     <title>Result</title>
   </head>
-  <body>
+  <body style="background-color: #47b2e4;">
     <section class="result-card">
       <div class="container">
         <div class="card text-center">
           <div class="card-header">Exercise Completed!</div>
           <br />
-          <div class="row mx-auto">
+          <div class="row mx-auto" style="padding-top: 10px;">
             <h1>
               Total Reps:
               <p id="final_reps"></p>
@@ -93,6 +93,9 @@
               <div class="col-lg-6">
                 <canvas id="myChart3" width="400" height="350"></canvas>
               </div>
+            </div>
+            <div class="row mx-auto2">
+              <canvas id="myChart2" style="margin-top: 60px;" width="1100" height="600"></canvas>
             </div>
           </div>
           <hr>
@@ -149,7 +152,7 @@
             },
           },
         });
-      {% comment %} var ctx = document.getElementById("myChart2").getContext("2d");
+      var ctx = document.getElementById("myChart2").getContext("2d");
         var myChart = new Chart(ctx, {
           type: "bar",
           data: {
@@ -176,24 +179,31 @@
             ],
           },
           options: {
+            responsive: false,
             scales: {
               y: {
                 beginAtZero: true,
               },
             },
           },
-        }); {% endcomment %}
-
+        });
+    
       var ctx = document.getElementById("myChart3").getContext("2d");
+        let a = 0
+        let b = 0
+        {% for item in qs %}
+        a+= {{item.wrong_form}}
+        b+= {{item.correct_form}}
+        {% endfor %}
+        b = b.toFixed(2)
         var myChart = new Chart(ctx, {
           type: "pie",
           data: {
-
-            labels: [{% for item in qs %}{{item.correct_form}},{% endfor %}],
+            
+            labels: ["Wrong form", "Correct form"],
             datasets: [
-              {
-                label: "{% for item in qs %}{{item.wrong_form}},{% endfor %}",
-                data: [{% for item in qs %}{{item.wrong_form}},{% endfor %}],
+              { label: "Wrong vs Right Form",
+                data: [a,b],
                 backgroundColor: [
                   'rgb(255, 99, 132)',
                   'rgb(54, 162, 235)',

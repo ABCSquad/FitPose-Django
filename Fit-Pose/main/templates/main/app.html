@@ -161,7 +161,8 @@
           document.querySelector("#reps").innerHTML = content[0];
         }
         if (a == 3) {
-          window.location.replace("{% url 'main:result' %}");
+          a = -1
+          window.location.replace("{% url 'main:result' %}");          
         }
       };
 

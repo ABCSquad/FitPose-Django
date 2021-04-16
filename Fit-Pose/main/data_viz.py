@@ -37,6 +37,11 @@ def dataframer(reps):
     df = pd.DataFrame(data, column_names).transpose()
     df['session_id'] = df['session_id'].astype(int)
 
+    # Adding initial condition of 0s
+    zeros = pd.DataFrame([0,0,0,0,Session.objects.latest('id').id],column_names).transpose()
+    df = pd.concat([zeros,df], ignore_index=True)
+    print(df)
+
     return df, labels
 
 # Reads csv and inserts into database
@@ -187,4 +192,3 @@ def initialize_viz(reps):
     # lp = lineplot(df, labels)
     # sp = stackplot(df, labels)
     # pc = piechart(df, labels)
-    # return lp, sp, pc

@@ -130,9 +130,8 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         # cv2.imshow('FitPose', image)
         if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == 3:
           update_reps(reps)
-
-          lp, sp, pc = initialize_viz(reps)
-          
+          initialize_viz(reps)   
+          reps['count'] = -1     
           break
           
         return image, stats_dict, reps, messages
