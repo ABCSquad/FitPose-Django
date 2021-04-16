@@ -22,9 +22,9 @@ messages = {}
 def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_rep_count=4):
 
     exercise_id = int(exercise_id)
-    if exercise_id == 2:
+    if exercise_id == 1:
       exercise_name = "bicep_curl"
-    elif exercise_id == 1:
+    elif exercise_id == 2:
       exercise_name = "ohp"
     elif exercise_id == 3:
       exercise_name = "lateral_raise"
@@ -128,13 +128,14 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         #print(fps)
         # image = cv2.putText(image, str(fps), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         # cv2.imshow('FitPose', image)
-        if (cv2.waitKey(5) & 0xFF == 27):
+        if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == 3:
           update_reps(reps)
 
           lp, sp, pc = initialize_viz(reps)
-          lp.show()
-          sp.show()
-          pc.show()
+          print(lp)
+          lp.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
+          sp.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
+          pc.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
           break
           
         return image, stats_dict, reps, messages

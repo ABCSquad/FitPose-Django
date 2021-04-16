@@ -48,7 +48,7 @@ def databaser():
 
     insert_sql = '''
     COPY main_stats(rep_no, time, correct_form, wrong_form, session_id)
-    FROM '/home/bryan/git_workspace/FitPose/Fit-Pose/exercise_stats.csv'
+    FROM 'E:\Projects\git_workspace\FitPose\Fit-Pose\exercise_stats.csv'
     DELIMITER ',' CSV;
     '''
     cur.execute(insert_sql)
