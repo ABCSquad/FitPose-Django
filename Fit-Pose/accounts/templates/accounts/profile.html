@@ -67,11 +67,14 @@
     </div>
 
 </section>
-<section>
+
+<section class="forms">
+  <div class="container ">
+      <div class="row justify-content-center">
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Profile Info</legend>
+      <legend class="border-bottom mb-4 text-center">Profile Info</legend>
       {{ p_form|crispy }}
     </fieldset>
     <div class="form-group">
@@ -79,6 +82,8 @@
     </div>
   </form>
 </div>
+</div> 
+    </div>
 </section>
 
   </body>

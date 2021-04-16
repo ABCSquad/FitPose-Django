@@ -48,7 +48,7 @@ def databaser():
 
     insert_sql = '''
     COPY main_stats(rep_no, time, correct_form, wrong_form, session_id)
-    FROM 'E:\Projects\git_workspace\FitPose\Fit-Pose\exercise_stats.csv'
+    FROM '/home/bryan/git_workspace/FitPose/Fit-Pose/exercise_stats.csv'
     DELIMITER ',' CSV;
     '''
     cur.execute(insert_sql)
@@ -182,9 +182,9 @@ def piechart(df, labels):
 
 def initialize_viz(reps):
     df, labels = dataframer(reps)
-    df.to_csv('exercise_stats.csv',  header=False, index=False)
-    databaser()
-    lp = lineplot(df, labels)
-    sp = stackplot(df, labels)
-    pc = piechart(df, labels)
-    return lp, sp, pc
+    # df.to_csv('exercise_stats.csv',  header=False, index=False)
+    # databaser()
+    # lp = lineplot(df, labels)
+    # sp = stackplot(df, labels)
+    # pc = piechart(df, labels)
+    # return lp, sp, pc

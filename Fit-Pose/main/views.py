@@ -51,9 +51,12 @@ class realtime_feed(View):
 # 	fig.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
 
 class ResultChartView(TemplateView):
-	template_name="main/result.html"
+    template_name="main/result.html"
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context["qs"] = Session.objects.all()
-		return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ses_id = Stats.objects.latest('id').session_id
+        print("SE MEEEEEEEEEEEEE",ses_id)
+        context["qs"] = Stats.objects.filter(session_id=ses_id)
+
+        return context
