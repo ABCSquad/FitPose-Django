@@ -9,7 +9,10 @@ from exercises.models import Detail
 
 # Create your views here.
 detailid = 0
-
+try:
+	print(reps_global['count'])
+except:
+	pass
 
 def start_session(request, detail_id):
 	user_id = request.user
@@ -23,11 +26,7 @@ def app(request, detail_id):
 	global detailid
 	detailid = detail_id
 	video = get_object_or_404(Video, pk=detail_id)
-	reps = get_reps()
-	if reps >0 and reps== 3:
-		return redirect('result')
-	else:
-		return render(request, 'main/app.html',{'id':detail_id,'videos':video})
+	return render(request, 'main/app.html',{'id':detail_id,'videos':video})
 
 def result(request):
 	return render(request, 'main/result.html')

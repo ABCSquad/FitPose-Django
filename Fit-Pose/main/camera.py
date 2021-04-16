@@ -79,13 +79,4 @@ class realtime:
                 message.append(int(0))
         except:
             pass
-
-        #print(message)
         return message
-
-def get_reps():
-    global reps_global
-    try:
-        return reps_global['count']
-    except:
-        return 0
