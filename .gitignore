@@ -167,3 +167,4 @@ __pycache__/
 .basics.py.swp
 .data_viz.ipynb.swp
 *.csv
+Fit-Pose/migrations/

@@ -37,6 +37,11 @@ def dataframer(reps):
     df = pd.DataFrame(data, column_names).transpose()
     df['session_id'] = df['session_id'].astype(int)
 
+    # Adding initial condition of 0s
+    zeros = pd.DataFrame([0,0,0,0,Session.objects.latest('id').id],column_names).transpose()
+    df = pd.concat([zeros,df], ignore_index=True)
+    print(df)
+
     return df, labels
 
 # Reads csv and inserts into database
@@ -48,7 +53,7 @@ def databaser():
 
     insert_sql = '''
     COPY main_stats(rep_no, time, correct_form, wrong_form, session_id)
-    FROM '/home/bryan/git_workspace/FitPose/Fit-Pose/exercise_stats.csv'
+    FROM '/home/krantheman/FitPose/Fit-Pose/exercise_stats.csv'
     DELIMITER ',' CSV;
     '''
     cur.execute(insert_sql)
@@ -184,7 +189,3 @@ def initialize_viz(reps):
     df, labels = dataframer(reps)
     df.to_csv('exercise_stats.csv',  header=False, index=False)
     databaser()
-    lp = lineplot(df, labels)
-    sp = stackplot(df, labels)
-    pc = piechart(df, labels)
-    return lp, sp, pc

@@ -144,8 +144,8 @@
 <div class="container all-exercise">
   <div class="row">
 	        {% for exercise in exe.all %}
-          
-          <div class="col-lg-4 mb-3 mb-lg-0">
+
+          <div class="col-lg-4 mb-3 mb-lg-0" style="padding-bottom: 30px;">
             <a href="{% url 'detail' exercise.id%}">
             <div class="hover hover-1 text-white rounded">
               <img data-swap="{{ exercise.a_image.url }}" src="{{ exercise.image.url }}" alt="">

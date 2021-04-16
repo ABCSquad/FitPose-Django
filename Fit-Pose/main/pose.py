@@ -23,11 +23,13 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
 
     exercise_id = int(exercise_id)
     if exercise_id == 2:
-      exercise_name = "bicep_curl"
-    elif exercise_id == 1:
       exercise_name = "ohp"
     elif exercise_id == 3:
+      exercise_name = "bicep_curl"
+    elif exercise_id == 4:
       exercise_name = "lateral_raise"
+    elif exercise_id == 5:
+      exercise_name = "push_ups"
    
     
     initialize_stats(stats_dict)
@@ -128,13 +130,10 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         #print(fps)
         # image = cv2.putText(image, str(fps), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         # cv2.imshow('FitPose', image)
-        if (cv2.waitKey(5) & 0xFF == 27):
+        if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == 4:
           update_reps(reps)
-
-          lp, sp, pc = initialize_viz(reps)
-          lp.show()
-          sp.show()
-          pc.show()
+          initialize_viz(reps)
+          # reps['count'] = -1
           break
           
         return image, stats_dict, reps, messages
