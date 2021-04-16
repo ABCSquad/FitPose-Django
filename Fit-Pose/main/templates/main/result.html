@@ -1,1 +1,15 @@
 RESULT PAGE
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div
+    id="graph"
+    class="plotly-graph-div"
+    style="height: 100%; width: 100%"
+  ></div>
+
+  <script>
+    Plotly.newPlot("graph", [{ type: "bar", y: [2, 3, 1] }]);
+  </script>
+</body>

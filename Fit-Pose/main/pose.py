@@ -128,7 +128,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         print(fps)
         # image = cv2.putText(image, str(fps), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
         # cv2.imshow('FitPose', image)
-        if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == exit_rep_count:
+        if (cv2.waitKey(5) & 0xFF == 27):
           update_reps(reps)
 
           lp, sp, pc = initialize_viz(reps)
