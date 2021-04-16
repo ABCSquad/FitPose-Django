@@ -82,3 +82,10 @@ class realtime:
 
         #print(message)
         return message
+
+def get_reps():
+    global reps_global
+    try:
+        return reps_global['count']
+    except:
+        return 0

@@ -23,7 +23,11 @@ def app(request, detail_id):
 	global detailid
 	detailid = detail_id
 	video = get_object_or_404(Video, pk=detail_id)
-	return render(request, 'main/app.html',{'id':detail_id,'videos':video})
+	reps = get_reps()
+	if reps >0 and reps== 3:
+		return redirect('result')
+	else:
+		return render(request, 'main/app.html',{'id':detail_id,'videos':video})
 
 def result(request):
 	return render(request, 'main/result.html')
@@ -42,4 +46,8 @@ class realtime_feed(View):
 		response['Content-Type'] = 'text/event-stream'
 		return response
 
+def make_graph():
+	import plotly.graph_objects as go
+	fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
+	fig.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
 
