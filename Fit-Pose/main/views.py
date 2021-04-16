@@ -4,7 +4,7 @@ from main.camera import *
 from .models import  Detail, Video
 import time
 from django.views import View
-from .models import Session
+from .models import Session, Stats
 from exercises.models import Detail
 from django.views.generic import TemplateView
 # Create your views here.
@@ -55,5 +55,8 @@ class ResultChartView(TemplateView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		context["qs"] = Session.objects.all()
+		ses_id = Stats.objects.latest('id').session_id
+		print("SE MEEEEEEEEEEEEE",ses_id)
+		context["qs"] = Stats.objects.filter(session_id=ses_id)
+
 		return context
