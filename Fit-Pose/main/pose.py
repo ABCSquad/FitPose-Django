@@ -132,10 +132,7 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
           update_reps(reps)
 
           lp, sp, pc = initialize_viz(reps)
-          # print(lp)
-          # lp.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
-          # sp.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
-          # pc.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
+          
           break
           
         return image, stats_dict, reps, messages
