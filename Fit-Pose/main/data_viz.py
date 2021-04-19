@@ -40,7 +40,6 @@ def dataframer(reps):
     # Adding initial condition of 0s
     zeros = pd.DataFrame([0,0,0,0,Session.objects.latest('id').id],column_names).transpose()
     df = pd.concat([zeros,df], ignore_index=True)
-    print(df)
 
     return df, labels
 
@@ -116,6 +115,7 @@ def lineplot(df, labels):
                     font_size=15
                     )
     
+    fig.show()
     return fig
 
 # Time vs. Reps iplot comparing correct form to wrong form
@@ -157,6 +157,7 @@ def stackplot(df, labels):
                     font_size=15
                     )
     
+    fig.show()
     return fig
 
 # Piechart showing cumulative seconds spent doing correct vs wrong form
@@ -183,9 +184,13 @@ def piechart(df, labels):
                                             width=3))
                     )
 
+    fig.show()
     return fig
 
 def initialize_viz(reps):
     df, labels = dataframer(reps)
     df.to_csv('exercise_stats.csv',  header=False, index=False)
     databaser()
+    # lineplot(df, labels)
+    # stackplot(df, labels)
+    # piechart(df, labels)

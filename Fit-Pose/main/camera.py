@@ -43,7 +43,7 @@ class VideoCamera(object):
 def gen(camera, detail_id):
     reps = {}
     initialize_reps(reps)
-    while True:
+    while reps['count']<4:
         stats_dict = {}
         messages = {}
         frame = camera.get_frame(detail_id, stats_dict, reps, messages)

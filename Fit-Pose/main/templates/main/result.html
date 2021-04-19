@@ -113,6 +113,8 @@
     <script>
       document.querySelector("#final_reps").innerHTML =  [{{qs.last.rep_no}}]
       $(document).ready(function () {
+
+        
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
           type: "line",
@@ -121,37 +123,36 @@
             datasets: [
               {
                 tension: 0,
-                label: "{{item.time}}",
+                label: "Time",
                 data: [{% for item in qs %}{{item.time}},{% endfor %}],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(255, 206, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                ],
+                backgroundColor: 'rgba(148,0,211,0.4)',
                 borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)",
+                  'rgba(148,0,211,1)',
                 ],
-                borderWidth: 0,
+                borderWidth: 2,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'rgba(148,0,211,1)',
+                pointRadius: 4,
+                pointHitRadius: 15,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
               },
             ],
           },
           options: {
-            responsive:false,
             scales: {
               y: {
                 beginAtZero: true,
+                title: {
+                  display: true, 
+                  text: "Time (s)"
+                }
               },
             },
           },
         });
+
+
       var ctx = document.getElementById("myChart2").getContext("2d");
         var myChart = new Chart(ctx, {
           type: "bar",
@@ -194,9 +195,10 @@
         let a = 0
         let b = 0
         {% for item in qs %}
-        a+= {{item.wrong_form}}
-        b+= {{item.correct_form}}
+        a+= {{item.correct_form}}
+        b+= {{item.wrong_form}}
         {% endfor %}
+        a=a.toFixed(1)
         b=b.toFixed(1)
 
         var myChart = new Chart(ctx, {
@@ -204,26 +206,25 @@
           type: "pie",
           data: {
 
-            labels: ['Wrong form', 'Correct form'],
+            labels: ['Correct form', 'Wrong form'],
             datasets: [
               {
                 label: "Piechart",
                 data: [a,b],
                 backgroundColor: [
-                  'rgb(255, 99, 132)',
-                  'rgb(54, 162, 235)',
-                  'rgb(255, 205, 86)'
+                  'rgba(111, 231, 219, 0.5)', 
+                  'rgba(255,0,0,0.5)'
                 ],
                 borderColor: [
-                  "rgba(0, 0, 0, 0)",
-
+                  'rgba(111, 231, 219, 1)', 
+                  'rgba(255,0,0,1)'
                 ],
-                borderWidth: 1,
+                borderWidth: 2,
+                hoverOffset: 10,
               },
             ],
           },
           options: {
-            responsive:false,
             scales: {
               y: {
                 beginAtZero: true,

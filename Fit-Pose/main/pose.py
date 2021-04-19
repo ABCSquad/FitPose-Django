@@ -133,7 +133,5 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == 4:
           update_reps(reps)
           initialize_viz(reps)
-          # reps['count'] = -1
-          break
           
         return image, stats_dict, reps, messages

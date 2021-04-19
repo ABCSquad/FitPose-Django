@@ -15,12 +15,10 @@ def exercises(request):
 
 
 def detail(request, exercise_id):
-    print(request.method)
     if request.method == 'POST':
         rep_no = int(request.POST['rep_no'])
     else:
         rep_no = 69
-    print(rep_no)
     exercise = get_object_or_404(Exercise, pk=exercise_id)
     details = get_object_or_404(Detail, exercise_id=exercise_id)
     exe = Exercise.objects
