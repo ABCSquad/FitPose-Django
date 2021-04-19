@@ -140,15 +140,27 @@
             ],
           },
           options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true, 
-                  text: "Time (s)"
-                }
-              },
+            title: {
+              display: true,
+              text: 'Time vs. Reps',
+              fontSize: 20,
             },
+            scales: {
+              xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Rep No.',
+                  fontSize: 15,
+                }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Time (s)',
+                  fontSize: 15,
+                }
+              }]
+            }
           },
         });
 
@@ -157,35 +169,50 @@
         var myChart = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: [{% for item in qs %}{{item.rep_no}},{% endfor %}],
+            labels: [{% for item in qs %}{{item.rep_no}},{% endfor %},],
             datasets: [
               {
-                label: "Bar Plot",
+                label: "Correct form",
+                data: [{% for item in qs %}{{item.correct_form}},{% endfor %}],
+                borderWidth: 2,
+                backgroundColor: 'rgba(111, 231, 219, 0.5)', 
+                borderColor: 'rgba(111, 231, 219, 1)', 
+                hoverBackgroundColor: 'rgba(91, 211, 199, 0.5)', 
+                hoverBorderColor: 'rgba(91, 211, 199, 1)', 
+              },
+              {
+                label: "Wrong form",
                 data: [{% for item in qs %}{{item.wrong_form}},{% endfor %}],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 99, 132, 0.2)",
-                ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)",
-                ],
-                borderWidth: 1,
+                borderWidth: 2,
+                backgroundColor: 'rgba(245,20,20,0.5)',
+                borderColor: 'rgba(245,20,20,1)',
+                hoverBackgroundColor: 'rgba(225,0,0,0.5)',
+                hoverBorderColor: 'rgba(225,0,0,1)',
               },
             ],
           },
           options: {
-            responsive: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
+            title: {
+              display: true,
+              text: 'Correct/Wrong Form vs. Reps',
+              fontSize: 20,
             },
+            scales: {
+              xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Rep No.',
+                  fontSize: 17,
+                }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Time (s)',
+                  fontSize: 17,
+                }
+              }]
+            }
           },
         });
 
@@ -213,22 +240,37 @@
                 data: [a,b],
                 backgroundColor: [
                   'rgba(111, 231, 219, 0.5)', 
-                  'rgba(255,0,0,0.5)'
+                  'rgba(245,20,20,0.5)'
                 ],
                 borderColor: [
                   'rgba(111, 231, 219, 1)', 
-                  'rgba(255,0,0,1)'
+                  'rgba(245,20,20,1)'
                 ],
                 borderWidth: 2,
-                hoverOffset: 10,
+                hoverBackgroundColor: [
+                  'rgba(91, 211, 199, 0.5)', 
+                  'rgba(225,0,0,0.5)'
+                ],
+                hoverBorderColor: [
+                  'rgba(91, 211, 199, 1)', 
+                  'rgba(225,0,0,1)'
+                ],
               },
             ],
           },
           options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
+            title: {
+              display: true,
+              text: 'Correct vs. Wrong Form',
+              fontSize: 20,
+            },
+            hoverOffset: 20,
+            tooltips: {
+              callbacks: {
+                label: function(tooltipItem, data) {
+                  return data['labels'][tooltipItem['index']] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + 's';
+                }
+              }
             },
           },
         });
