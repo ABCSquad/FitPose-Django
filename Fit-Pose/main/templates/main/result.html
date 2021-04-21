@@ -152,7 +152,14 @@
                 font : {
                   size: 20
                 }
-              }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return 'Time: ' + context.raw + 's'
+                  }
+                }
+              },
             },
             scales: {
               x: {
@@ -212,7 +219,14 @@
                 font : {
                   size: 20
                 }
-              }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.dataset.label + ': ' + context.raw + 's'
+                  }
+                }
+              },
             },
             scales: {
               x: {
@@ -263,7 +277,7 @@
                   'rgba(111, 231, 219, 0.5)', 
                   'rgba(245,20,20,0.5)'
                 ],
-                hoverOffset: 6,
+                hoverOffset: 15,
                 borderColor: [
                   'rgba(111, 231, 219, 1)', 
                   'rgba(245,20,20,1)'
@@ -287,6 +301,13 @@
                 text: 'Correct vs. Wrong Form',
                 font : {
                   size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.label + ': ' + context.raw + 's'
+                  }
                 }
               },
             },
