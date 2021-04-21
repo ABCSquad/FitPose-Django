@@ -40,7 +40,10 @@ def dataframer(reps):
     # Adding initial condition of 0s
     zeros = pd.DataFrame([0,0,0,0,Session.objects.latest('id').id],column_names).transpose()
     df = pd.concat([zeros,df], ignore_index=True)
+<<<<<<< HEAD
     print(df)
+=======
+>>>>>>> akash
 
     return df, labels
 
@@ -53,7 +56,7 @@ def databaser():
 
     insert_sql = '''
     COPY main_stats(rep_no, time, correct_form, wrong_form, session_id)
-    FROM '/home/bryan/git_workspace/FitPose/Fit-Pose/exercise_stats.csv'
+    FROM '/home/krantheman/FitPose/Fit-Pose/exercise_stats.csv'
     DELIMITER ',' CSV;
     '''
     cur.execute(insert_sql)
@@ -116,6 +119,7 @@ def lineplot(df, labels):
                     font_size=15
                     )
     
+    fig.show()
     return fig
 
 # Time vs. Reps iplot comparing correct form to wrong form
@@ -157,6 +161,7 @@ def stackplot(df, labels):
                     font_size=15
                     )
     
+    fig.show()
     return fig
 
 # Piechart showing cumulative seconds spent doing correct vs wrong form
@@ -183,12 +188,19 @@ def piechart(df, labels):
                                             width=3))
                     )
 
+    fig.show()
     return fig
 
 def initialize_viz(reps):
     df, labels = dataframer(reps)
     df.to_csv('exercise_stats.csv',  header=False, index=False)
     databaser()
+<<<<<<< HEAD
     # lp = lineplot(df, labels)
     # sp = stackplot(df, labels)
     # pc = piechart(df, labels)
+=======
+    # lineplot(df, labels)
+    # stackplot(df, labels)
+    # piechart(df, labels)
+>>>>>>> akash

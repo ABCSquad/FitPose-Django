@@ -23,14 +23,19 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
 
     exercise_id = int(exercise_id)
     if exercise_id == 2:
-      exercise_name = "bicep_curl"
-    elif exercise_id == 1:
       exercise_name = "ohp"
     elif exercise_id == 3:
+      exercise_name = "bicep_curl"
+    elif exercise_id == 4:
       exercise_name = "lateral_raise"
+<<<<<<< HEAD
     elif exercise_id == 4:
       exercise_name = "lateral_raise"
 
+=======
+    elif exercise_id == 5:
+      exercise_name = "push_ups"
+>>>>>>> akash
    
     
     initialize_stats(stats_dict)
@@ -133,7 +138,11 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         # cv2.imshow('FitPose', image)
         if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == 4:
           update_reps(reps)
+<<<<<<< HEAD
           initialize_viz(reps)  
 
+=======
+          initialize_viz(reps)
+>>>>>>> akash
           
         return image, stats_dict, reps, messages
