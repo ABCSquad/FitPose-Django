@@ -72,7 +72,7 @@
   </head>
   <body>
     <section class="result-card">
-      <div class="akash">
+      <div class="container">
         <div class="card text-center">
           <div class="card-header">Exercise Completed!</div>
           <br />
@@ -129,6 +129,7 @@
                 tension: 0,
                 label: "Time",
                 data: [{% for item in qs %}{{item.time}},{% endfor %}],
+                fill: true,
                 backgroundColor: 'rgba(148,0,211,0.4)',
                 borderColor: [
                   'rgba(148,0,211,1)',
@@ -144,26 +145,34 @@
             ],
           },
           options: {
-            title: {
-              display: true,
-              text: 'Time vs. Reps',
-              fontSize: 20,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Time vs. Reps',
+                font : {
+                  size: 20
+                }
+              }
             },
             scales: {
-              xAxes: [{
-                scaleLabel: {
+              x: {
+                title: {
                   display: true,
-                  labelString: 'Rep No.',
-                  fontSize: 15,
+                  text: 'Rep No.',
+                  font: {
+                    size: 15
+                  }
                 }
-              }],
-              yAxes: [{
-                scaleLabel: {
+              },
+              y: {
+                title: {
                   display: true,
-                  labelString: 'Time (s)',
-                  fontSize: 15,
+                  text: 'Time (s)',
+                  font: {
+                    size: 15
+                  }
                 }
-              }]
+              }
             }
           },
         });
@@ -196,26 +205,34 @@
             ],
           },
           options: {
-            title: {
-              display: true,
-              text: 'Correct/Wrong Form vs. Reps',
-              fontSize: 20,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Correct/Wrong Form vs. Reps',
+                font : {
+                  size: 20
+                }
+              }
             },
             scales: {
-              xAxes: [{
-                scaleLabel: {
+              x: {
+                title: {
                   display: true,
-                  labelString: 'Rep No.',
-                  fontSize: 17,
+                  text: 'Rep No.',
+                  font: {
+                    size: 15
+                  }
                 }
-              }],
-              yAxes: [{
-                scaleLabel: {
+              },
+              y: {
+                title: {
                   display: true,
-                  labelString: 'Time (s)',
-                  fontSize: 17,
+                  text: 'Time (s)',
+                  font: {
+                    size: 15
+                  }
                 }
-              }]
+              }
             }
           },
         });
@@ -246,7 +263,7 @@
                   'rgba(111, 231, 219, 0.5)', 
                   'rgba(245,20,20,0.5)'
                 ],
-                hoverOffset: 10,
+                hoverOffset: 6,
                 borderColor: [
                   'rgba(111, 231, 219, 1)', 
                   'rgba(245,20,20,1)'
@@ -264,18 +281,14 @@
             ],
           },
           options: {
-            title: {
-              display: true,
-              text: 'Correct vs. Wrong Form',
-              fontSize: 20,
-            },
-            hoverOffset: 20,
-            tooltips: {
-              callbacks: {
-                label: function(tooltipItem, data) {
-                  return data['labels'][tooltipItem['index']] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + 's';
+            plugins: {
+              title: {
+                display: true,
+                text: 'Correct vs. Wrong Form',
+                font : {
+                  size: 20
                 }
-              }
+              },
             },
           },
         });
