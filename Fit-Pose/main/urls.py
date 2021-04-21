@@ -3,10 +3,6 @@ from django.urls import path, include
 from . import views
 from .views import realtime_feed
 from main.views import ResultChartView
-<<<<<<< HEAD
-=======
-
->>>>>>> akash
 
 app_name = 'main'
 

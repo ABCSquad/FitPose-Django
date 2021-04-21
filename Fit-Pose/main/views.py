@@ -23,19 +23,11 @@ def start_session(request, detail_id):
 
 
 def app(request, detail_id):
-<<<<<<< HEAD
-    start_session(request, detail_id)
-    global detailid
-    detailid = detail_id
-    video = get_object_or_404(Video, pk=detail_id)
-    return render(request, 'main/app.html',{'id':detail_id,'videos':video})
-=======
 	start_session(request, detail_id)
 	global detailid
 	detailid = detail_id
 	video = get_object_or_404(Video, detail_id=detail_id)
 	return render(request, 'main/app.html',{'id':detail_id,'videos':video})
->>>>>>> akash
 
 # def result(request):
 # 	return render(request, 'main/result.html')
@@ -64,21 +56,7 @@ class ResultChartView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        ses_id = Stats.objects.last().session_id
-        print("SE MEEEEEEEEEEEEE",ses_id)
-        context["qs"] = Stats.objects.filter(session_id=ses_id)
-
-<<<<<<< HEAD
-        return context
-=======
-
-class ResultChartView(TemplateView):
-    template_name="main/result.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         ses_id = Stats.objects.latest('id').session_id
         context["qs"] = Stats.objects.filter(session_id=ses_id)
 
         return context
->>>>>>> akash
