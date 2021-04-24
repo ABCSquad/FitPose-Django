@@ -50,15 +50,10 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
       while True:
         start = time.time()
         image = cap.read()
-        # stats = cv2.imread("white2.jpg") 
         
         # Flip the image horizontally for a later selfie-view display, and convert
         # the BGR image to RGB.
         image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
-
-        # Display reps at down left corner
-        # if reps['count'] != -1:
-        #   cv2.putText(image, f"Reps: {reps['count']}", (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
 
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
@@ -68,7 +63,6 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
         # Draw the pose annotation on the image
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        #Creating a uper_body_only yes/no state
 
         #Creating a list of dictionaries of the keypoints (x,y,z,visibility)
         if results.pose_landmarks:
@@ -96,7 +90,6 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
           
 
         else:
-          # image = cv2.putText(image, "Upper body not visible", (5,20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,0,255), 2, cv2.LINE_AA)
           messages[0] = "Stand in view of the camera"
           reps['flag'] = -1
         
@@ -124,14 +117,6 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
           mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.PUSHUPS)
         
         end = time.time()
-        # if stats is not None:
-        #   cv2.imshow("Stats", stats)
         fps = round((1/(end-start)),2)
-        print(fps, reps['count'])
-        # image = cv2.putText(image, str(fps), (565,25), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0,255,0), 2, cv2.LINE_AA)
-        # cv2.imshow('FitPose', image)
-        if (cv2.waitKey(5) & 0xFF == 27) or reps['count'] == 4:
-          update_reps(reps)
-          initialize_viz(reps)
           
         return image, stats_dict, reps, messages

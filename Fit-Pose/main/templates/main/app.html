@@ -119,26 +119,18 @@
       };
 
       eventsource.onmessage = function (e) {
-        final_data = JSON.parse(e.data);
+        finalData = JSON.parse(e.data);
 
-        content = [];
-
-        final_data.forEach(function (item) {
-          content += item;
-        });
-
-        content = content.replace(",", "");
-        content = content.split(/(?=[A-Z])|(?=[0-9]+)/);
-        console.log(content);
-
-        var a = -1;
+        let content = finalData.map(String).filter(item => item)
+        
+        var repNo = -1;
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
             document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
             document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = content[1];
-            a = content[2];
+            repNo = content[2];
             document.querySelector("#reps").innerHTML = content[2];
           } else {
             if (content[0] == "Stand in view of the camera") {
@@ -151,22 +143,21 @@
               document.querySelector("#real1").innerHTML = content[0];
             }
             document.querySelector("#real2").innerHTML = "";
-            a = content[1];
+            repNo = content[1];
             document.querySelector("#reps").innerHTML = content[1];
           }
         } else {
           document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
           document.querySelector("#real1").innerHTML = "";
           document.querySelector("#real2").innerHTML = "";
-          a = content[0];
+          repNo = content[0];
           document.querySelector("#reps").innerHTML = content[0];
         }
-        if(a == 4)
-        {
-          a = undefined
+
+        if(repNo == 8) {
           window.location.replace("{% url 'main:result' %}");
         }
-      };
+      }; 
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);

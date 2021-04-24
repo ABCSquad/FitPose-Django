@@ -8,6 +8,7 @@ from django.views import View
 from .models import Session, Stats
 from exercises.models import Detail
 from django.views.generic import TemplateView
+
 # Create your views here.
 detailid = 0
 try:
@@ -42,14 +43,11 @@ def webcam_feed(request):
 class realtime_feed(View):
 
     def get(self, request):
-        response = StreamingHttpResponse(gene(realtime()))
+        temp = gene(realtime())
+        response = StreamingHttpResponse(temp)
+
         response['Content-Type'] = 'text/event-stream'
         return response
-
-# def make_graph():
-# 	import plotly.graph_objects as go
-# 	fig = go.Figure(data=go.Bar(y=[2, 3, 1]))
-# 	fig.write_html('first_figure.html', auto_open=True, include_plotlyjs='cdn')
 
 class ResultChartView(TemplateView):
     template_name="main/result.html"
