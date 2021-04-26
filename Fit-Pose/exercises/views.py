@@ -19,10 +19,13 @@ def detail(request, exercise_id):
     if request.method == 'POST':
         global max_reps_global
         max_reps_global = request.POST['max_reps']
-        print(max_reps_global)
         return redirect('main:app',detail_id=exercise_id)
     else:
         exercise = get_object_or_404(Exercise, pk=exercise_id)
         details = get_object_or_404(Detail, exercise_id=exercise_id)
         exe = Exercise.objects
         return render(request, 'exercises/detail.html',{'exercise':exercise,'details':details,'exe':exe},) 
+
+def print_reps():
+    global max_reps_global
+    return max_reps_global

@@ -124,6 +124,7 @@
         let content = finalData.map(String).filter(item => item)
         
         var repNo = -1;
+        var max = -1
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
@@ -132,6 +133,7 @@
             document.querySelector("#real2").innerHTML = content[1];
             repNo = content[2];
             document.querySelector("#reps").innerHTML = content[2];
+            max = content[3]
           } else {
             if (content[0] == "Stand in view of the camera") {
               document.querySelector("#real1").style.color =
@@ -145,6 +147,7 @@
             document.querySelector("#real2").innerHTML = "";
             repNo = content[1];
             document.querySelector("#reps").innerHTML = content[1];
+            max = content[2]
           }
         } else {
           document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
@@ -152,9 +155,10 @@
           document.querySelector("#real2").innerHTML = "";
           repNo = content[0];
           document.querySelector("#reps").innerHTML = content[0];
+          max = content[1]
         }
 
-        if(repNo == 8) {
+        if(repNo == max) {
           window.location.replace("{% url 'main:result' %}");
         }
       }; 
