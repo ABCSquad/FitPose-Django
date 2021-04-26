@@ -8,6 +8,7 @@ from .rep_counter import *
 from .data_viz import *
 from django.core.serializers.json import  DjangoJSONEncoder
 from django.shortcuts import redirect
+from exercises.views import *
 
 stats_dict_global = {}
 reps_global = {}
@@ -45,6 +46,8 @@ class VideoCamera(object):
 def gen(camera, detail_id):
     reps = {}
     initialize_reps(reps)
+
+    print(max_reps_global)
 
     while reps['count']<8:
         stats_dict = {}

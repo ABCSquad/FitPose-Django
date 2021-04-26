@@ -13,15 +13,16 @@ def exercises(request):
 
 #----------------------------- DETAILS PAGE ------------------------------------#
 
+max_reps_global = -1
 
 def detail(request, exercise_id):
     if request.method == 'POST':
-        rep_no = int(request.POST['rep_no'])
+        global max_reps_global
+        max_reps_global = request.POST['max_reps']
+        print(max_reps_global)
+        return redirect('main:app',detail_id=exercise_id)
     else:
-        rep_no = 69
-    exercise = get_object_or_404(Exercise, pk=exercise_id)
-    details = get_object_or_404(Detail, exercise_id=exercise_id)
-    exe = Exercise.objects
-    return render(request, 'exercises/detail.html',{'exercise':exercise,'details':details,'exe':exe},) 
-    
-     
+        exercise = get_object_or_404(Exercise, pk=exercise_id)
+        details = get_object_or_404(Detail, exercise_id=exercise_id)
+        exe = Exercise.objects
+        return render(request, 'exercises/detail.html',{'exercise':exercise,'details':details,'exe':exe},) 
