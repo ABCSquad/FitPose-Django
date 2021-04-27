@@ -47,7 +47,6 @@ def gen(camera, detail_id):
     reps = {}
     initialize_reps(reps)
     max_reps = print_reps()
-    print(max_reps)
 
     while reps['count']<int(max_reps):
         stats_dict = {}
