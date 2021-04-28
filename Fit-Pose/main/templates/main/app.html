@@ -122,17 +122,18 @@
 
         content = [];
 
-        final_data.forEach(function (item) {
-          content += item;
+        final_data.forEach((m) => {
+          sum += m;
+          console.log(sum)
         });
 
-        content = content.replace(",", "");
+        {% comment %} content = content.replace(",", "");
         content = content.split(/(?=[A-Z])|(?=[0-9]+)/);
         console.log(content);
 
-        let a = -1;
+        let a = -1; {% endcomment %}
 
-        if (content[0].length > 3) {
+        {% comment %} if (content[0].length > 3) {
           if (content[1].length > 3) {
             document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
             document.querySelector("#real1").innerHTML = content[0];
@@ -162,7 +163,7 @@
         }
         if (a == 3) {
           window.location.replace("{% url 'main:result' %}");
-        }
+        }{% endcomment %}
       };
 
       eventsource.onerror = function (e) {

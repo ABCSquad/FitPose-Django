@@ -15,9 +15,13 @@ def exercises(request):
 
 
 def detail(request, exercise_id):
-    exercise = get_object_or_404(Exercise, pk=exercise_id)
-    details = get_object_or_404(Detail, exercise_id=exercise_id)
-    exe = Exercise.objects
-    return render(request, 'exercises/detail.html',{'exercise':exercise,'details':details,'exe':exe},) 
+    if request.method == "POST":
+        print(request.method)
+        return redirect('home')
+    else:
+        exercise = get_object_or_404(Exercise, pk=exercise_id)
+        details = get_object_or_404(Detail, exercise_id=exercise_id)
+        exe = Exercise.objects
+        return render(request, 'exercises/detail.html',{'exercise':exercise,'details':details,'exe':exe},) 
     
      

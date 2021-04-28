@@ -79,8 +79,15 @@
         <h3>Click to Start Exercise</h3>
       </div>
     <div class="row justify-content-center">
-      <a href="{% url 'main:app' exercise.id%}" class="btn"
-          >Start Exercise</a>
+    <form method="POST">
+    {% csrf_token %}
+    <label for="fnum">Enter number of reps</label><br>
+    <input type="text" id="fnum" name="fnum"><br>
+    <input type="submit" value="Submit">
+    </form>
+
+      {% comment %} <a href="{% url 'main:app' exercise.id%}" class="btn"
+          >Start Exercise</a> {% endcomment %}
     </div> 
   </div>
 </section>
