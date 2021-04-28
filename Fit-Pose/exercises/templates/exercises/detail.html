@@ -75,19 +75,16 @@
 <section class="get-started fixed-top" >
   <div class="container " >
     <div class="row justify-content-center">
-      
-        <h3>Click to Start Exercise</h3>
-      </div>
+      <h3>Click to Start Exercise</h3>
+    </div>
     <div class="row justify-content-center">
-    <form method="POST">
-    {% csrf_token %}
-    <label for="fnum">Enter number of reps</label><br>
-    <input type="text" id="fnum" name="fnum"><br>
-    <input type="submit" value="Submit">
-    </form>
-
-      {% comment %} <a href="{% url 'main:app' exercise.id%}" class="btn"
-          >Start Exercise</a> {% endcomment %}
+      <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <div class="row justify-content-center">
+          <input type="submit" class="btn" value="Start Exercise">
+        </div> 
+      </form>
     </div> 
   </div>
 </section>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Exercise, Detail
+from .forms import RepsForm
 
 # Create your views here.
 
@@ -13,15 +14,22 @@ def exercises(request):
 
 #----------------------------- DETAILS PAGE ------------------------------------#
 
+max_reps_global = -1
 
 def detail(request, exercise_id):
-    if request.method == "POST":
-        print(request.method)
-        return redirect('home')
+    if request.method == 'POST':
+        form = RepsForm(request.POST)
+        if form.is_valid():
+            global max_reps_global
+            max_reps_global = form.cleaned_data['max_reps']
+        return redirect('main:app',detail_id=exercise_id)
     else:
+        form = RepsForm()
         exercise = get_object_or_404(Exercise, pk=exercise_id)
         details = get_object_or_404(Detail, exercise_id=exercise_id)
         exe = Exercise.objects
-        return render(request, 'exercises/detail.html',{'exercise':exercise,'details':details,'exe':exe},) 
-    
-     
+        return render(request, 'exercises/detail.html', {'exercise':exercise,'details':details,'exe':exe,'form':form})
+
+def print_reps():
+    global max_reps_global
+    return max_reps_global

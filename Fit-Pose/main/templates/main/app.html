@@ -112,34 +112,28 @@
     </div>
 
     <script>
+      
       var eventsource = new EventSource("{% url 'main:realtime_feed' %}");
       eventsource.onopen = function () {
         console.log("we have open connection");
       };
 
       eventsource.onmessage = function (e) {
-        final_data = JSON.parse(e.data);
+        finalData = JSON.parse(e.data);
 
-        content = [];
+        let content = finalData.map(String).filter(item => item)
+        
+        var repNo = -1;
+        var max = -1
 
-        final_data.forEach((m) => {
-          sum += m;
-          console.log(sum)
-        });
-
-        {% comment %} content = content.replace(",", "");
-        content = content.split(/(?=[A-Z])|(?=[0-9]+)/);
-        console.log(content);
-
-        let a = -1; {% endcomment %}
-
-        {% comment %} if (content[0].length > 3) {
-          if (content[1].length > 3) {
+        if (content[0].length > 4) {
+          if (content[1].length > 4) {
             document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
             document.querySelector("#real1").innerHTML = content[0];
             document.querySelector("#real2").innerHTML = content[1];
-            a = content[2];
+            repNo = content[2];
             document.querySelector("#reps").innerHTML = content[2];
+            max = content[3]
           } else {
             if (content[0] == "Stand in view of the camera") {
               document.querySelector("#real1").style.color =
@@ -151,20 +145,23 @@
               document.querySelector("#real1").innerHTML = content[0];
             }
             document.querySelector("#real2").innerHTML = "";
-            a = content[1];
+            repNo = content[1];
             document.querySelector("#reps").innerHTML = content[1];
+            max = content[2]
           }
         } else {
           document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
           document.querySelector("#real1").innerHTML = "";
           document.querySelector("#real2").innerHTML = "";
-          a = content[0];
+          repNo = content[0];
           document.querySelector("#reps").innerHTML = content[0];
+          max = content[1]
         }
-        if (a == 3) {
+
+        if(repNo == max) {
           window.location.replace("{% url 'main:result' %}");
-        }{% endcomment %}
-      };
+        }
+      }; 
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);

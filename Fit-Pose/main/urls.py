@@ -1,6 +1,4 @@
 #THIS WILL BE THE MAIN APP
-
-
 from django.urls import path, include
 from . import views
 from .views import realtime_feed

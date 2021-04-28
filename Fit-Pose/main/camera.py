@@ -5,7 +5,10 @@ import json
 from random import randint 
 import time
 from .rep_counter import *
+from .data_viz import *
 from django.core.serializers.json import  DjangoJSONEncoder
+from django.shortcuts import redirect
+from exercises.views import print_reps
 
 stats_dict_global = {}
 reps_global = {}
@@ -43,12 +46,17 @@ class VideoCamera(object):
 def gen(camera, detail_id):
     reps = {}
     initialize_reps(reps)
-    while True:
+    max_reps = print_reps()
+
+    while reps['count']<int(max_reps):
         stats_dict = {}
         messages = {}
         frame = camera.get_frame(detail_id, stats_dict, reps, messages)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+    update_reps(reps)
+    initialize_viz(reps)
 
 def gene(real):
 
@@ -65,18 +73,22 @@ class realtime:
         global stats_dict_global
         global reps_global
         global messages_global
+        max_reps = print_reps()
 
-        #print(messages_global)
-        # print(reps_global)
-        message = messages_global
         reps = reps_global
-        #message = (list(message)).append(reps['count'])
+        message = messages_global
         message = list(message.values())
+        
+        
         try:
             if reps['count'] != -1:
                 message.append(reps['count'])
+                if reps ['count'] == max_reps: reps_global['count'] = -1 # To prevent reps_global['count'] from retaining its value and directly going to the results page
             else:
                 message.append(int(0))
         except:
             pass
+
+        message.append(max_reps)
+
         return message

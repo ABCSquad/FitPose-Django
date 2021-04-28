@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,17 +28,8 @@
     />
 
     <!--Chart js-->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
-      integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
-      crossorigin="anonymous"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
@@ -65,6 +60,13 @@
     .back:hover .btn{
       background: #209dd8;
     }
+
+    .akash{
+      padding-left:200px;
+      padding-right:200px;
+    }
+
+
     </style>
     <title>Result</title>
   </head>
@@ -90,11 +92,16 @@
                 <canvas id="myChart3" width="400" height="350"></canvas>
               </div>
             </div>
+            <div class="row mx-auto2">
+              <canvas id="myChart2" style="margin-top: 60px;" width="1100" height="600"></canvas>
+            </div>
           </div>
           <hr>
           <div class="row mx-auto back">
-              <a href="{% url 'exercises' %}" class="btn-get-started btn"
-                ><img style="margin-bottom: 5px; margin-right: 5px;" width="18" height="18" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMjYuNjc2IDI2LjY3NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjYuNjc2IDI2LjY3NjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTI2LjEwNSwyMS44OTFjLTAuMjI5LDAtMC40MzktMC4xMzEtMC41MjktMC4zNDZsMCwwYy0wLjA2Ni0wLjE1Ni0xLjcxNi0zLjg1Ny03Ljg4NS00LjU5DQoJCWMtMS4yODUtMC4xNTYtMi44MjQtMC4yMzYtNC42OTMtMC4yNXY0LjYxM2MwLDAuMjEzLTAuMTE1LDAuNDA2LTAuMzA0LDAuNTA4Yy0wLjE4OCwwLjA5OC0wLjQxMywwLjA4NC0wLjU4OC0wLjAzM0wwLjI1NCwxMy44MTUNCgkJQzAuMDk0LDEzLjcwOCwwLDEzLjUyOCwwLDEzLjMzOWMwLTAuMTkxLDAuMDk0LTAuMzY1LDAuMjU0LTAuNDc3bDExLjg1Ny03Ljk3OWMwLjE3NS0wLjEyMSwwLjM5OC0wLjEyOSwwLjU4OC0wLjAyOQ0KCQljMC4xOSwwLjEwMiwwLjMwMywwLjI5NSwwLjMwMywwLjUwMnY0LjI5M2MyLjU3OCwwLjMzNiwxMy42NzQsMi4zMywxMy42NzQsMTEuNjc0YzAsMC4yNzEtMC4xOTEsMC41MDgtMC40NTksMC41NjINCgkJQzI2LjE4LDIxLjg5MSwyNi4xNDEsMjEuODkxLDI2LjEwNSwyMS44OTF6Ii8+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==" /> All exercises</a
+          <button onClick="newLocation();">
+          Back to home
+          </button>
+          <img style="margin-bottom: 5px; margin-right: 5px;" width="18" height="18" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMjYuNjc2IDI2LjY3NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjYuNjc2IDI2LjY3NjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTI2LjEwNSwyMS44OTFjLTAuMjI5LDAtMC40MzktMC4xMzEtMC41MjktMC4zNDZsMCwwYy0wLjA2Ni0wLjE1Ni0xLjcxNi0zLjg1Ny03Ljg4NS00LjU5DQoJCWMtMS4yODUtMC4xNTYtMi44MjQtMC4yMzYtNC42OTMtMC4yNXY0LjYxM2MwLDAuMjEzLTAuMTE1LDAuNDA2LTAuMzA0LDAuNTA4Yy0wLjE4OCwwLjA5OC0wLjQxMywwLjA4NC0wLjU4OC0wLjAzM0wwLjI1NCwxMy44MTUNCgkJQzAuMDk0LDEzLjcwOCwwLDEzLjUyOCwwLDEzLjMzOWMwLTAuMTkxLDAuMDk0LTAuMzY1LDAuMjU0LTAuNDc3bDExLjg1Ny03Ljk3OWMwLjE3NS0wLjEyMSwwLjM5OC0wLjEyOSwwLjU4OC0wLjAyOQ0KCQljMC4xOSwwLjEwMiwwLjMwMywwLjI5NSwwLjMwMywwLjUwMnY0LjI5M2MyLjU3OCwwLjMzNiwxMy42NzQsMi4zMywxMy42NzQsMTEuNjc0YzAsMC4yNzEtMC4xOTEsMC41MDgtMC40NTksMC41NjINCgkJQzI2LjE4LDIxLjg5MSwyNi4xNDEsMjEuODkxLDI2LjEwNSwyMS44OTF6Ii8+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==" /> All exercises</a
               >
             </div>
           </div>
@@ -104,8 +111,14 @@
     <section class="return"></section>
 
     <script>
+      function newLocation() {
+        window.location.href="{% url 'exercises' %}";
+      }
+
       document.querySelector("#final_reps").innerHTML =  [{{qs.last.rep_no}}]
       $(document).ready(function () {
+
+        
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
           type: "line",
@@ -114,106 +127,188 @@
             datasets: [
               {
                 tension: 0,
-                label: "{% for item in qs %}{{item.time}},{% endfor %}",
+                label: "Time",
                 data: [{% for item in qs %}{{item.time}},{% endfor %}],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(255, 206, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                ],
+                fill: true,
+                backgroundColor: 'rgba(148,0,211,0.4)',
                 borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)",
+                  'rgba(148,0,211,1)',
                 ],
-                borderWidth: 0,
+                borderWidth: 2,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'rgba(148,0,211,1)',
+                pointRadius: 4,
+                pointHitRadius: 15,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
               },
             ],
           },
           options: {
-            responsive:false,
-            scales: {
-              y: {
-                beginAtZero: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Time vs. Reps',
+                font : {
+                  size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return 'Time: ' + context.raw + 's'
+                  }
+                }
               },
             },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Rep No.',
+                  font: {
+                    size: 15
+                  }
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Time (s)',
+                  font: {
+                    size: 15
+                  }
+                }
+              }
+            }
           },
         });
-      {% comment %} var ctx = document.getElementById("myChart2").getContext("2d");
+
+
+      var ctx = document.getElementById("myChart2").getContext("2d");
         var myChart = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: [{% for item in qs %}{{item.rep_no}},{% endfor %}],
+            labels: [{% for item in qs %}{{item.rep_no}},{% endfor %},],
             datasets: [
               {
-                label: "{% for item in qs %}{{item.wrong_form}},{% endfor %}",
+                label: "Correct form",
+                data: [{% for item in qs %}{{item.correct_form}},{% endfor %}],
+                borderWidth: 2,
+                backgroundColor: 'rgba(111, 231, 219, 0.5)', 
+                borderColor: 'rgba(111, 231, 219, 1)', 
+                hoverBackgroundColor: 'rgba(91, 211, 199, 0.5)', 
+                hoverBorderColor: 'rgba(91, 211, 199, 1)', 
+              },
+              {
+                label: "Wrong form",
                 data: [{% for item in qs %}{{item.wrong_form}},{% endfor %}],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(255, 99, 132, 0.2)",
-                ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)",
-                ],
-                borderWidth: 1,
+                borderWidth: 2,
+                backgroundColor: 'rgba(245,20,20,0.5)',
+                borderColor: 'rgba(245,20,20,1)',
+                hoverBackgroundColor: 'rgba(225,0,0,0.5)',
+                hoverBorderColor: 'rgba(225,0,0,1)',
               },
             ],
           },
           options: {
-            scales: {
-              y: {
-                beginAtZero: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Correct/Wrong Form vs. Reps',
+                font : {
+                  size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.dataset.label + ': ' + context.raw + 's'
+                  }
+                }
               },
             },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Rep No.',
+                  font: {
+                    size: 15
+                  }
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Time (s)',
+                  font: {
+                    size: 15
+                  }
+                }
+              }
+            }
           },
-        }); {% endcomment %}
+        });
+
 
       var ctx = document.getElementById("myChart3").getContext("2d");
+
+        let a = 0
+        let b = 0
+        {% for item in qs %}
+        a+= {{item.correct_form}}
+        b+= {{item.wrong_form}}
+        {% endfor %}
+        a=a.toFixed(1)
+        b=b.toFixed(1)
+
         var myChart = new Chart(ctx, {
+
           type: "pie",
           data: {
 
-            labels: [{% for item in qs %}{{item.correct_form}},{% endfor %}],
+            labels: ['Correct form', 'Wrong form'],
             datasets: [
               {
-                label: "{% for item in qs %}{{item.wrong_form}},{% endfor %}",
-                data: [{% for item in qs %}{{item.wrong_form}},{% endfor %}],
+                label: "Piechart",
+                data: [a,b],
                 backgroundColor: [
-                  'rgb(255, 99, 132)',
-                  'rgb(54, 162, 235)',
-                  'rgb(255, 205, 86)'
+                  'rgba(111, 231, 219, 0.5)', 
+                  'rgba(245,20,20,0.5)'
                 ],
+                hoverOffset: 20,
                 borderColor: [
-                  "#000",
-                  "#000",
-                  "#000",
-                  "#000",
-
-
-
-
+                  'rgba(111, 231, 219, 1)', 
+                  'rgba(245,20,20,1)'
                 ],
-                borderWidth: 1,
+                borderWidth: 2,
+                hoverBackgroundColor: [
+                  'rgba(91, 211, 199, 0.5)', 
+                  'rgba(225,0,0,0.5)'
+                ],
+                hoverBorderColor: [
+                  'rgba(91, 211, 199, 1)', 
+                  'rgba(225,0,0,1)'
+                ],
               },
             ],
           },
           options: {
-            responsive:false,
-            scales: {
-              y: {
-                beginAtZero: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Correct vs. Wrong Form',
+                font : {
+                  size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.label + ': ' + context.raw + 's'
+                  }
+                }
               },
             },
           },
@@ -222,3 +317,5 @@
     </script>
   </body>
 </html>
+
+{% endblock %}
