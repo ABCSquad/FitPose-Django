@@ -98,9 +98,7 @@
           </div>
           <hr>
           <div class="row mx-auto back">
-          <button onClick="newLocation();">
-          Back to home
-          </button>
+          <a href="{% url 'exercises' %}">
           <img style="margin-bottom: 5px; margin-right: 5px;" width="18" height="18" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMjYuNjc2IDI2LjY3NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjYuNjc2IDI2LjY3NjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTI2LjEwNSwyMS44OTFjLTAuMjI5LDAtMC40MzktMC4xMzEtMC41MjktMC4zNDZsMCwwYy0wLjA2Ni0wLjE1Ni0xLjcxNi0zLjg1Ny03Ljg4NS00LjU5DQoJCWMtMS4yODUtMC4xNTYtMi44MjQtMC4yMzYtNC42OTMtMC4yNXY0LjYxM2MwLDAuMjEzLTAuMTE1LDAuNDA2LTAuMzA0LDAuNTA4Yy0wLjE4OCwwLjA5OC0wLjQxMywwLjA4NC0wLjU4OC0wLjAzM0wwLjI1NCwxMy44MTUNCgkJQzAuMDk0LDEzLjcwOCwwLDEzLjUyOCwwLDEzLjMzOWMwLTAuMTkxLDAuMDk0LTAuMzY1LDAuMjU0LTAuNDc3bDExLjg1Ny03Ljk3OWMwLjE3NS0wLjEyMSwwLjM5OC0wLjEyOSwwLjU4OC0wLjAyOQ0KCQljMC4xOSwwLjEwMiwwLjMwMywwLjI5NSwwLjMwMywwLjUwMnY0LjI5M2MyLjU3OCwwLjMzNiwxMy42NzQsMi4zMywxMy42NzQsMTEuNjc0YzAsMC4yNzEtMC4xOTEsMC41MDgtMC40NTksMC41NjINCgkJQzI2LjE4LDIxLjg5MSwyNi4xNDEsMjEuODkxLDI2LjEwNSwyMS44OTF6Ii8+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==" /> All exercises</a
               >
             </div>
@@ -111,12 +109,11 @@
     <section class="return"></section>
 
     <script>
-      function newLocation() {
-        window.location.href="{% url 'exercises' %}";
-      }
-
-      document.querySelector("#final_reps").innerHTML =  [{{qs.last.rep_no}}]
+     
+      
       $(document).ready(function () {
+        
+        document.querySelector("#final_reps").innerHTML =  [{{qs.last.rep_no}}]
 
         
         var ctx = document.getElementById("myChart");
