@@ -89,7 +89,7 @@
                 <canvas id="myChart" width="400" height="350"></canvas>
               </div>
               <div class="col-lg-6">
-                <canvas id="myChart3" width="400" height="350"></canvas>
+                <canvas id="myChart3" width="500" height="450"></canvas>
               </div>
             </div>
             <div class="row mx-auto2">
@@ -209,6 +209,11 @@
             ],
           },
           options: {
+            layout: {
+            padding: {
+                left: 50,
+                right: 50,}
+            },
             plugins: {
               title: {
                 display: true,
@@ -274,7 +279,7 @@
                   'rgba(111, 231, 219, 0.5)', 
                   'rgba(245,20,20,0.5)'
                 ],
-                hoverOffset: 20,
+                hoverOffset:15,
                 borderColor: [
                   'rgba(111, 231, 219, 1)', 
                   'rgba(245,20,20,1)'
@@ -292,6 +297,14 @@
             ],
           },
           options: {
+            responsive:false,
+            maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 50,
+                right: 50,
+                bottom: 50}
+            },
             plugins: {
               title: {
                 display: true,

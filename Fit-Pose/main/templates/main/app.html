@@ -16,10 +16,42 @@
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      .end-main {
+        position: fixed;
+        top: 10%;
+        left: 52%;
+        margin-top: -50px; /* Negative half of height. */
+        margin-left: -100px; /* Negative half of width. */
+        z-index: 999;
+      }
+      .end-main a {
+        padding: 15px 15px 15px 15px;
+        font-family: "Raleway", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        letter-spacing: 1px;
+        display: inline-block;
+        border-radius: 50px;
+        transition: 0.5s;
+        margin: 0 0 0 0;
+        color: #fff;
+        background: #e2756bc4;
+        text-decoration: none;
+      }
 
+      .end-main a:hover {
+        background: #ea4435c4;
+      }
+    </style>
     <title>Document</title>
   </head>
   <body>
+    <div class="container mx-auto">
+      <div class="end-main btn">
+        <a href="{% url 'main:result' %}">Finish Exercise</a>
+      </div>
+    </div>
     <div
       id="left-screen"
       style="
@@ -112,7 +144,6 @@
     </div>
 
     <script>
-      
       var eventsource = new EventSource("{% url 'main:realtime_feed' %}");
       eventsource.onopen = function () {
         console.log("we have open connection");
@@ -121,10 +152,10 @@
       eventsource.onmessage = function (e) {
         finalData = JSON.parse(e.data);
 
-        let content = finalData.map(String).filter(item => item)
-        
+        let content = finalData.map(String).filter((item) => item);
+
         var repNo = -1;
-        var max = -1
+        var max = -1;
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
@@ -133,7 +164,7 @@
             document.querySelector("#real2").innerHTML = content[1];
             repNo = content[2];
             document.querySelector("#reps").innerHTML = content[2];
-            max = content[3]
+            max = content[3];
           } else {
             if (content[0] == "Stand in view of the camera") {
               document.querySelector("#real1").style.color =
@@ -147,7 +178,7 @@
             document.querySelector("#real2").innerHTML = "";
             repNo = content[1];
             document.querySelector("#reps").innerHTML = content[1];
-            max = content[2]
+            max = content[2];
           }
         } else {
           document.querySelector("#real1").style.color = "rgb(142, 166, 235)";
@@ -155,13 +186,13 @@
           document.querySelector("#real2").innerHTML = "";
           repNo = content[0];
           document.querySelector("#reps").innerHTML = content[0];
-          max = content[1]
+          max = content[1];
         }
 
-        if(repNo == max) {
+        if (repNo == max) {
           window.location.replace("{% url 'main:result' %}");
         }
-      }; 
+      };
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
