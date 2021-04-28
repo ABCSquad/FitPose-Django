@@ -25,7 +25,8 @@
         margin-left: -100px; /* Negative half of width. */
         z-index: 999;
       }
-      .end-main a {
+      .end-main button {
+        all: unset;
         padding: 15px 15px 15px 15px;
         font-family: "Raleway", sans-serif;
         font-weight: 400;
@@ -40,7 +41,7 @@
         text-decoration: none;
       }
 
-      .end-main a:hover {
+      .end-main button:hover {
         background: #ea4435c4;
       }
     </style>
@@ -49,7 +50,7 @@
   <body>
     <div class="container mx-auto">
       <div class="end-main btn">
-        <a href="{% url 'main:result' %}">Finish Exercise</a>
+        <button>Finish Exercise</button>
       </div>
     </div>
     <div
