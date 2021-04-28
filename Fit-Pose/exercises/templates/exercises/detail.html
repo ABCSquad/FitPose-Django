@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %} {% block content %}
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +30,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
   <style>
     .header-images{
-      padding-top: 160px;
+      padding-top: 170px;
     }
 
     .steps_row_1 {
@@ -46,7 +48,7 @@
     }
     
     .get-started{
-      padding-top: 90px;
+      padding-top: 80px;
       padding-bottom:35px;
       background: rgba(240, 240, 240, 0.8);
       z-index: 998;
@@ -70,17 +72,41 @@
     background: #209dd8;
   }
 
+  .get-started h3 {
+    margin-left: 30px;
+    padding: 0;
+  }
+
+  .input {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  font-size: 1.2rem;
+  padding: 10px 10px 10px 10px;
+  border-radius: 0.2rem;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  width: 10%;
+  display: block;
+  border-bottom: 0.3rem solid transparent;
+  transition: all 0.3s;
+}
+
   </style>
 </head>
 <section class="get-started fixed-top" >
   <div class="container " >
     <div class="row justify-content-center">
-      <h3>Click to Start Exercise</h3>
+    <h3>Enter the Max Reps:<h3>
     </div>
-    <div class="row justify-content-center">
       <form method="post">
         {% csrf_token %}
-        {{ form }}
+        <div class="row justify-content-center">
+        <div class="col d-flex justify-content-center">
+            {% render_field form.max_reps class="input" %}
+          </div>
+        
+        
+        </div>
         <div class="row justify-content-center">
           <input type="submit" class="btn" value="Start Exercise">
         </div> 
