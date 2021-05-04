@@ -25,7 +25,7 @@
         margin-left: -100px; /* Negative half of width. */
         z-index: 999;
       }
-      .end-main button {
+      .end-main a {
         all: unset;
         padding: 15px 15px 15px 15px;
         font-family: "Raleway", sans-serif;
@@ -41,7 +41,7 @@
         text-decoration: none;
       }
 
-      .end-main button:hover {
+      .end-main a:hover {
         background: #ea4435c4;
       }
     </style>
@@ -50,7 +50,16 @@
   <body>
     <div class="container mx-auto">
       <div class="end-main btn">
-        <button>Finish Exercise</button>
+        <a
+          class="fin"
+          href="javascript:{document.getElementById('finish').submit()}"
+        >
+          Finish exercise
+        </a>
+        <form id="finish" method="POST" action="javascript:onFin();">
+          {% csrf_token %}
+          <input type="hidden" />
+        </form>
       </div>
     </div>
     <div
@@ -150,6 +159,9 @@
         console.log("we have open connection");
       };
 
+      var repNoGlobal = -1;
+      var maxGlobal = -1;
+
       eventsource.onmessage = function (e) {
         finalData = JSON.parse(e.data);
 
@@ -189,11 +201,18 @@
           document.querySelector("#reps").innerHTML = content[0];
           max = content[1];
         }
-
-        if (repNo == max) {
+        repNoGlobal = repNo;
+        maxGlobal = max;
+        if (repNoGlobal == maxGlobal) {
           window.location.replace("{% url 'main:result' %}");
         }
       };
+
+      function onFin() {
+        maxGlobal = repNoGlobal;
+        console.log(repNoGlobal);
+        window.location.replace("{% url 'main:result' %}");
+      }
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
