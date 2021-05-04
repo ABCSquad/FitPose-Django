@@ -86,3 +86,9 @@ def profile(request):
         }
 
     return render(request, 'accounts/profile.html', context)
+
+
+#-----------------------------DASHBOARD ------------------------------------#
+@login_required
+def dash(request):
+    return render(request, 'accounts/dashboard.html')
