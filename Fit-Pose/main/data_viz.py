@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import plotly.express as px
 import psycopg2
+import os
 
 from .pose import *
 from .models import Session
@@ -50,13 +51,14 @@ def databaser():
     pg_conn = psycopg2.connect(conn_string)
     cur = pg_conn.cursor()
 
-    insert_sql = '''
+    pwd = os.getcwd()
+    
+    insert_sql = f'''
     COPY main_stats(rep_no, time, correct_form, wrong_form, session_id)
     FROM 'E:\Projects\git_workspace\FitPose\Fit-Pose\exercise_stats.csv'
     DELIMITER ',' CSV;
     '''
     cur.execute(insert_sql)
-    # cur.execute('TRUNCATE TABLE main_stats')
 
     pg_conn.commit()
     cur.close()

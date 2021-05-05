@@ -27,8 +27,10 @@ def main_pose(cap, exercise_id, stats_dict, reps, messages, side="right", exit_r
     elif exercise_id == 1:
       exercise_name = "bicep_curl"
     elif exercise_id == 3:
-      exercise_name = "lateral_raise"
+      exercise_name = "bicep_curl"
     elif exercise_id == 4:
+      exercise_name = "lateral_raise"
+    elif exercise_id == 5:
       exercise_name = "push_ups"
    
     
