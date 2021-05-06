@@ -160,7 +160,7 @@
             <form action="{% url 'exercises' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
-              <input type="submit" id='pl_status{{ exercise.id }}' value='Add'></input>
+              <input type="submit" id='pl_status{{ exercise.id }}' value='Add'>
               {% for pl in playlist.all %}
                 {% if exercise.id is pl.exercise %}
                 <script>
