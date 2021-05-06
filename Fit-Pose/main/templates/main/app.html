@@ -50,15 +50,17 @@
   <body>
     <div class="container mx-auto">
       <div class="end-main btn">
-        <a
+        {% comment %} <a
           class="fin"
           href="javascript:{document.getElementById('finish').submit()}"
         >
           Finish exercise
-        </a>
-        <form id="finish" method="POST" action="javascript:onFin();">
+        </a> {% endcomment %}
+        <form id="finish" method="POST" onsubmit="onFin()">
+          <label for="finish"> 
           {% csrf_token %}
-          <input type="hidden" />
+          <input name="repAbort" type="hidden" />
+          <input type="submit" />
         </form>
       </div>
     </div>
@@ -211,7 +213,9 @@
       function onFin() {
         maxGlobal = repNoGlobal;
         console.log(repNoGlobal);
-        window.location.replace("{% url 'main:result' %}");
+         var formInfo = document.forms['finish'];
+         formInfo.repAbort.value = repNoGlobal;
+        {% comment %} window.location.replace("{% url 'main:result' %}"); {% endcomment %}
       }
 
       eventsource.onerror = function (e) {
