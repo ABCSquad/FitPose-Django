@@ -7,5 +7,4 @@ from .models import Playlist
 
 def playlist(request):
     exe = Playlist.objects.filter(user=request.user)
-    print(exe.all)
     return render(request, 'playlist/playlist.html',{'exe':exe})
