@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Playlist
+from exercises.models import Exercise
 
 
 # Create your views here.
@@ -7,5 +8,5 @@ from .models import Playlist
 
 def playlist(request):
     exe = Playlist.objects.filter(user=request.user)
-    print(exe.all)
-    return render(request, 'playlist/playlist.html',{'exe':exe})
+    exercises = get_object_or_404(Exercise)
+    return render(request, 'playlist/playlist.html',{'exe':exe,'exercise':exercises})

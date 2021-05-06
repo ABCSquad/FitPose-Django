@@ -13,7 +13,7 @@ def exercises(request):
     user_id = request.user
 
     if request.method == 'POST':
-        exercise_id = get_object_or_404(Detail, pk=request.POST['exercise_id'])
+        exercise_id = get_object_or_404(Exercise, pk=request.POST['exercise_id'])
 
         # To check if playlist instance exists and add if it doesn't or remove if it does
         instance = Playlist.objects.filter(user=user_id, exercise=exercise_id)
