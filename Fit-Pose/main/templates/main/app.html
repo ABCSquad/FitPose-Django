@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -176,6 +177,7 @@
 
       var repNoGlobal = -1;
       var maxGlobal = -1;
+      var tts;
 
       eventsource.onmessage = function (e) {
         finalData = JSON.parse(e.data);
@@ -184,6 +186,7 @@
 
         var repNo = -1;
         var max = -1;
+        var sound1 = new Audio('{% static 'criston.mp3' %}');
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
@@ -193,15 +196,18 @@
             repNo = content[2];
             document.querySelector("#reps").innerHTML = content[2];
             max = content[3];
+            myStopFunction();
           } else {
             if (content[0] == "Stand in view of the camera") {
               document.querySelector("#real1").style.color =
                 "rgba(255, 62, 25, 0.85)";
               document.querySelector("#real1").innerHTML = content[0];
+              tts = setInterval(function(){ sound1.play(); }, 2000);
             } else {
               document.querySelector("#real1").style.color =
                 "rgb(142, 166, 235)";
               document.querySelector("#real1").innerHTML = content[0];
+              myStopFunction();
             }
             document.querySelector("#real2").innerHTML = "";
             repNo = content[1];
@@ -215,6 +221,7 @@
           repNo = content[0];
           document.querySelector("#reps").innerHTML = content[0];
           max = content[1];
+          myStopFunction();
         }
         repNoGlobal = repNo;
         maxGlobal = max;
@@ -234,6 +241,11 @@
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
       };
+
+      function myStopFunction() {
+        clearInterval(tts);
+        tts = 0;
+      }
     </script>
   </body>
 </html>
