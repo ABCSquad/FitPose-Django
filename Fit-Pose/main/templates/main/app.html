@@ -44,6 +44,19 @@
       .end-main a:hover {
         background: #ea4435c4;
       }
+
+      input[type=submit]{
+        border-radius: 50px;
+        background-color: #ea5c3e;
+        font-size: 17px;
+        font-family: "Raleway", sans-serif;
+        border: none;
+        color: white;
+        padding: 13px 25px;
+        text-decoration: none;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
     </style>
     <title>Document</title>
   </head>
@@ -60,7 +73,7 @@
           <label for="finish"> 
           {% csrf_token %}
           <input name="repAbort" type="hidden" />
-          <input type="submit" />
+          <input type="submit" value="End exercise" />
         </form>
       </div>
     </div>
