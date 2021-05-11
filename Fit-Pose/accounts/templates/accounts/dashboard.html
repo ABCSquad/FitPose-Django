@@ -74,11 +74,11 @@
 
           <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
 
-          
           </div>
         </main>
       </div>
     </div>
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -96,47 +96,89 @@
     </script>
 
     <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
     <script>
-      var ctx = document.getElementById("myChart");
-      var myChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ],
-          datasets: [
-            {
-              data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-              lineTension: 0,
-              backgroundColor: "transparent",
-              borderColor: "#007bff",
-              borderWidth: 4,
-              pointBackgroundColor: "#007bff",
-            },
-          ],
-        },
-        options: {
-          scales: {
-            yAxes: [
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: {{datetime|safe}},
+            datasets: [
               {
-                ticks: {
-                  beginAtZero: false,
-                },
+                tension: 0,
+                label: "Correct form",
+                data: {{cf_per|safe}},
+                fill: true,
+                backgroundColor: 'rgba(111, 231, 219, 0.4)',
+                borderColor: [
+                  'rgba(111, 231, 219, 1)',
+                ],
+                borderWidth: 4,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'rgba(111, 231, 219, 1)',
+                pointRadius: 6,
+                pointHitRadius: 15,
+                pointHoverRadius: 8,
+                pointHoverBorderWidth: 4,
               },
             ],
           },
-          legend: {
-            display: false,
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'Progress Chart',
+                font : {
+                  size: 35
+                }
+              },
+              legend: {
+                labels: {
+                  font: {
+                    size: 15
+                  },
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return 'Correct form: ' + context.raw + '%'
+                  }
+                }
+              },
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Session',
+                  font: {
+                    size: 20
+                  },
+                },
+                ticks: {
+                  font: {
+                    size: 15
+                  },
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Correct Form (%)',
+                  font: {
+                    size: 20
+                  }
+                },
+                ticks: {
+                  font: {
+                    size: 15
+                  },
+                },
+              },
+            }
           },
-        },
-      });
+        });
     </script>
   </body>
 </html>
