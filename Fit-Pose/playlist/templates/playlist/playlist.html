@@ -148,7 +148,7 @@
 
               <a href="{% url 'detail' exercise.exercise_id%}">
               <div class="hover hover-1 text-white rounded">
-                <img data-swap="{{ exercise.exercise.a_image.url }}" src="{{ exercise.exercise.image.url }}" alt="">
+                <img data-swap="{{ exercise.a_image.url }}" src="{{ exercise.exercise.image.url }}" alt="">
                 <div class="hover-overlay"></div>
                 <div class="hover-1-content px-5 py-4">
                   <h3 class="hover-1-title text-uppercase font-weight-bold mb-0"> <span class="font-weight-light">{{ exercise.exercise.title }} </h3>

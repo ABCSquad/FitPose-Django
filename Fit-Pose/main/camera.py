@@ -13,6 +13,7 @@ from exercises.views import print_reps
 stats_dict_global = {}
 reps_global = {}
 messages_global = {}
+abortFlagGlobal = False
 
 class VideoCamera(object):
     def __init__(self):
@@ -44,11 +45,13 @@ class VideoCamera(object):
 
 
 def gen(camera, detail_id):
+    global abortFlagGlobal
+    abortFlagGlobal = False
     reps = {}
     initialize_reps(reps)
     max_reps = print_reps()
 
-    while reps['count']<int(max_reps):
+    while reps['count']<int(max_reps) and abortFlagGlobal is False:
         stats_dict = {}
         messages = {}
         frame = camera.get_frame(detail_id, stats_dict, reps, messages)
@@ -92,3 +95,7 @@ class realtime:
         message.append(max_reps)
 
         return message
+
+def abortFlagSwitch():
+    global abortFlagGlobal
+    abortFlagGlobal = not abortFlagGlobal

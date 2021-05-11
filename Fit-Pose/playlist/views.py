@@ -8,5 +8,4 @@ from exercises.models import Exercise
 
 def playlist(request):
     exe = Playlist.objects.filter(user=request.user)
-    exercises = get_object_or_404(Exercise)
-    return render(request, 'playlist/playlist.html',{'exe':exe,'exercise':exercises})
+    return render(request, 'playlist/playlist.html',{'exe':exe})
