@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44,6 +45,19 @@
       .end-main a:hover {
         background: #ea4435c4;
       }
+
+      input[type=submit]{
+        border-radius: 50px;
+        background-color: #ea5c3e;
+        font-size: 17px;
+        font-family: "Raleway", sans-serif;
+        border: none;
+        color: white;
+        padding: 13px 25px;
+        text-decoration: none;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
     </style>
     <title>Document</title>
   </head>
@@ -60,7 +74,7 @@
           <label for="finish"> 
           {% csrf_token %}
           <input name="repAbort" type="hidden" />
-          <input type="submit" />
+          <input type="submit" value="End exercise" />
         </form>
       </div>
     </div>
@@ -154,7 +168,9 @@
         "
       ></div>
     </div>
-
+    <audio  id="audiotag1" src="{% static 'criston.mp3' %}" preload="auto"></audio>
+    
+        
     <script>
       var eventsource = new EventSource("{% url 'main:realtime_feed' %}");
       eventsource.onopen = function () {
@@ -165,6 +181,7 @@
       var maxGlobal = -1;
 
       eventsource.onmessage = function (e) {
+        
         finalData = JSON.parse(e.data);
 
         let content = finalData.map(String).filter((item) => item);
@@ -209,6 +226,18 @@
           window.location.replace("{% url 'main:result' %}");
         }
       };
+
+      var sound1 = new Audio('{% static 'criston.mp3' %}');
+      var playSound = function() {
+        if( 29 == 29 ){
+          sound1.play();
+        }
+        else {
+          sound1.play();
+        }
+      };
+
+      playSound();
 
       function onFin() {
         maxGlobal = repNoGlobal;
