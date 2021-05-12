@@ -152,6 +152,24 @@
   opacity: 100%;
 }
 
+.play-btn a {
+  padding: 10px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin: 0 0 0 0;
+  color: #fff;
+  background: #47b2e4;
+  text-decoration: none;
+}
+
+.play-btn a:hover {
+  background: #209dd8;
+}
     </style>
     <title>Exercise</title>
   </head>
@@ -164,7 +182,22 @@
 <br>
 
 <div class="container all-exercise">
-  <div class="row">
+  {% if user.is_authenticated %}
+  <div class="container card  mb-4">
+
+    <div class="card-body p-2">
+      <div class="row mx-auto">
+        <div class="col-lg-9 pt-2">
+          <b><p style="font-size: 109%;">Bundle up your favourite exercises so you can access them easily, from one place.</p></b>
+        </div>
+        <div class="col-lg-3 btn-block play-btn">
+          <a href="{% url 'playlist' %}">Go to Favourites<span><i class="fas fa-sign-in-alt pl-2"></i></span> </a>
+        </div>
+      </div>
+      </div>
+    </div>
+    {% endif %}
+    
 	        {% for exercise in exe.all %}
           <div class="col-lg-4 mb-3 mb-lg-0" style="padding-bottom: 30px;">
 
@@ -178,21 +211,21 @@
                 </div>
               </div>
             </a>
-
+            {% if user.is_authenticated %}
             <form class="play-form" action="{% url 'exercises' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
-              <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Add to Playlist" ><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+              <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Add to Favourites" ><i class="fa fa-plus-circle" style="color:#93C47D;" aria-hidden="true"></i></button>
               {% for pl in playlist.all %}
                 {% if exercise.id is pl.exercise %}
                 <script>
-                document.querySelector('#pl_status{{ exercise.id }}').innerHTML='<i class="fa fa-times-circle" aria-hidden="true"></i>';
-                document.querySelector('#pl_status{{ exercise.id }}').title='Remove from Playlist';
+                document.querySelector('#pl_status{{ exercise.id }}').innerHTML='<i class="fa fa-times-circle" style="color:#E06666;" aria-hidden="true"></i>';
+                document.querySelector('#pl_status{{ exercise.id }}').title='Remove from Favourites';
                 </script>
                 {% endif %}
               {% endfor %}
             </form>
-            
+           {% endif %} 
           </div>
       {% endfor %}
     </div>

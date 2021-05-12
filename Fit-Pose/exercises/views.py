@@ -21,11 +21,14 @@ def exercises(request):
             instance.delete()
         else:
             Playlist(user=user_id, exercise=exercise_id).save()
-
-    playlist = Playlist.objects.filter(user=user_id).values('exercise')
-    exe = Exercise.objects
-    return render(request, 'exercises/allexercises.html',{'exe':exe, 'playlist':playlist})
-
+    
+    if request.user.is_authenticated:
+        playlist = Playlist.objects.filter(user=user_id).values('exercise')
+        exe = Exercise.objects
+        return render(request, 'exercises/allexercises.html',{'exe':exe, 'playlist':playlist})
+    else:
+        exe= Exercise.objects
+        return render(request, 'exercises/allexercises.html',{'exe':exe})
 
 #----------------------------- DETAILS PAGE ------------------------------------#
 

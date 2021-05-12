@@ -44,6 +44,10 @@ div.image {
   box-sizing: border-box;
 }
 
+.log:hover {
+  background: red;
+}
+
 h3 {
   font-weight: 900;
 }
