@@ -1,1 +1,27 @@
-{% extends 'base2.html' %} {% block dash %} SESSION {% endblock dash%}
+{% extends 'base2.html' %} {% block dash %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <div class="row pl-3">
+      <div class="col-lg-9 pt-2">
+        <div class="card" style="width: 18rem">
+          <div class="card-body">
+            <h2 class="card-title"><i class="fas fa-history"></i></h2>
+            <h1 class="card-subtitle mb-2 text-muted">Date:</h1>
+            <h5 class="card-text">Reps:</h5>
+            <h5 class="card-text">Exercise:</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+{% endblock dash%}
