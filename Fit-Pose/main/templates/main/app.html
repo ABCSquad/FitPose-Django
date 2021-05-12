@@ -170,23 +170,23 @@
     </div>
 
     <script>
-      var eventsource = new EventSource("{% url 'main:realtime_feed' %}");
+      let eventsource = new EventSource("{% url 'main:realtime_feed' %}");
       eventsource.onopen = function () {
         console.log("we have open connection");
       };
 
-      var repNoGlobal = -1;
-      var maxGlobal = -1;
-      var tts;
+      let repNoGlobal = -1;
+      let maxGlobal = -1;
+      let tts;
 
       eventsource.onmessage = function (e) {
         finalData = JSON.parse(e.data);
 
         let content = finalData.map(String).filter((item) => item);
 
-        var repNo = -1;
-        var max = -1;
-        var sound1 = new Audio('{% static 'criston.mp3' %}');
+        let repNo = -1;
+        let max = -1;
+        let sound1 = new Audio('{% static 'criston.mp3' %}');
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
@@ -233,7 +233,7 @@
       function onFin() {
         maxGlobal = repNoGlobal;
         console.log(repNoGlobal);
-         var formInfo = document.forms['finish'];
+         let formInfo = document.forms['finish'];
          formInfo.repAbort.value = repNoGlobal;
         {% comment %} window.location.replace("{% url 'main:result' %}"); {% endcomment %}
       }
