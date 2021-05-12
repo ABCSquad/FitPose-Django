@@ -366,7 +366,7 @@ p {
 }
 
 .feature-detail .content ul {
-  list-style: circle;
+  margin-top: 30px;
   padding-left: 18px;
 }
 
@@ -447,4 +447,3 @@ p {
 .page-footer {
   background: #374955;
 }
-
