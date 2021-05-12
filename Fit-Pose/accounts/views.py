@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProfileUpdateForm
+from main.models import Session, Stats
 
 # Create your views here.
 
@@ -91,7 +92,40 @@ def profile(request):
 #-----------------------------DASHBOARD ------------------------------------#
 @login_required
 def dash(request):
-    return render(request, 'accounts/dashboard.html')
+    sessions = {}
+    datetime = get_data(request, sessions)
+    cf_per = compute_progress(sessions)
+    return render(request, 'accounts/dashboard.html', {'datetime':datetime, 'cf_per':cf_per})
+
+# For getting data of the user's previous workouts
+def get_data(request, sessions):
+    session_ids = [session['id'] for session in list(Session.objects.filter(user=request.user).values('id'))]
+    datetime = []
+    limit = 0 # For setting the no. of sessions to save
+    for i in reversed(session_ids):
+        stats_obj = Stats.objects.filter(session=i)
+        if stats_obj and limit < 7:
+            dt = getattr(get_object_or_404(Session, pk=i), 'datetime')
+            dt = f'{dt.strftime("%b")} {dt.day}, {dt.hour}:{dt.minute}'
+            datetime.append(dt)
+            sessions[i]= [stats_obj]
+            limit += 1
+    datetime.reverse()
+    return datetime
+
+# For computing progress in the last few sessions
+def compute_progress(sessions):
+    cf_per, cf, wf = [], [], [] 
+    for i, session in enumerate(sessions.keys()):
+        cf.append(0) # Correct form in seconds for each rep
+        wf.append(0) # Wrong form in seconds for each rep
+        for stats in sessions[session].pop():
+            cf[i] += float(getattr(stats, 'correct_form'))
+            wf[i] += float(getattr(stats, 'wrong_form'))
+        percentage = round(cf[i]/(cf[i]+wf[i])*100, 1)
+        cf_per.append(percentage) # Percentage of exercise performed in correct form for each session
+    cf_per.reverse()
+    return cf_per
 
 #-----------------------------SESSIONS------------------------------------#
 def session(request):
