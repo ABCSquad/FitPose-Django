@@ -92,3 +92,7 @@ def profile(request):
 @login_required
 def dash(request):
     return render(request, 'accounts/dashboard.html')
+
+#-----------------------------SESSIONS------------------------------------#
+def session(request):
+    return render(request, 'accounts/session.html')

@@ -168,7 +168,9 @@
         "
       ></div>
     </div>
-
+    <audio  id="audiotag1" src="{% static 'criston.mp3' %}" preload="auto"></audio>
+    
+        
     <script>
       let eventsource = new EventSource("{% url 'main:realtime_feed' %}");
       eventsource.onopen = function () {
@@ -180,6 +182,7 @@
       let tts;
 
       eventsource.onmessage = function (e) {
+        
         finalData = JSON.parse(e.data);
 
         let content = finalData.map(String).filter((item) => item);
@@ -229,6 +232,18 @@
           window.location.replace("{% url 'main:result' %}");
         }
       };
+
+      var sound1 = new Audio('{% static 'criston.mp3' %}');
+      var playSound = function() {
+        if( 29 == 29 ){
+          sound1.play();
+        }
+        else {
+          sound1.play();
+        }
+      };
+
+      playSound();
 
       function onFin() {
         maxGlobal = repNoGlobal;

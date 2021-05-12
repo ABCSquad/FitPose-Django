@@ -1,0 +1,115 @@
+{% extends 'base.html' %}{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <title>Dashboard</title>
+  </head>
+  <body style="padding-top:55px;">
+   
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-1 text-center d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link " href="{% url 'dash' %}">
+                 <i style="font-size:30px;" class="fas fa-home mt-5 mb-3"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">
+                  <i style="font-size:30px;" class="fas fa-user mt-3 mb-3"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'session' %}">
+                  <i style="font-size:30px;" class="fas fa-clock mt-3 mb-3"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main  role="main" class="col-md-11 mr-lg-auto col-lg-10 pt-3 px-1">
+          
+
+          <div class="all-content">
+    
+            {% block dash %}
+            {% endblock %}
+          </div>
+
+
+          
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+   <!-- JavaScript Bundle -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace();
+    </script>
+    <script>
+    const nav = document.querySelectorAll('.nav-link')
+
+      nav.forEach((nav) => {
+          nav.addEventListener('click', ()=>{
+              removeActiveClasses()
+              nav.classList.add('active')
+          })
+      })
+
+      function removeActiveClasses(){
+          nav.forEach(nav =>{
+              nav.classList.remove('active')
+          })
+      }
+    </script>
+    </body>
+    </html>
+
+{% endblock content%}
