@@ -3,6 +3,7 @@ from .models import Playlist
 from exercises.models import Exercise
 from exercises.models import Exercise, Detail
 from exercises.forms import RepsForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 

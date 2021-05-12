@@ -43,7 +43,7 @@
               <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
               <a class="dropdown-item" href="{% url 'dash' %}">Dashboard</a>
               <a class="dropdown-item" href="{% url 'playlist' %}">Playlist</a>
-              <a class="dropdown-item" href="javascript:{document.getElementById('logout').submit()}">
+              <a class="dropdown-item log" href="javascript:{document.getElementById('logout').submit()}">
                 Logout
               </a>
               <form id="logout" method="POST" action="{% url 'logout' %}">

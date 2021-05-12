@@ -200,16 +200,45 @@
   background: #209dd8;
 }
 
+.get-startedd {
+  padding-bottom: 30px;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.get-startedd h3 {
+  font-weight: 700;
+  font-size: 32px;
+  color: #37517e;
+  font-family: "Raleway", sans-serif;
+}
+
+.get-startedd .btn {
+  
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 1px;
+  display: inline-block;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin-top: 50px;
+  color: #fff;
+  background: #47b2e4;
+  text-decoration: none;
+}
+
+.get-startedd .btn:hover {
+  background: #209dd8;
+}
+
     </style>
     <title>Exercise</title>
   </head>
   <body>
-<section class="get-started fixed-top">
-    <div class="d-flex justify-content-center">
-          <div class="md-col-12"><a href="{% url 'exercises' %}" class="btn"
-              >Add to Playlist</a></div>
-      </div> 
-    </section>
+
 <br>
 <main>
 <br>
@@ -220,6 +249,12 @@
   
     {% if exe %}
 	  {% for exercise in exe.all %}
+    <section class="get-started fixed-top">
+    <div class="d-flex justify-content-center">
+          <div class="md-col-12"><a href="{% url 'exercises' %}" class="btn"
+              >Add to Favourites</a></div>
+      </div> 
+    </section>
     <div class="row">
       <div class="col-lg-4 mb-3 mb-lg-0" style="padding-bottom: 30px;">
         <a href="{% url 'detail' exercise.exercise_id%}">
@@ -236,12 +271,12 @@
            <form class="play-form" action="{% url 'exercises' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
-              <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Remove from Playlist" ><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+              <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Remove from Favourites" ><i class="fa fa-times-circle" style="color:#E06666;" aria-hidden="true"></i></button>
               {% for pl in playlist.all %}
                 {% if exercise.id is pl.exercise %}
                 <script>
                 document.querySelector('#pl_status{{ exercise.id }}').innerHTML='<i class="fa fa-times-circle" aria-hidden="true"></i>';
-                document.querySelector('#pl_status{{ exercise.id }}').title='Remove from Playlist';
+                document.querySelector('#pl_status{{ exercise.id }}').title='Remove from Favourites';
                 </script>
                 {% endif %}
               {% endfor %}
@@ -250,14 +285,14 @@
     {% endfor %}
     
     {% else %}
-    <section class="get-started" >
+    <section class="get-startedd" >
       <div class="container"  >
         <div class="d-flex justify-content-center">
           <div class="md-col-12"><lottie-player src="https://assets2.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop  autoplay></lottie-player></div>  
           </div>
         <div class="d-flex justify-content-center">
           <div class="md-col-12"><a href="{% url 'exercises' %}" class="btn"
-              >Add to Playlist</a></div>
+              >Add to Favourites</a></div>
         </div> 
       </div>
     </section>
