@@ -268,7 +268,7 @@
               </div>
             </a>
           </div>
-           <form class="play-form" action="{% url 'exercises' %}" method="post">
+           <form class="play-form" action="{% url 'playlist' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
               <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Remove from Favourites" ><i class="fa fa-times-circle" style="color:#E06666;" aria-hidden="true"></i></button>

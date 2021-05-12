@@ -104,7 +104,7 @@ def get_data(request, sessions):
     limit = 0 # For setting the no. of sessions to save
     for i in reversed(session_ids):
         stats_obj = Stats.objects.filter(session=i)
-        if stats_obj and limit < 7:
+        if stats_obj and limit < 14:
             dt = getattr(get_object_or_404(Session, pk=i), 'datetime')
             dt = f'{dt.strftime("%b")} {dt.day}, {dt.hour}:{dt.minute}'
             datetime.append(dt)
