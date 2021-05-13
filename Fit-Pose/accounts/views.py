@@ -158,5 +158,7 @@ def get_sessions(all_sessions):
 
 def sesres(request,session_id):
     session = Stats.objects.filter(session_id=session_id)
+    stats = Stats.objects.filter(session_id=session_id).last()
+    max_reps = int(getattr(stats, 'rep_no'))
     date = get_object_or_404(Session, pk=session_id)
-    return render(request, 'accounts/sessionresult.html',{'session':session,'date':date})
+    return render(request, 'accounts/sessionresult.html', {'session':session, 'date':date, 'max_reps':max_reps})

@@ -29,10 +29,9 @@ def app(request, detail_id):
         repAbort = request.POST['repAbort']
         abortFlagSwitch()
         time.sleep(0.5)
-        if int(repAbort)>0:
-            return redirect('main:result')
-        else:
+        if int(repAbort)==0:
             return redirect('exercises')
+        return redirect('main:result')
     else:
         start_session(request, detail_id)
         global detailid
