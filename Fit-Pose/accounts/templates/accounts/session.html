@@ -7,20 +7,60 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
+    <style>
+      .col-md-4 {
+        padding-right: 0;
+      }
+      .text-danger {
+        padding-left: 0;
+      }
+
+      a:hover,
+      a:visited,
+      a:link,
+      a:active {
+        color: black;
+        text-decoration: none;
+      }
+      .ses {
+        box-shadow: 0px 0 25px 0 rgba(0, 0, 0, 0.1);
+        transition: all ease-in-out 0.3s;
+      }
+
+      .ses:hover {
+        transform: translateY(-10px);
+      }
+    </style>
   </head>
   <body>
     <div class="row pl-3">
-    {% for session, max_reps in sessions_maxreps %}
-      <div class="col-lg-3 pt-2">
-        <div class="card" style="width: 18rem">
-          <div class="card-body">
-            <h2 class="card-title"><i class="fas fa-history"></i></h2>
-            <h1 class="card-subtitle mb-2 text-muted">Date: {{ session.datetime }}</h1>
-            <h5 class="card-text">Reps:{{ max_reps }}</h5>
-            <h5 class="card-text">Exercise:</h5>
+      {% for session, max_reps, ex_name in data %}
+      <a href="{% url 'sessionresult' session.id%}">
+        <div class="col-lg-3 pt-2 pb-4">
+          <div class="card ses" style="width: 23rem">
+            <div class="card-body">
+              <h2 class="card-title"><i class="fas fa-history"></i></h2>
+              <h2 class="card-subtitle mb-2 text-muted">
+                Date: {{ session.datetime }}
+              </h2>
+              <div class="row">
+                <div class="col-md-4">
+                  <h5 class="card-text pt-1">Total Reps:</h5>
+                </div>
+                <div class="col-md-6 mr-auto text-primary">
+                  <h3>{{ max_reps }}</h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <h5 class="card-text pt-1">Exercise:</h5>
+                </div>
+                <div class="col md-6 text-danger"><h4>{{ ex_name }}</h4></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </a>
       {% endfor %}
     </div>
   </body>

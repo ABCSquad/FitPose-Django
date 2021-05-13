@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProfileUpdateForm
 from main.models import Session, Stats
+from exercises.models import Exercise
 
 # Create your views here.
 
@@ -131,20 +132,30 @@ def compute_progress(sessions):
 def session(request):
     user_id = request.user.id
     all_sessions = Session.objects.filter(user_id=user_id)
-    max_reps, sessions = get_max_reps(all_sessions)
-    return render(request, 'accounts/session.html', {"sessions_maxreps": zip(sessions, max_reps)})
+    max_reps, sessions, ex_name = get_sessions(all_sessions)
+    return render(request, 'accounts/session.html', {"data": zip(sessions, max_reps, ex_name)})
 
 # For saving non-null sessions and getting max reps performed in said sessions
-def get_max_reps(all_sessions):
+def get_sessions(all_sessions):
     sessions = []
     rep_no = []
+    ex_name = []
     for session in all_sessions:
         stats = Stats.objects.filter(session_id=session.pk).last()
         if stats is not None:
+            sessions.append(session)
             max_reps = int(getattr(stats, 'rep_no'))
             rep_no.append(max_reps)
-            sessions.append(session)
+            ex_id = getattr(session, 'exercise_id')
+            exercise = getattr(get_object_or_404(Exercise, pk=ex_id), 'title')
+            ex_name.append(exercise)
     sessions.reverse()
     rep_no.reverse()
-    return rep_no, sessions
+    ex_name.reverse()
+    return rep_no, sessions, ex_name
 
+#-----------------------------SESSIONS-RESULT------------------------------------#
+
+def sesres(request,session_id):
+    session = Stats.objects.filter(session_id=session_id)
+    return render(request, 'accounts/sessionresult.html',{'session':session})
