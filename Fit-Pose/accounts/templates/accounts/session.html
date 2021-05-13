@@ -10,14 +10,14 @@
   </head>
   <body>
     <div class="row pl-3">
-    {% for session, max_reps in sessions_maxreps %}
+    {% for session, max_reps, ex_name in data %}
       <div class="col-lg-3 pt-2">
         <div class="card" style="width: 18rem">
           <div class="card-body">
             <h2 class="card-title"><i class="fas fa-history"></i></h2>
             <h1 class="card-subtitle mb-2 text-muted">Date: {{ session.datetime }}</h1>
             <h5 class="card-text">Reps:{{ max_reps }}</h5>
-            <h5 class="card-text">Exercise:</h5>
+            <h5 class="card-text">Exercise: {{ ex_name }}</h5>
           </div>
         </div>
       </div>
