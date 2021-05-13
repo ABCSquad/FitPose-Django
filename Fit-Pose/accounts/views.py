@@ -132,9 +132,7 @@ def session(request):
     user_id = request.user.id
     all_sessions = Session.objects.filter(user_id=user_id)
     max_reps, sessions = get_max_reps(all_sessions)
-    print(len(sessions))
-    print(len(max_reps))
-    return render(request, 'accounts/session.html', {"sessions": sessions, "max_reps": max_reps})
+    return render(request, 'accounts/session.html', {"sessions_maxreps": zip(sessions, max_reps)})
 
 # For saving non-null sessions and getting max reps performed in said sessions
 def get_max_reps(all_sessions):
@@ -146,5 +144,7 @@ def get_max_reps(all_sessions):
             max_reps = int(getattr(stats, 'rep_no'))
             rep_no.append(max_reps)
             sessions.append(session)
+    sessions.reverse()
+    rep_no.reverse()
     return rep_no, sessions
 
