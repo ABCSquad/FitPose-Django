@@ -104,7 +104,7 @@ def get_data(request, sessions):
     limit = 0 # For setting the no. of sessions to save
     for i in reversed(session_ids):
         stats_obj = Stats.objects.filter(session=i)
-        if stats_obj and limit < 7:
+        if stats_obj and limit < 14:
             dt = getattr(get_object_or_404(Session, pk=i), 'datetime')
             dt = f'{dt.strftime("%b")} {dt.day}, {dt.hour}:{dt.minute}'
             datetime.append(dt)
@@ -129,4 +129,22 @@ def compute_progress(sessions):
 
 #-----------------------------SESSIONS------------------------------------#
 def session(request):
-    return render(request, 'accounts/session.html')
+    user_id = request.user.id
+    all_sessions = Session.objects.filter(user_id=user_id)
+    max_reps, sessions = get_max_reps(all_sessions)
+    print(len(sessions))
+    print(len(max_reps))
+    return render(request, 'accounts/session.html', {"sessions": sessions, "max_reps": max_reps})
+
+# For saving non-null sessions and getting max reps performed in said sessions
+def get_max_reps(all_sessions):
+    sessions = []
+    rep_no = []
+    for session in all_sessions:
+        stats = Stats.objects.filter(session_id=session.pk).last()
+        if stats is not None:
+            max_reps = int(getattr(stats, 'rep_no'))
+            rep_no.append(max_reps)
+            sessions.append(session)
+    return rep_no, sessions
+

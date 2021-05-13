@@ -140,9 +140,9 @@
   position: absolute;
   right:0;
   bottom:0;
-  margin-right: 25px;
-  margin-bottom: 35px; 
-  margin-top: 10px; 
+  margin-right: 20px;
+  margin-bottom: 15px; 
+  margin-top: 10px;  
   
   z-index: 977;
 }
@@ -246,16 +246,19 @@
 <br>
 
 <div class="container all-exercise">
+
   
     {% if exe %}
+    <div class="row">
 	  {% for exercise in exe.all %}
     <section class="get-started fixed-top">
-    <div class="d-flex justify-content-center">
-          <div class="md-col-12"><a href="{% url 'exercises' %}" class="btn"
-              >Add to Favourites</a></div>
-      </div> 
-    </section>
-    <div class="row">
+      <div class="d-flex justify-content-center">
+            <div class="md-col-12 "><a href="{% url 'exercises' %}" class="btn"
+                >Add to Favourites</a></div>
+        </div> 
+      </section>
+    
+      
       <div class="col-lg-4 mb-3 mb-lg-0" style="padding-bottom: 30px;">
         <a href="{% url 'detail' exercise.exercise_id%}">
               <div class="hover hover-1 text-white rounded">
@@ -267,8 +270,9 @@
                 </div>
               </div>
             </a>
-          </div>
-           <form class="play-form" action="{% url 'exercises' %}" method="post">
+          
+          
+           <form class="play-form" action="{% url 'playlist' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
               <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Remove from Favourites" ><i class="fa fa-times-circle" style="color:#E06666;" aria-hidden="true"></i></button>
@@ -281,9 +285,10 @@
                 {% endif %}
               {% endfor %}
             </form>
-            </div>
+          </div>
+          
     {% endfor %}
-    
+  </div>
     {% else %}
     <section class="get-startedd" >
       <div class="container"  >
