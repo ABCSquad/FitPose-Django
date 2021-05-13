@@ -179,7 +179,10 @@
 
       let repNoGlobal = -1;
       let maxGlobal = -1;
-      let tts;
+      let tts1;
+      let tts2;
+      let ttsFlag = 0;
+      let sound1 = new Audio('{% static 'criston.mp3' %}');
 
       eventsource.onmessage = function (e) {
         
@@ -189,7 +192,6 @@
 
         let repNo = -1;
         let max = -1;
-        let sound1 = new Audio('{% static 'criston.mp3' %}');
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
@@ -205,7 +207,7 @@
               document.querySelector("#real1").style.color =
                 "rgba(255, 62, 25, 0.85)";
               document.querySelector("#real1").innerHTML = content[0];
-              tts = setInterval(function(){ sound1.play(); }, 2000);
+              tts1 = setInterval(ttsIncrement, 1000);             
             } else {
               document.querySelector("#real1").style.color =
                 "rgb(142, 166, 235)";
@@ -233,24 +235,18 @@
         }
       };
 
-      var sound1 = new Audio('{% static 'criston.mp3' %}');
-      var playSound = function() {
-        if( 29 == 29 ){
-          sound1.play();
-        }
-        else {
-          sound1.play();
-        }
-      };
-
-      playSound();
-
       function onFin() {
         maxGlobal = repNoGlobal;
         console.log(repNoGlobal);
          let formInfo = document.forms['finish'];
          formInfo.repAbort.value = repNoGlobal;
-        {% comment %} window.location.replace("{% url 'main:result' %}"); {% endcomment %}
+      }
+
+      function ttsIncrement(){
+        ttsFlag++; 
+        if (ttsFlag>3){
+          tts2 = setTimeout(function(){ sound1.play(); }, 3000);
+        }
       }
 
       eventsource.onerror = function (e) {
@@ -258,8 +254,9 @@
       };
 
       function myStopFunction() {
-        clearInterval(tts);
-        tts = 0;
+        ttsFlag = 0;
+        clearInterval(tts1);
+        tts1 = 0;
       }
     </script>
   </body>
