@@ -35,7 +35,7 @@
   <body>
     <div class="row pl-3">
       {% for session, max_reps, ex_name in data %}
-      <a href="">
+      <a href="{% url 'sessionresult' session.id%}">
         <div class="col-lg-3 pt-2 pb-4">
           <div class="card ses" style="width: 23rem">
             <div class="card-body">

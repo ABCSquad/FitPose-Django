@@ -154,3 +154,8 @@ def get_sessions(all_sessions):
     ex_name.reverse()
     return rep_no, sessions, ex_name
 
+#-----------------------------SESSIONS-RESULT------------------------------------#
+
+def sesres(request,session_id):
+    session = Stats.objects.filter(session_id=session_id)
+    return render(request, 'accounts/sessionresult.html',{'session':session})
