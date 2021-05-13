@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kameron:wght@700&family=Lato:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+
+    <!--Chart js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.1/dist/chart.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+      .result-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 100px;
+      }
+      
+      .back{
+        padding-bottom: 20px;
+      }
+      .back .btn{
+      font-family: "Raleway", sans-serif;
+      font-weight: 400;
+      font-size: 20px;
+      letter-spacing: 1px;
+      display: inline-block;
+      border-radius: 50px;
+      transition: 0.5s;
+      margin-top: 10px;
+      color: #fff;
+      background: #47b2e4;
+      text-decoration: none;
+    }
+
+    .back:hover .btn{
+      background: #209dd8;
+    }
+
+    .akash{
+      padding-left:200px;
+      padding-right:200px;
+    }
+
+
+    </style>
+    <title>Result</title>
+  </head>
+  <body>
+    <section class="result-card">
+      <div class="container">
+        <div class="card text-center">
+          <div class="card-header">Exercise performed on: {{date.datetime}}</div>
+          <br />
+          <div class="row mx-auto">
+            <h1>
+              Total Reps:
+              <p id="final_reps"></p>
+            </h1>
+          </div>
+          <br />
+          <div class="card-body">
+            <div class="row mx-auto">
+              <div class="col-lg-6">
+                <canvas id="myChart" width="400" height="350"></canvas>
+              </div>
+              <div class="col-lg-6">
+                <canvas id="myChart3" width="500" height="450"></canvas>
+              </div>
+            </div>
+            <div class="row mx-auto2">
+              <canvas id="myChart2" style="margin-top: 60px;" width="1100" height="600"></canvas>
+            </div>
+          </div>
+          <hr>
+          <div class="row mx-auto back">
+          <a href="{% url 'session' %}">
+          <img style="margin-bottom: 5px; margin-right: 5px;" width="18" height="18" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMjYuNjc2IDI2LjY3NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjYuNjc2IDI2LjY3NjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTI2LjEwNSwyMS44OTFjLTAuMjI5LDAtMC40MzktMC4xMzEtMC41MjktMC4zNDZsMCwwYy0wLjA2Ni0wLjE1Ni0xLjcxNi0zLjg1Ny03Ljg4NS00LjU5DQoJCWMtMS4yODUtMC4xNTYtMi44MjQtMC4yMzYtNC42OTMtMC4yNXY0LjYxM2MwLDAuMjEzLTAuMTE1LDAuNDA2LTAuMzA0LDAuNTA4Yy0wLjE4OCwwLjA5OC0wLjQxMywwLjA4NC0wLjU4OC0wLjAzM0wwLjI1NCwxMy44MTUNCgkJQzAuMDk0LDEzLjcwOCwwLDEzLjUyOCwwLDEzLjMzOWMwLTAuMTkxLDAuMDk0LTAuMzY1LDAuMjU0LTAuNDc3bDExLjg1Ny03Ljk3OWMwLjE3NS0wLjEyMSwwLjM5OC0wLjEyOSwwLjU4OC0wLjAyOQ0KCQljMC4xOSwwLjEwMiwwLjMwMywwLjI5NSwwLjMwMywwLjUwMnY0LjI5M2MyLjU3OCwwLjMzNiwxMy42NzQsMi4zMywxMy42NzQsMTEuNjc0YzAsMC4yNzEtMC4xOTEsMC41MDgtMC40NTksMC41NjINCgkJQzI2LjE4LDIxLjg5MSwyNi4xNDEsMjEuODkxLDI2LjEwNSwyMS44OTF6Ii8+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQoJPGc+DQoJPC9nPg0KCTxnPg0KCTwvZz4NCgk8Zz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==" /> Exercise History</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="return"></section>
+
+    <script>
+     
+      
+      $(document).ready(function () {
+        
+        document.querySelector("#final_reps").innerHTML =  [{{qs.last.rep_no}}]
+
+        
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: [{% for item in session.all %}{{item.rep_no}},{% endfor %}],
+            datasets: [
+              {
+                tension: 0,
+                label: "Time",
+                data: [{% for item in session.all %}{{item.time}},{% endfor %}],
+                fill: true,
+                backgroundColor: 'rgba(148,0,211,0.4)',
+                borderColor: [
+                  'rgba(148,0,211,1)',
+                ],
+                borderWidth: 2,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'rgba(148,0,211,1)',
+                pointRadius: 4,
+                pointHitRadius: 15,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'Time vs. Reps',
+                font : {
+                  size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return 'Time: ' + context.raw + 's'
+                  }
+                }
+              },
+            },
+            scales: {
+              x: {
+                beginAtZero: true,
+                min: 0,
+                ticks: {
+                    beginAtZero: true
+                },
+                title: {
+                  display: true,
+                  text: 'Rep No.',
+                  font: {
+                    size: 15
+                  }
+                }
+              },
+              y: {
+                beginAtZero: true,
+                min: 0,
+                ticks: {
+                    beginAtZero: true
+                },
+                title: {
+                  display: true,
+                  text: 'Time (s)',
+                  font: {
+                    size: 15
+                  }
+                }
+              }
+            }
+          },
+        });
+
+
+      var ctx = document.getElementById("myChart2").getContext("2d");
+        var myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [{% for item in session.all %}{{item.rep_no}},{% endfor %},],
+            datasets: [
+              {
+                label: "Correct form",
+                data: [{% for item in session.all %}{{item.correct_form}},{% endfor %}],
+                borderWidth: 2,
+                backgroundColor: 'rgba(111, 231, 219, 0.5)', 
+                borderColor: 'rgba(111, 231, 219, 1)', 
+                hoverBackgroundColor: 'rgba(91, 211, 199, 0.5)', 
+                hoverBorderColor: 'rgba(91, 211, 199, 1)', 
+              },
+              {
+                label: "Wrong form",
+                data: [{% for item in session.all %}{{item.wrong_form}},{% endfor %}],
+                borderWidth: 2,
+                backgroundColor: 'rgba(245,20,20,0.5)',
+                borderColor: 'rgba(245,20,20,1)',
+                hoverBackgroundColor: 'rgba(225,0,0,0.5)',
+                hoverBorderColor: 'rgba(225,0,0,1)',
+              },
+            ],
+          },
+          options: {
+            layout: {
+            padding: {
+                left: 50,
+                right: 50,}
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: 'Correct/Wrong Form vs. Reps',
+                font : {
+                  size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.dataset.label + ': ' + context.raw + 's'
+                  }
+                }
+              },
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Rep No.',
+                  font: {
+                    size: 15
+                  }
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Time (s)',
+                  font: {
+                    size: 15
+                  }
+                }
+              }
+            }
+          },
+        });
+
+
+      var ctx = document.getElementById("myChart3").getContext("2d");
+
+        let a = 0
+        let b = 0
+        {% for item in session.all %}
+        a+= {{item.correct_form}}
+        b+= {{item.wrong_form}}
+        {% endfor %}
+        a=a.toFixed(1)
+        b=b.toFixed(1)
+
+        var myChart = new Chart(ctx, {
+
+          type: "pie",
+          data: {
+
+            labels: ['Correct form', 'Wrong form'],
+            datasets: [
+              {
+                label: "Piechart",
+                data: [a,b],
+                backgroundColor: [
+                  'rgba(111, 231, 219, 0.5)', 
+                  'rgba(245,20,20,0.5)'
+                ],
+                hoverOffset:15,
+                borderColor: [
+                  'rgba(111, 231, 219, 1)', 
+                  'rgba(245,20,20,1)'
+                ],
+                borderWidth: 2,
+                hoverBackgroundColor: [
+                  'rgba(91, 211, 199, 0.5)', 
+                  'rgba(225,0,0,0.5)'
+                ],
+                hoverBorderColor: [
+                  'rgba(91, 211, 199, 1)', 
+                  'rgba(225,0,0,1)'
+                ],
+              },
+            ],
+          },
+          options: {
+            responsive:false,
+            maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 50,
+                right: 50,
+                bottom: 50}
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: 'Correct vs. Wrong Form',
+                font : {
+                  size: 20
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return context.label + ': ' + context.raw + 's'
+                  }
+                }
+              },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
+
+{% endblock %}
