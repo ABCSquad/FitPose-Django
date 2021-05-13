@@ -230,6 +230,9 @@
         }
         repNoGlobal = repNo;
         maxGlobal = max;
+        if (repNoGlobal == maxGlobal) {
+          window.location.replace("{% url 'main:result' %}");
+        }
       };
 
       function onFin() {
