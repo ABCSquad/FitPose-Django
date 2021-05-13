@@ -158,4 +158,5 @@ def get_sessions(all_sessions):
 
 def sesres(request,session_id):
     session = Stats.objects.filter(session_id=session_id)
-    return render(request, 'accounts/sessionresult.html',{'session':session})
+    date = get_object_or_404(Session, pk=session_id)
+    return render(request, 'accounts/sessionresult.html',{'session':session,'date':date})
