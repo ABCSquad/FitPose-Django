@@ -24,10 +24,13 @@ def start_session(request, detail_id):
 
 
 def app(request, detail_id):
+
     if request.method == 'POST':
-        # repAbort = request.POST['repAbort']
+        repAbort = request.POST['repAbort']
         abortFlagSwitch()
         time.sleep(0.5)
+        if int(repAbort)==0:
+            return redirect('exercises')
         return redirect('main:result')
     else:
         start_session(request, detail_id)

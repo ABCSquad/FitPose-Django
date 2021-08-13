@@ -1,8 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProfileUpdateForm
+from main.models import Session, Stats
+from exercises.models import Exercise
 
 # Create your views here.
 
@@ -91,4 +93,72 @@ def profile(request):
 #-----------------------------DASHBOARD ------------------------------------#
 @login_required
 def dash(request):
-    return render(request, 'accounts/dashboard.html')
+    sessions = {}
+    datetime = get_data(request, sessions)
+    cf_per = compute_progress(sessions)
+    return render(request, 'accounts/dashboard.html', {'datetime':datetime, 'cf_per':cf_per})
+
+# For getting data of the user's previous workouts
+def get_data(request, sessions):
+    session_ids = [session['id'] for session in list(Session.objects.filter(user=request.user).values('id'))]
+    datetime = []
+    limit = 0 # For setting the no. of sessions to save
+    for i in reversed(session_ids):
+        stats_obj = Stats.objects.filter(session=i)
+        if stats_obj and limit < 14:
+            dt = getattr(get_object_or_404(Session, pk=i), 'datetime')
+            dt = f'{dt.strftime("%b")} {dt.day}, {dt.hour}:{dt.minute}'
+            datetime.append(dt)
+            sessions[i]= [stats_obj]
+            limit += 1
+    datetime.reverse()
+    return datetime
+
+# For computing progress in the last few sessions
+def compute_progress(sessions):
+    cf_per, cf, wf = [], [], [] 
+    for i, session in enumerate(sessions.keys()):
+        cf.append(0) # Correct form in seconds for each rep
+        wf.append(0) # Wrong form in seconds for each rep
+        for stats in sessions[session].pop():
+            cf[i] += float(getattr(stats, 'correct_form'))
+            wf[i] += float(getattr(stats, 'wrong_form'))
+        percentage = round(cf[i]/(cf[i]+wf[i])*100, 1)
+        cf_per.append(percentage) # Percentage of exercise performed in correct form for each session
+    cf_per.reverse()
+    return cf_per
+
+#-----------------------------SESSIONS------------------------------------#
+def session(request):
+    user_id = request.user.id
+    all_sessions = Session.objects.filter(user_id=user_id)
+    max_reps, sessions, ex_name = get_sessions(all_sessions)
+    return render(request, 'accounts/session.html', {"data": zip(sessions, max_reps, ex_name)})
+
+# For saving non-null sessions and getting max reps performed in said sessions
+def get_sessions(all_sessions):
+    sessions = []
+    rep_no = []
+    ex_name = []
+    for session in all_sessions:
+        stats = Stats.objects.filter(session_id=session.pk).last()
+        if stats is not None:
+            sessions.append(session)
+            max_reps = int(getattr(stats, 'rep_no'))
+            rep_no.append(max_reps)
+            ex_id = getattr(session, 'exercise_id')
+            exercise = getattr(get_object_or_404(Exercise, pk=ex_id), 'title')
+            ex_name.append(exercise)
+    sessions.reverse()
+    rep_no.reverse()
+    ex_name.reverse()
+    return rep_no, sessions, ex_name
+
+#-----------------------------SESSIONS-RESULT------------------------------------#
+
+def sesres(request,session_id):
+    session = Stats.objects.filter(session_id=session_id)
+    stats = Stats.objects.filter(session_id=session_id).last()
+    max_reps = int(getattr(stats, 'rep_no'))
+    date = get_object_or_404(Session, pk=session_id)
+    return render(request, 'accounts/sessionresult.html', {'session':session, 'date':date, 'max_reps':max_reps})

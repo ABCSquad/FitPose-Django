@@ -1,6 +1,4 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 
 <!doctype html>
@@ -17,9 +15,10 @@
       integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
       crossorigin="anonymous"
     />
+    
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="stylesheet" href="{% static 'exe.css' %}" />
+
     <!-- CSS only -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
@@ -149,10 +148,28 @@
 }
 
 .play-button i:hover{
+  cursor: pointer;
   opacity: 100%;
-  
 }
 
+.play-btn a {
+  padding: 10px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin: 0 0 0 0;
+  color: #fff;
+  background: #47b2e4;
+  text-decoration: none;
+}
+
+.play-btn a:hover {
+  background: #209dd8;
+}
     </style>
     <title>Exercise</title>
   </head>
@@ -165,7 +182,22 @@
 <br>
 
 <div class="container all-exercise">
-  <div class="row">
+  {% if user.is_authenticated %}
+  <div class="container card  mb-4">
+
+    <div class="card-body p-2">
+      <div class="row mx-auto">
+        <div class="col-lg-9 pt-2 mt-1">
+          <b><p style="font-size: 109%;">Bundle up your favourite exercises so you can access them easily, from one place.</p></b>
+        </div>
+        <div class="col-lg-3 btn-block play-btn mt-1">
+          <a href="{% url 'playlist' %}">Go to Favourites<span><i class="fas fa-sign-in-alt pl-2"></i></span> </a>
+        </div>
+      </div>
+      </div>
+    </div>
+    {% endif %}
+        <div class="row">
 	        {% for exercise in exe.all %}
           <div class="col-lg-4 mb-3 mb-lg-0" style="padding-bottom: 30px;">
 
@@ -179,36 +211,38 @@
                 </div>
               </div>
             </a>
-
+            {% if user.is_authenticated %}
             <form class="play-form" action="{% url 'exercises' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
-              <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Add to Playlist" ><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+              <button class="play-button" type="submit" id='pl_status{{ exercise.id }}' data-toggle="tooltip" title="Add to Favourites" ><i class="fa fa-plus-circle" style="color:#93C47D;" aria-hidden="true"></i></button>
               {% for pl in playlist.all %}
                 {% if exercise.id is pl.exercise %}
                 <script>
-                document.querySelector('#pl_status{{ exercise.id }}').innerHTML='<i class="fa fa-times-circle" aria-hidden="true"></i>';
-                document.querySelector('#pl_status{{ exercise.id }}').title='Remove from Playlist';
+                document.querySelector('#pl_status{{ exercise.id }}').innerHTML='<i class="fa fa-times-circle" style="color:#E06666;" aria-hidden="true"></i>';
+                document.querySelector('#pl_status{{ exercise.id }}').title='Remove from Favourites';
                 </script>
                 {% endif %}
               {% endfor %}
             </form>
-            
+           {% endif %} 
           </div>
       {% endfor %}
+    </div>
     </div>
 </div>
 
 </main>
-  <!-- JavaScript Bundle with Popper -->
+ <!-- JavaScript Bundle with Popper -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
 <script>
   $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
   });
   </script>
+  
 </body>
   
 

@@ -39,8 +39,8 @@ def dataframer(reps):
     df['session_id'] = df['session_id'].astype(int)
 
     # Adding initial condition of 0s
-    zeros = pd.DataFrame([0,0,0,0,Session.objects.latest('id').id],column_names).transpose()
-    df = pd.concat([zeros,df], ignore_index=True)
+    # zeros = pd.DataFrame([0,0,0,0,Session.objects.latest('id').id],column_names).transpose()
+    # df = pd.concat([zeros,df], ignore_index=True)
 
     return df, labels
 

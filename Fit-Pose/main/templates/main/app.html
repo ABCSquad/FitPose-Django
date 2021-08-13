@@ -1,4 +1,4 @@
-{{% load static %}}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -168,23 +168,30 @@
         "
       ></div>
     </div>
-
+    <audio  id="audiotag1" src="{% static 'criston.mp3' %}" preload="auto"></audio>
+    
+        
     <script>
-      var eventsource = new EventSource("{% url 'main:realtime_feed' %}");
+      let eventsource = new EventSource("{% url 'main:realtime_feed' %}");
       eventsource.onopen = function () {
         console.log("we have open connection");
       };
 
-      var repNoGlobal = -1;
-      var maxGlobal = -1;
+      let repNoGlobal = -1;
+      let maxGlobal = -1;
+      let tts1;
+      let tts2;
+      let ttsFlag = 0;
+      let sound1 = new Audio('{% static 'criston.mp3' %}');
 
       eventsource.onmessage = function (e) {
+        
         finalData = JSON.parse(e.data);
 
         let content = finalData.map(String).filter((item) => item);
 
-        var repNo = -1;
-        var max = -1;
+        let repNo = -1;
+        let max = -1;
 
         if (content[0].length > 4) {
           if (content[1].length > 4) {
@@ -194,15 +201,18 @@
             repNo = content[2];
             document.querySelector("#reps").innerHTML = content[2];
             max = content[3];
+            myStopFunction();
           } else {
             if (content[0] == "Stand in view of the camera") {
               document.querySelector("#real1").style.color =
                 "rgba(255, 62, 25, 0.85)";
               document.querySelector("#real1").innerHTML = content[0];
+              tts1 = setInterval(ttsIncrement, 1000);             
             } else {
               document.querySelector("#real1").style.color =
                 "rgb(142, 166, 235)";
               document.querySelector("#real1").innerHTML = content[0];
+              myStopFunction();
             }
             document.querySelector("#real2").innerHTML = "";
             repNo = content[1];
@@ -216,6 +226,7 @@
           repNo = content[0];
           document.querySelector("#reps").innerHTML = content[0];
           max = content[1];
+          myStopFunction();
         }
         repNoGlobal = repNo;
         maxGlobal = max;
@@ -227,14 +238,26 @@
       function onFin() {
         maxGlobal = repNoGlobal;
         console.log(repNoGlobal);
-         var formInfo = document.forms['finish'];
+         let formInfo = document.forms['finish'];
          formInfo.repAbort.value = repNoGlobal;
-        {% comment %} window.location.replace("{% url 'main:result' %}"); {% endcomment %}
+      }
+
+      function ttsIncrement(){
+        ttsFlag++; 
+        if (ttsFlag>3){
+          tts2 = setTimeout(function(){ sound1.play(); }, 3000);
+        }
       }
 
       eventsource.onerror = function (e) {
         console.log(`error:`, e);
       };
+
+      function myStopFunction() {
+        ttsFlag = 0;
+        clearInterval(tts1);
+        tts1 = 0;
+      }
     </script>
   </body>
 </html>
